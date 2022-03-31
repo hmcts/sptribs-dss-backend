@@ -175,11 +175,22 @@ repositories {
   mavenLocal()
   mavenCentral()
   maven { url 'https://jitpack.io' }
+  jcenter()
 }
 
 ext {
   log4JVersion = "2.17.0"
 }
+
+def versions = [
+  springfoxSwagger  : '3.0.0',
+  s2sClient         : '4.0.0',
+  springCloudStarterBootstrap : '3.1.1',
+  springdocOpenApiUI: '1.6.6',
+  comGithubHmctsJavaLogging: '6.0.1',
+  jacksonDatabind: '2.13.2.1',
+  jacksonBom: '2.13.2.20220324',
+]
 
 dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
@@ -187,16 +198,19 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
 
-  implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.6'
+  implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: versions.springdocOpenApiUI
 
-  implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '6.0.1'
+  implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.comGithubHmctsJavaLogging
 
   // temporary work around for dependency check
-  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.2.1'
-  implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: '2.13.2.20220324', ext: 'pom'
+  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
+  implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.jacksonBom, ext: 'pom'
 
   implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
   implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
+
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: versions.springCloudStarterBootstrap
+  implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.s2sClient
 
   testImplementation(platform('org.junit:junit-bom:5.8.2'))
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
@@ -206,7 +220,7 @@ dependencies {
   }
 }
 
-mainClassName = 'uk.gov.hmcts.reform.demo.Application'
+mainClassName = 'uk.gov.hmcts.reform.cosapi.Application'
 
 bootJar {
   archiveFileName = "spring-boot-template.jar"
