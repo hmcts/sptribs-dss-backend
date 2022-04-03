@@ -95,7 +95,7 @@ configurations {
   integrationTestRuntimeOnly.extendsFrom testRuntime
 
   smokeTestImplementation.extendsFrom testImplementation
-  smokeTestRuntimeOnly.extendsFrom testRuntime
+  smokeTestRuntime.extendsFrom testRuntime
   smokeTestCompile.extendsFrom testCompile
 }
 
@@ -433,15 +433,91 @@ dependencies {
   smokeTestImplementation group: 'au.com.dius.pact.consumer', name: 'java8', version: versions.pact
   smokeTestImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0'
 
+  smokeTestCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+  smokeTestCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
+  smokeTestCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
+
+  smokeTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
+  smokeTestRuntime "org.junit.platform:junit-platform-commons:1.8.1"
+
+  smokeTestCompile(group: 'org.yaml', name: 'snakeyaml', version: '1.30') {
+    force = true
+  }
+
+  testImplementation (group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenityCoreVersion)
+  testImplementation (group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenityCoreVersion)
+  testImplementation (group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenityCoreVersion)
+  testImplementation (group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenityCoreVersion)
+
+  smokeTestCompile sourceSets.main.runtimeClasspath
+  smokeTestCompile sourceSets.test.runtimeClasspath
+
 }
 
 mainClassName = 'uk.gov.hmcts.reform.cosapi.Application'
 
+ext.getVaultSecret = { String secretName ->
+  new ByteArrayOutputStream().withStream { os ->
+    exec {
+      commandLine 'az', 'keyvault', 'secret', 'show', '--vault-name', 'fis-aat', '-o', 'tsv', '--query', 'value', '--name', secretName
+      standardOutput = os
+    }
+    return os.toString().replace('\n', '')
+  }
+}
+
+bootRun {
+  doFirst() {
+    if (System.getenv("IDAM_API_BASEURL") == null) {
+      println("Loading secrets from vault")
+
+      systemProperty 'IDAM_API_BASEURL', 'https://idam-api.aat.platform.hmcts.net'
+      systemProperty 'UK_GOV_NOTIFY_API_KEY', getVaultSecret('uk-gov-notify-api-key')
+      systemProperty 'S2S_SECRET', getVaultSecret('s2s-secret-cos-api')
+      //systemProperty 'IDAM_CASEWORKER_USERNAME', getVaultSecret('idam-caseworker-username')
+      //systemProperty 'IDAM_CASEWORKER_PASSWORD', getVaultSecret('idam-caseworker-password')
+      systemProperty 'IDAM_SYSTEM_UPDATE_USERNAME', getVaultSecret('idam-system-user-name')
+      systemProperty 'IDAM_SYSTEM_UPDATE_PASSWORD', getVaultSecret('idam-system-user-password')
+      systemProperty 'IDAM_SOLICITOR_USERNAME', getVaultSecret('idam-solicitor-username')
+      systemProperty 'IDAM_SOLICITOR_PASSWORD', getVaultSecret('idam-solicitor-password')
+      systemProperty 'IDAM_CLIENT_SECRET', getVaultSecret('idam-secret')
+      systemProperty 'APP_INSIGHTS_KEY', getVaultSecret('AppInsightsInstrumentationKey')
+
+      if (System.getenv("BOOT_RUN_DOCKER")) {
+        systemProperty 'IDAM_API_BASEURL', 'http://localhost:5000'
+        systemProperty 'CASE_DATA_STORE_BASEURL', 'http://localhost:4452'
+      }
+    }
+  }
+}
+
 bootJar {
-  archiveFileName = "fis-cos-api.jar"
+  getArchiveFileName().set(provider {
+    'fis-cos-api.jar'
+  })
 
   manifest {
     attributes('Implementation-Version': project.version.toString())
+  }
+}
+
+generateTypeScript {
+  jsonLibrary = 'jackson2'
+  classPatterns = [
+    'uk.gov.hmcts.reform.adoption.**.model.*',
+    'uk.gov.hmcts.ccd.sdk.type.*',
+  ]
+  outputFile = 'build/ts/index.ts'
+  outputKind = 'module'
+  outputFileType = 'implementationFile'
+  mapEnum = 'asEnum'
+  mapDate = 'asString'
+  group = 'ccd tasks'
+
+  doLast {
+    exec {
+      commandLine 'yarn', 'prepublishOnly'
+    }
   }
 }
 
