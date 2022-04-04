@@ -3,11 +3,11 @@
 scriptPath=$(dirname $(realpath $0))
 
 # Roles used during the CCD import
-${scriptPath}/add-ccd-role.sh "caseworker-adoption"
-${scriptPath}/add-ccd-role.sh "caseworker-adoption-caseworker"
-${scriptPath}/add-ccd-role.sh "caseworker-adoption-courtadmin"
-${scriptPath}/add-ccd-role.sh "caseworker-adoption-la"
-${scriptPath}/add-ccd-role.sh "caseworker-adoption-judge"
-${scriptPath}/add-ccd-role.sh "caseworker-adoption-superuser"
-${scriptPath}/add-ccd-role.sh "caseworker-adoption-solicitor"
+${scriptPath}/add-ccd-role.sh "caseworker-fis"
+${scriptPath}/add-ccd-role.sh "caseworker-fis-caseworker"
+${scriptPath}/add-ccd-role.sh "caseworker-fis-courtadmin"
+${scriptPath}/add-ccd-role.sh "caseworker-fis-la"
+${scriptPath}/add-ccd-role.sh "caseworker-fis-judge"
+${scriptPath}/add-ccd-role.sh "caseworker-fis-superuser"
+${scriptPath}/add-ccd-role.sh "caseworker-fsi-solicitor"
 ${scriptPath}/add-ccd-role.sh "citizen"
