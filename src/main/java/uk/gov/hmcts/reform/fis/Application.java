@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi;
+package uk.gov.hmcts.reform.fis;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

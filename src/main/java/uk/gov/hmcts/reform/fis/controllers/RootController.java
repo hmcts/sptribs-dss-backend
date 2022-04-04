@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi.controllers;
+package uk.gov.hmcts.reform.fis.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi.controllers;
+package uk.gov.hmcts.reform.fis.controllers;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
