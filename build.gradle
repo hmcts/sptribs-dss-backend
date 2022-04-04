@@ -211,44 +211,14 @@ project.tasks['sonarqube'].dependsOn jacocoTestReport
 project.tasks['check'].dependsOn integration
 
 def sonarExclusions = [
-  '**/uk/gov/hmcts/reform/adoption/common/ccd/**',
-  '**/uk/gov/hmcts/reform/adoption/common/service/**',
-  '**/uk/gov/hmcts/reform/adoption/Application.java',
-  '**/uk/gov/hmcts/reform/adoption/common/config/**',
-  '**/uk/gov/hmcts/reform/adoption/adoptioncase/caseworker/**',
-  '**/uk/gov/hmcts/reform/adoption/adoptioncase/event/**',
-  '**/uk/gov/hmcts/reform/adoption/adoptioncase/model/**',
-  '**/uk/gov/hmcts/reform/adoption/adoptioncase/search/**',
-  '**/uk/gov/hmcts/reform/adoption/adoptioncase/service/**',
-  '**/uk/gov/hmcts/reform/adoption/adoptioncase/tab/**',
-  '**/uk/gov/hmcts/reform/adoption/adoptioncase/task/**',
-  '**/uk/gov/hmcts/reform/adoption/adoptioncase/workbasket/**',
-  '**/uk/gov/hmcts/reform/adoption/adoptioncase/Adoption.java',
-  '**/uk/gov/hmcts/reform/adoption/payment/**',
-  '**/uk/gov/hmcts/reform/adoption/controllers/**',
-  '**/uk/gov/hmcts/reform/adoption/idam/**',
-  '**/uk/gov/hmcts/reform/adoption/common/AddSystemUpdateRole.java',
-  '**/uk/gov/hmcts/reform/adoption/common/notification/**',
-  '**/uk/gov/hmcts/reform/adoption/document/content/**',
-  '**/uk/gov/hmcts/reform/adoption/document/DocumentConstants.java',
-  '**/uk/gov/hmcts/reform/adoption/document/DocumentInfo.java',
-  '**/uk/gov/hmcts/reform/adoption/document/DocumentType.java',
-  '**/uk/gov/hmcts/reform/adoption/notification/FormatUtil.java',
-  '**/uk/gov/hmcts/reform/adoption/notification/CommonContent.java',
-  '**/uk/gov/hmcts/reform/adoption/notification/ApplicantNotification.java',
-  '**/uk/gov/hmcts/reform/adoption/notification/NotificationDispatcher.java',
-  '**/uk/gov/hmcts/reform/adoption/common/service/task/SetStateAfterSubmission.java',
-  '**/uk/gov/hmcts/reform/adoption/exception/**',
-  '**/uk/gov/hmcts/reform/adoption/document/BulkPrintService.java',
-  '**/uk/gov/hmcts/reform/adoption/adoptioncase/validation/ApplicationValidation.java',
-  '**/uk/gov/hmcts/reform/adoption/config/SwaggerConfiguration.java'
-
+  '**/uk/gov/hmcts/reform/fis/config/OpenAPIConfiguration.java',
+  '**/uk/gov/hmcts/reform/fis/controllers/RootController.java',
 ]
 
 sonarqube {
   properties {
-    property "sonar.projectName", "Adoption :: adoption-cos-api"
-    property "sonar.projectKey", "uk.gov.hmcts.reform:adoption-cos-api"
+    property "sonar.projectName", "fis :: fis-cos-api"
+    property "sonar.projectKey", "uk.gov.hmcts.reform:fis-cos-api"
     property "sonar.exclusions", sonarExclusions.join(', ')
     property "sonar.coverage.exclusions", sonarExclusions.join(', ')
     property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
@@ -524,7 +494,7 @@ functional {
 generateTypeScript {
   jsonLibrary = 'jackson2'
   classPatterns = [
-    'uk.gov.hmcts.reform.adoption.**.model.*',
+    'uk.gov.hmcts.reform.fis.**.model.*',
     'uk.gov.hmcts.ccd.sdk.type.*',
   ]
   outputFile = 'build/ts/index.ts'
@@ -571,7 +541,7 @@ def reloadCcd = tasks.register('reloadCcd') {
         def (key, value) = it.tokenize('=')
         environment key, value
       }
-      commandLine 'docker-compose', '-f', '../docker-compose.yml', 'up', '--build', '-d', 'adoption-cos-api'
+      commandLine 'docker-compose', '-f', '../docker-compose.yml', 'up', '--build', '-d', 'fis-cos-api'
     }
   }
 }
