@@ -3,9 +3,9 @@ package uk.gov.hmcts.reform.fis.common.ccd;
 import uk.gov.hmcts.ccd.sdk.api.Event.EventBuilder;
 import uk.gov.hmcts.ccd.sdk.api.FieldCollection.FieldCollectionBuilder;
 import uk.gov.hmcts.ccd.sdk.api.callback.MidEvent;
-import uk.gov.hmcts.reform.fis.adoptioncase.model.CaseData;
-import uk.gov.hmcts.reform.fis.adoptioncase.model.State;
-import uk.gov.hmcts.reform.fis.adoptioncase.model.UserRole;
+import uk.gov.hmcts.reform.fis.edgecase.model.CaseData;
+import uk.gov.hmcts.reform.fis.edgecase.model.State;
+import uk.gov.hmcts.reform.fis.edgecase.model.UserRole;
 
 public class PageBuilder {
 

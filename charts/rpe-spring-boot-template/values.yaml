@@ -1,12 +1,25 @@
 java:
   applicationPort: 4550
-  image: 'hmctspublic.azurecr.io/rpe/spring-boot-template:latest'
-  ingressHost: rpe-spring-boot-template-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-  aadIdentityName: rpe
-#  Uncomment once the vault containing the app insights key has been set up
-#  keyVaults:
-#    rpe:
-#      secrets:
-#        - name: AppInsightsInstrumentationKey
-#          alias: azure.application-insights.instrumentation-key
+  image: hmctspublic.azurecr.io/fis/cos-api:latest
+  ingressHost: fis-cos-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+  aadIdentityName: fis
+  autoscaling:
+    enabled: true
+    maxReplicas: 9
+    minReplicas: 6
+    targetCPUUtilizationPercentage: 80
+  keyVaults:
+    fis:
+      secrets:
+        - name: s2s-secret-fis-cos-api
+          alias: S2S_SECRET
+        - name: idam-secret-fis-cos-api
+          alias: IDAM_CLIENT_SECRET
+        - name: idam-system-user-name
+          alias: IDAM_SYSTEM_UPDATE_USERNAME
+        - name: idam-system-user-password
+          alias: IDAM_SYSTEM_UPDATE_PASSWORD
   environment:
+    S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    IDAM_API_REDIRECT_URL: https://fis-cos-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/authenticated
+    IDAM_API_BASEURL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net

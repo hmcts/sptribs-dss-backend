@@ -22,7 +22,7 @@ plugins {
   id 'pmd'
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-  id 'org.springframework.boot' version '2.6.5'
+  id 'org.springframework.boot' version '2.5.6'
   id 'org.owasp.dependencycheck' version '6.5.3'
   id 'com.github.ben-manes.versions' version '0.38.0'
   id 'org.sonarqube' version '3.3'
@@ -45,11 +45,11 @@ ccd {
 
 ext['elasticsearch.version'] = '7.17.0'
 
-java {
+/*java {
   toolchain {
     languageVersion = JavaLanguageVersion.of(11)
   }
-}
+}*/
 
 sourceSets {
   functionalTest {
@@ -312,9 +312,9 @@ ext {
 }
 
 def versions = [
-  springfoxSwagger  : '2.9.2',
+  springfoxSwagger  : '3.0.0',
   s2sClient         : '4.0.0',
-  springCloudStarterBootstrap : '3.1.1',
+  springCloudStarterBootstrap : '3.0.4',
   springdocOpenApiUI: '1.6.6',
   comGithubHmctsJavaLogging: '6.0.1',
   jackson: '2.12.4',
@@ -324,7 +324,7 @@ def versions = [
   junit             : '5.8.1',
   junitPlatform     : '1.8.2',
   awaitility        : '1.7.0',
-  springBoot        : '2.5.5',
+  springBoot        : '2.6.5',
   pact              : '4.1.7',
   serenityCoreVersion: '3.0.2',
   ccdCaseDocumentAmClient      : '1.7.3'

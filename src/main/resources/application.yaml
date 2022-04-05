@@ -1,5 +1,5 @@
 server:
-  port: 4550
+  port: 4552
 
 management:
   endpoint:
@@ -22,6 +22,9 @@ spring:
     name: Fis Cos API
   main:
     allow-bean-definition-overriding: true
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
 #  datasource:
 #    driver-class-name: org.postgresql.Driver
 #    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}${DB_OPTIONS:}
@@ -77,7 +80,7 @@ s2s-authorised:
 
 idam:
   s2s-auth:
-    url: ${S2S_URL:http://localhost:4552}
+    url: ${S2S_URL:http://rpe-service-auth-provider-aat.service.core-compute-aat.internal}
     secret: ${S2S_SECRET:AAAAAAAAAAAAAAAA}
     microservice: fis_cos_api
   api:
@@ -90,64 +93,5 @@ idam:
     secret: ${IDAM_CLIENT_SECRET:123456}
     redirect_uri: ${IDAM_API_REDIRECT_URL:http://localhost:3000/oauth2/callback}
 
-fee:
-  api:
-    baseUrl: ${FEE_API_URL:http://fees-register-api-aat.service.core-compute-aat.internal}
-
 s2s:
   stub: false
-
-core_case_data:
-  api:
-    url: ${CASE_DATA_STORE_BASEURL:http://ccd-data-store-api-aat.service.core-compute-aat.internal}
-  search:
-    page_size: ${CCD_SEARCH_PAGE_SIZE:100}
-
-doc_assembly:
-  url: ${DOC_ASSEMBLY_URL:http://dg-docassembly-aat.service.core-compute-aat.internal}
-
-document_management:
-  url: ${DOCUMENT_MANAGEMENT_URL:http://dm-store-aat.service.core-compute-aat.internal}
-
-prd:
-  api:
-    url: ${PRD_API_BASEURL:http://rd-professional-api-aat.service.core-compute-aat.internal}
-
-send-letter:
-  url: ${SEND_LETTER_SERVICE_BASEURL:http://rpe-send-letter-service-aat.service.core-compute-aat.internal}
-
-case_document_am:
-  url: ${CASE_DOCUMENT_AM_BASEURL:http://ccd-case-document-am-api-aat.service.core-compute-aat.internal}
-
-aos_pack:
-  due_date_offset_days: ${AOS_PACK_DUE_DATE_OFFSET_DAYS:16}
-
-case_progression:
-  holding_period_in_weeks: ${CASE_HOLDING_WEEKS:20}
-
-submit_aos:
-  dispute_offset_days: ${DISPUTE_DUE_DATE_OFFSET_DAYS:37}
-  holding_offset_days: ${HOLDING_DUE_DATE_OFFSET_DAYS:141}
-
-pba:
-  ref:
-    data:
-      service:
-        url: ${PRD_API_BASEURL:http://rd-professional-api-aat.service.core-compute-aat.internal}
-
-payment:
-  service:
-    api:
-      baseurl: ${PAYMENT_API_BASEURL:http://payment-api-aat.service.core-compute-aat.internal}
-
-bulk-action:
-  min-cases: ${BULK_ACTION_BATCH_SIZE_MIN:30}
-  page-size: ${BULK_ACTION_BATCH_SIZE_MAX:50}
-
-docmosis:
-  templates:
-    english:
-      ADOPTION_APPLICATION_SUMMARY: ADO-A58-Draft.docx
-    welsh:
-      ADOPTION_APPLICATION_SUMMARY: ADO-A58-Draft.docx
-

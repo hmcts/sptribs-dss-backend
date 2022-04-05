@@ -2,7 +2,7 @@ package uk.gov.hmcts.reform.fis.document.content;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.reform.fis.adoptioncase.model.LanguagePreference;
+import uk.gov.hmcts.reform.fis.edgecase.model.LanguagePreference;
 import uk.gov.hmcts.reform.fis.common.config.DocmosisTemplatesConfig;
 
 

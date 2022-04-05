@@ -15,11 +15,8 @@ public enum DocumentType implements HasLabel {
     @JsonProperty("deathCertificate")
     DEATH_CERTIFICATE("deathCertificate"),
 
-    @JsonProperty("applicationSummaryEn")
-    APPLICATION_SUMMARY_EN("applicationSummaryEn"),
-
-    @JsonProperty("applicationSummaryCy")
-    APPLICATION_SUMMARY_CY("applicationSummaryCy"),
+    @JsonProperty("applicationSummary")
+    APPLICATION_SUMMARY("applicationSummary"),
 
     @JsonProperty("application")
     @JsonAlias("adoptionApplication")
