@@ -15,7 +15,7 @@ import static uk.gov.hmcts.reform.adoption.adoptioncase.model.UserRole.LEGAL_ADV
 import static uk.gov.hmcts.reform.adoption.adoptioncase.model.UserRole.SOLICITOR;
 import static uk.gov.hmcts.reform.adoption.adoptioncase.model.UserRole.SUPER_USER;
 
-public class DefaultAccess implements HasAccessControl {
+public class CollectionAccess implements HasAccessControl {
     @Override
     public SetMultimap<HasRole, Permission> getGrants() {
         SetMultimap<HasRole, Permission> grants = HashMultimap.create();
@@ -26,7 +26,9 @@ public class DefaultAccess implements HasAccessControl {
         grants.putAll(LEGAL_ADVISOR, Permissions.READ);
         grants.putAll(DISTRICT_JUDGE, Permissions.READ);
         grants.putAll(CREATOR, Permissions.CREATE_READ_UPDATE);
-        grants.putAll(CITIZEN, Permissions.CREATE_READ_UPDATE);
+        grants.putAll(CITIZEN, Permissions.CREATE_READ_UPDATE_DELETE);
+        //TODO remove delete access for citizen 7th Jan 2022
+
         return grants;
     }
 }
