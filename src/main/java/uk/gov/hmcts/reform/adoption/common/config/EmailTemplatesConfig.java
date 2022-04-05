@@ -6,9 +6,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 import uk.gov.hmcts.reform.adoption.adoptioncase.model.LanguagePreference;
 
-import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.validation.constraints.NotNull;
 
 @Component
@@ -17,8 +16,8 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class EmailTemplatesConfig {
     @NotNull
-    private final Map<LanguagePreference, Map<String, String>> templates = new EnumMap<>(LanguagePreference.class);
+    private final Map<LanguagePreference, Map<String, String>> templates = new ConcurrentHashMap<>();
 
     @NotNull
-    private final Map<String, String> templateVars = new HashMap<>();
+    private final Map<String, String> templateVars = new ConcurrentHashMap<>();
 }

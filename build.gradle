@@ -169,7 +169,7 @@ task fortifyScan(type: JavaExec)  {
 
 checkstyle {
   maxWarnings = 0
-  toolVersion = '9.2.1'
+  toolVersion = '8.29'
   getConfigDirectory().set(new File(rootDir, 'config/checkstyle'))
 }
 
@@ -288,7 +288,7 @@ dependencyCheck {
     // Disable scanning of .NET related binaries
     assemblyEnabled = false
   }
-  skipConfigurations = [
+  /*skipConfigurations = [
     "checkstyle",
     "compileOnly",
     "pmd",
@@ -297,7 +297,7 @@ dependencyCheck {
     "smokeTest",
     "contractTestRuntimeClasspath",
     "contractTestCompileClasspath"
-  ]
+  ]*/
 }
 
 repositories {
@@ -341,6 +341,7 @@ ext.libraries = [
 ]
 
 dependencies {
+  implementation group: 'com.github.hmcts', name: 'ccd-config-generator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'

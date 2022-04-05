@@ -11,19 +11,19 @@ public enum State {
         name = "Draft",
         label = "### Case number: ${[CASE_REFERENCE]}\n ### ${applicant1FirstName} ${applicant1LastName}\n"
     )
-    Draft("Draft"),
+    DRAFT("Draft"),
 
     @CCD(
         name = "Submitted",
         label = "### Case number: ${[CASE_REFERENCE]}\n ### ${applicant1FirstName} ${applicant1LastName}\n"
     )
-    Submitted("Submitted"),
+    SUBMITTED("Submitted"),
 
     @CCD(
         name = "Application awaiting payment",
         label = "### Case number: ${[CASE_REFERENCE]}\n ### ${applicant1FirstName} ${applicant1LastName}\n"
     )
-    AwaitingPayment("AwaitingPayment");
+    AWAITING_PAYMENT("AwaitingPayment");
 
     private final String name;
 

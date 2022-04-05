@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 import uk.gov.hmcts.reform.adoption.adoptioncase.model.LanguagePreference;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.validation.constraints.NotNull;
 
 @Component
@@ -16,5 +16,5 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class DocmosisTemplatesConfig {
     @NotNull
-    private final Map<LanguagePreference, Map<String, String>> templates = new HashMap<>();
+    private final Map<LanguagePreference, Map<String, String>> templates = new ConcurrentHashMap<>();
 }

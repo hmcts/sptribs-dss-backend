@@ -8,15 +8,15 @@ import uk.gov.hmcts.ccd.sdk.api.HasRole;
 @AllArgsConstructor
 @Getter
 public enum UserRole implements HasRole {
-    ADOPTION_GENERIC("caseworker-adoption", "CRU"),
-    CASE_WORKER("caseworker-adoption-caseworker", "CRU"),
-    COURT_ADMIN("caseworker-adoption-courtadmin", "CRU"),
-    LEGAL_ADVISOR("caseworker-adoption-la", "CRU"),
-    DISTRICT_JUDGE("caseworker-adoption-judge", "CRU"),
-    SUPER_USER("caseworker-adoption-superuser", "CRU"),
-    SOLICITOR("caseworker-adoption-solicitor", "CRU"),
+    ADOPTION_GENERIC("caseworker-adoption", Constants.CRU),
+    CASE_WORKER("caseworker-adoption-caseworker", Constants.CRU),
+    COURT_ADMIN("caseworker-adoption-courtadmin", Constants.CRU),
+    LEGAL_ADVISOR("caseworker-adoption-la", Constants.CRU),
+    DISTRICT_JUDGE("caseworker-adoption-judge", Constants.CRU),
+    SUPER_USER("caseworker-adoption-superuser", Constants.CRU),
+    SOLICITOR("caseworker-adoption-solicitor", Constants.CRU),
     CITIZEN("citizen", "CRUD"),
-    CREATOR("[CREATOR]", "CRU");
+    CREATOR("[CREATOR]", Constants.CRU);
 
     @JsonValue
     private final String role;
@@ -30,5 +30,9 @@ public enum UserRole implements HasRole {
     @Override
     public String getRole() {
         return "citizen";
+    }
+
+    private static class Constants {
+        public static final String CRU = "CRU";
     }
 }

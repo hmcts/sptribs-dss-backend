@@ -16,11 +16,11 @@ import uk.gov.hmcts.reform.sendletter.api.SendLetterApi;
 import uk.gov.hmcts.reform.sendletter.api.SendLetterResponse;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Base64.getEncoder;
 import static java.util.stream.Collectors.toList;
@@ -63,7 +63,7 @@ public class BulkPrintService {
 
 
     private Map<String, Object> getAdditionalData(String caseId, String letterType) {
-        final Map<String, Object> additionalData = new HashMap<>();
+        final Map<String, Object> additionalData = new ConcurrentHashMap<>();
         additionalData.put(LETTER_TYPE_KEY, letterType);
         additionalData.put(CASE_IDENTIFIER_KEY, caseId);
         additionalData.put(CASE_REFERENCE_NUMBER_KEY, caseId);

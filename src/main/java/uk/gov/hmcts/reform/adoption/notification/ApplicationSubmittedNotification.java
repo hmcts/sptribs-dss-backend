@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.adoption.adoptioncase.model.Applicant;
 import uk.gov.hmcts.reform.adoption.adoptioncase.model.CaseData;
 import uk.gov.hmcts.reform.adoption.adoptioncase.model.LanguagePreference;
-import uk.gov.hmcts.reform.adoption.adoptioncase.model.UserRole;
 import uk.gov.hmcts.reform.adoption.document.DocumentManagementClient;
 import uk.gov.hmcts.reform.adoption.document.DocumentType;
 import uk.gov.hmcts.reform.adoption.document.model.AdoptionDocument;
@@ -21,12 +20,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import static uk.gov.hmcts.reform.adoption.adoptioncase.model.UserRole.CASE_WORKER;
 import static uk.gov.hmcts.reform.adoption.document.DocumentConstants.APPLICATION_DOCUMENT_URL;
 import static uk.gov.hmcts.reform.adoption.document.DocumentConstants.DATE_SUBMITTED;
 import static uk.gov.hmcts.reform.adoption.document.DocumentConstants.DOCUMENT;
@@ -73,14 +73,13 @@ public class ApplicationSubmittedNotification implements ApplicantNotification {
         final String applicant2Email = caseData.getApplicant1().getEmailAddress();
         final LanguagePreference applicant1LanguagePreference = caseData.getApplicant1().getLanguagePreference();
 
-        Map<String, Object> templateVars = templateVars(caseData, id, caseData.getApplicant1(),
-                                                        caseData.getApplicant1());
+        Map<String, Object> templateVars = templateVars(caseData, id, caseData.getApplicant1());
         notificationService.sendEmail(
             applicant1Email,
             APPLICANT_APPLICATION_SUBMITTED,
             templateVars,
-            applicant1LanguagePreference != null
-                ? applicant1LanguagePreference : LanguagePreference.ENGLISH
+            applicant1LanguagePreference == null
+                ? LanguagePreference.ENGLISH : applicant1LanguagePreference
         );
 
         if (StringUtils.isNotBlank(applicant2Email)) {
@@ -88,8 +87,8 @@ public class ApplicationSubmittedNotification implements ApplicantNotification {
                 applicant2Email,
                 APPLICANT_APPLICATION_SUBMITTED,
                 templateVars,
-                applicant1LanguagePreference != null
-                    ? applicant1LanguagePreference : LanguagePreference.ENGLISH
+                applicant1LanguagePreference == null
+                    ? LanguagePreference.ENGLISH  : applicant1LanguagePreference
             );
         }
     }
@@ -101,7 +100,7 @@ public class ApplicationSubmittedNotification implements ApplicantNotification {
         notificationService.sendEmail(
             caseData.getApplicant1().getEmail(),
             APPLICANT_APPLICATION_SUBMITTED,
-            templateVars(caseData, id, caseData.getApplicant1(), caseData.getApplicant1()),
+            templateVars(caseData, id, caseData.getApplicant1()),
             caseData.getApplicant1().getLanguagePreference()
         );
     }
@@ -113,9 +112,9 @@ public class ApplicationSubmittedNotification implements ApplicantNotification {
         notificationService.sendEmail(
             caseData.getApplicant1().getEmail(),
             APPLICANT_APPLICATION_SUBMITTED,
-            templateVars(caseData, id, caseData.getApplicant1(), caseData.getApplicant1()),
-            caseData.getApplicant1().getLanguagePreference() != null
-                ? caseData.getApplicant1().getLanguagePreference() : LanguagePreference.ENGLISH
+            templateVars(caseData, id, caseData.getApplicant1()),
+            caseData.getApplicant1().getLanguagePreference() == null
+                ? LanguagePreference.ENGLISH : caseData.getApplicant1().getLanguagePreference()
         );
     }
 
@@ -128,15 +127,15 @@ public class ApplicationSubmittedNotification implements ApplicantNotification {
         notificationService.sendEmail(
             caseData.getFamilyCourtEmailId(),
             LOCAL_COURT_APPLICATION_SUBMITTED,
-            templateVarsLocalCourt(caseData, id),
+            templateVarsLocalCourt(caseData),
             LanguagePreference.ENGLISH
         );
     }
 
-    private Map<String, Object> templateVars(CaseData caseData, Long id, Applicant applicant1, Applicant applicant2) {
-        Map<String, Object> templateVars = commonContent.mainTemplateVars(caseData, id, applicant1, applicant2);
-        templateVars.put(SUBMISSION_RESPONSE_DATE, caseData.getDueDate() != null
-            ? caseData.getDueDate().format(DATE_TIME_FORMATTER) : LocalDate.now().format(DATE_TIME_FORMATTER));
+    private Map<String, Object> templateVars(CaseData caseData, Long id, Applicant applicant1) {
+        Map<String, Object> templateVars = commonContent.mainTemplateVars(caseData, id, applicant1);
+        templateVars.put(SUBMISSION_RESPONSE_DATE, caseData.getDueDate() == null
+            ? LocalDate.now().format(DATE_TIME_FORMATTER) : caseData.getDueDate().format(DATE_TIME_FORMATTER));
         templateVars.put(HYPHENATED_REF, caseData.getHyphenatedCaseRef());
         templateVars.put(APPLICANT_1_FULL_NAME, caseData.getApplicant1().getFirstName() + " "
             + caseData.getApplicant1().getLastName());
@@ -144,13 +143,13 @@ public class ApplicationSubmittedNotification implements ApplicantNotification {
         return templateVars;
     }
 
-    private Map<String, Object> templateVarsLocalCourt(CaseData caseData, Long id)
+    private Map<String, Object> templateVarsLocalCourt(CaseData caseData)
         throws IOException, NotificationClientException {
-        Map<String, Object> templateVars = new HashMap<>();
+        Map<String, Object> templateVars = new ConcurrentHashMap<>();
         templateVars.put(HYPHENATED_REF, caseData.getHyphenatedCaseRef());
         templateVars.put(DATE_SUBMITTED, Optional.ofNullable(caseData.getApplication().getDateSubmitted())
             .orElse(LocalDateTime.now()).format(DATE_TIME_FORMATTER));
-        int count = 0;
+        int count;
         for (count = 1; count < 11; count++) {
             templateVars.put(DOCUMENT_EXISTS + count, NO);
             templateVars.put(DOCUMENT + count, StringUtils.EMPTY);
@@ -169,18 +168,16 @@ public class ApplicationSubmittedNotification implements ApplicantNotification {
                      adoptionDocument.getDocumentFileId());
             Resource document = dmClient.downloadBinary(authorisation,
                                                         serviceAuthorization,
-                                                        UserRole.CASE_WORKER.getRole(),
+                                                        CASE_WORKER.getRole(),
                                                         systemUpdateUserName,
                                                         StringUtils.substringAfterLast(
                                                             adoptionDocument.getDocumentLink().getUrl(), "/")
             ).getBody();
 
-            if (document != null) {
+            if (document != null && document.getInputStream() != null) {
                 try (InputStream inputStream = document.getInputStream()) {
-                    if (inputStream != null) {
-                        byte[] documentContents = inputStream.readAllBytes();
-                        templateVars.put(APPLICATION_DOCUMENT_URL, prepareUpload(documentContents));
-                    }
+                    byte[] documentContents = inputStream.readAllBytes();
+                    templateVars.put(APPLICATION_DOCUMENT_URL, prepareUpload(documentContents));
                 } catch (Exception e) {
                     log.error("Document could not be read");
                 }
@@ -195,7 +192,7 @@ public class ApplicationSubmittedNotification implements ApplicantNotification {
             count = 1;
             for (String item : uploadedDocumentsUrls) {
                 Resource uploadedDocument = dmClient.downloadBinary(authorisation, serviceAuthorization,
-                                                                    UserRole.CASE_WORKER.getRole(),
+                                                                    CASE_WORKER.getRole(),
                                                                     systemUpdateUserName, item).getBody();
                 if (uploadedDocument != null) {
                     byte[] uploadedDocumentContents = uploadedDocument.getInputStream().readAllBytes();

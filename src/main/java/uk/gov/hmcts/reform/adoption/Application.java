@@ -18,7 +18,8 @@ import uk.gov.hmcts.reform.ccd.document.am.feign.CaseDocumentClientApi;
 import uk.gov.hmcts.reform.idam.client.IdamApi;
 
 @SpringBootApplication(exclude = {CoreCaseDataClientAutoConfiguration.class},
-    scanBasePackages = {"uk.gov.hmcts.ccd.sdk", "uk.gov.hmcts.reform.adoption", "uk.gov.hmcts.reform.ccd.document"})
+    scanBasePackages = {"uk.gov.hmcts.ccd.sdk", "uk.gov.hmcts.reform.adoption",
+        "uk.gov.hmcts.reform.ccd.document", "uk.gov.hmcts.reform.idam"})
 @EnableFeignClients(
     clients = {
         IdamApi.class,
