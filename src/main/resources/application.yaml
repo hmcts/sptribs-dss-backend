@@ -20,6 +20,8 @@ spring:
     import: "optional:configtree:/mnt/secrets/rpe/"
   application:
     name: Fis Cos API
+  main:
+    allow-bean-definition-overriding: true
 #  datasource:
 #    driver-class-name: org.postgresql.Driver
 #    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}${DB_OPTIONS:}
