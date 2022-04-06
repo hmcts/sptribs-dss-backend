@@ -424,7 +424,7 @@ dependencies {
 
 }
 
-mainClassName = 'uk.gov.hmcts.reform.cosapi.Application'
+mainClassName = 'uk.gov.hmcts.reform.fis.Application'
 
 ext.getVaultSecret = { String secretName ->
   new ByteArrayOutputStream().withStream { os ->
