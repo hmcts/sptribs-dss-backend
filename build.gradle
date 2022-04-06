@@ -45,11 +45,11 @@ ccd {
 
 ext['elasticsearch.version'] = '7.17.0'
 
-/*java {
+java {
   toolchain {
     languageVersion = JavaLanguageVersion.of(11)
   }
-}*/
+}
 
 sourceSets {
   functionalTest {
@@ -341,6 +341,7 @@ ext.libraries = [
 ]
 
 dependencies {
+  //implementation group: 'com.github.hmcts', name: 'ccd-config-generator'
   implementation group: 'com.github.hmcts', name: 'ccd-config-generator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
