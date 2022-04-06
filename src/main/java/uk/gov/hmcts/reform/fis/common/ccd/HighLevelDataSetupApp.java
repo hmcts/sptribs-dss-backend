@@ -5,10 +5,11 @@ import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.befta.dse.ccd.CcdEnvironment;
 import uk.gov.hmcts.befta.dse.ccd.CcdRoleConfig;
 import uk.gov.hmcts.befta.dse.ccd.DataLoaderToDefinitionStore;
-import uk.gov.hmcts.reform.fis.edgecase.constants.CaseType;
 
 import java.util.List;
 import java.util.Locale;
+
+import static uk.gov.hmcts.reform.fis.edgecase.constants.CaseType.A_58;
 
 public class HighLevelDataSetupApp extends DataLoaderToDefinitionStore {
 
@@ -34,11 +35,9 @@ public class HighLevelDataSetupApp extends DataLoaderToDefinitionStore {
     }
 
     public static void main(String[] args) throws Throwable {
-        System.out.println("High level main class calling");
         if (CcdEnvironment.valueOf(args[0].toUpperCase(Locale.UK)).equals(CcdEnvironment.PROD)) {
             return;
         }
-        System.out.println("High level main class calling");
         main(HighLevelDataSetupApp.class, args);
     }
 
@@ -67,7 +66,7 @@ public class HighLevelDataSetupApp extends DataLoaderToDefinitionStore {
     protected List<String> getAllDefinitionFilesToLoadAt(String definitionsPath) {
         String environmentName = environment.name().toLowerCase(Locale.UK);
         return List.of(
-            "build/ccd-config/ccd-" + CaseType.A_58.toString() + "-" + environmentName + ".xlsx"
+            "build/ccd-config/ccd-" + A_58.toString() + "-" + environmentName + ".xlsx"
         );
     }
 }
