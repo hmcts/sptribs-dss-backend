@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import uk.gov.hmcts.ccd.sdk.api.CCD;
-import uk.gov.hmcts.ccd.sdk.type.Document;
 import uk.gov.hmcts.reform.fis.document.DocumentType;
 
 import java.time.LocalDate;
@@ -20,7 +19,7 @@ import static uk.gov.hmcts.ccd.sdk.type.FieldType.TextArea;
 @NoArgsConstructor
 @Builder
 @ToString
-public class AdoptionDocument {
+public class Document {
 
     @CCD(
         label = "Add content to be emailed",
@@ -32,7 +31,7 @@ public class AdoptionDocument {
         label = "Select your document",
         regex = ".pdf,.tif,.tiff,.jpg,.jpeg,.png"
     )
-    private Document documentLink;
+    private uk.gov.hmcts.ccd.sdk.type.Document documentLink;
 
     @CCD(
         label = "Date added"
@@ -67,13 +66,13 @@ public class AdoptionDocument {
 
     //Add handwritten constructor as a workaround for @JsonUnwrapped prefix issue
     @JsonCreator
-    public AdoptionDocument(@JsonProperty("documentEmailContent") String documentEmailContent,
-                            @JsonProperty("documentLink") Document documentLink,
-                            @JsonProperty("documentDateAdded") LocalDate documentDateAdded,
-                            @JsonProperty("documentComment") String documentComment,
-                            @JsonProperty("documentFileName") String documentFileName,
-                            @JsonProperty("documentType") DocumentType documentType,
-                            @JsonProperty("documentFileId") String documentFileId) {
+    public Document(@JsonProperty("documentEmailContent") String documentEmailContent,
+                    @JsonProperty("documentLink") uk.gov.hmcts.ccd.sdk.type.Document documentLink,
+                    @JsonProperty("documentDateAdded") LocalDate documentDateAdded,
+                    @JsonProperty("documentComment") String documentComment,
+                    @JsonProperty("documentFileName") String documentFileName,
+                    @JsonProperty("documentType") DocumentType documentType,
+                    @JsonProperty("documentFileId") String documentFileId) {
         this.documentEmailContent = documentEmailContent;
         this.documentLink = documentLink;
         this.documentDateAdded = documentDateAdded;
