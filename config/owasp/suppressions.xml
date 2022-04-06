@@ -52,4 +52,13 @@
     <notes>spring-cloud-starter-openfeign-3.0.1</notes>
     <cve>CVE-2021-22044</cve>
   </suppress>
+  <suppress>
+    <notes>cucumber-core-5.7.0</notes>
+    <cve>CVE-2020-11022</cve>
+    <cve>CVE-2020-11023</cve>
+  </suppress>
+  <suppress>
+    <notes>spring-beans-5.3.17</notes>
+    <cve>CVE-2022-22965</cve>
+  </suppress>
 </suppressions>
