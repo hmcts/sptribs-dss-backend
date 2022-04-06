@@ -17,7 +17,7 @@ public class SearchCasesResultFields implements CCDConfig<CaseData, State, UserR
             .searchCasesFields()
             .field("[CASE_REFERENCE]", "Case Number", null, null, "1:ASC")
             .createdDateField()
-            .field("applicant1FirstName", "Applicant1 First Name")
+            .field("applicantFirstName", "Applicant First Name")
             .lastModifiedDate()
             .stateField();
     }

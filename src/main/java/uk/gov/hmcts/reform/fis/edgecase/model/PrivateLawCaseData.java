@@ -20,7 +20,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class CaseData {
+public class PrivateLawCaseData {
 
     @JsonUnwrapped(prefix = "applicant")
     @Builder.Default
