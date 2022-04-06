@@ -17,7 +17,7 @@ springdoc:
 #If you use a database then uncomment below lines and update db properties accordingly
 spring:
   config:
-    import: "optional:configtree:/mnt/secrets/rpe/"
+    import: "optional:configtree:/mnt/secrets/fis/"
   application:
     name: Spring Boot Template
 #  datasource:
@@ -44,7 +44,7 @@ spring:
 
 azure:
   application-insights:
-    instrumentation-key: ${rpe.AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
+    instrumentation-key: ${fis.AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
 
 idam:
   s2s-auth:
