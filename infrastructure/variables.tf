@@ -2,6 +2,10 @@ variable "product" {}
 
 variable "component" {}
 
+variable "raw_product" {
+  default = "fis"
+}
+
 variable "location" {
   default = "UK South"
 }
