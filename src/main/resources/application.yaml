@@ -1,5 +1,5 @@
 server:
-  port: 4552
+  port: 8099
 
 management:
   endpoint:
@@ -12,12 +12,12 @@ management:
         include: health, info, prometheus
 
 springdoc:
-  packagesToScan: uk.gov.hmcts.reform.demo.controllers
+  packagesToScan: uk.gov.hmcts.reform.cosapi.controllers
 
 #If you use a database then uncomment below lines and update db properties accordingly
 spring:
   config:
-    import: "optional:configtree:/mnt/secrets/rpe/"
+    import: "optional:configtree:/mnt/secrets/fis/"
   application:
     name: Fis Cos API
   main:
