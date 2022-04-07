@@ -49,7 +49,7 @@ spring:
 
 azure:
   application-insights:
-    instrumentation-key: ${fis.AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
+    instrumentation-key: ${AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
 
 uk:
   gov:
@@ -75,9 +75,6 @@ uk:
             APPLICANT_APPLICATION_SUBMITTED: 'dd251faa-0c40-4540-80b4-a7edb83a43f0'
             LOCAL_COURT_APPLICATION_SUBMITTED: '2960d8dd-ab3e-4265-a71d-2d81d0fd84c8'
 
-s2s-authorised:
-  services: ${S2S_AUTHORISED_SERVICES:ccd_data}
-
 idam:
   s2s-auth:
     url: ${SERVICE_AUTH_PROVIDER_URL:http://localhost:4552}
@@ -88,10 +85,4 @@ idam:
   systemupdate:
     username: ${IDAM_SYSTEM_UPDATE_USERNAME:dummysystemupdate@test.com}
     password: ${IDAM_SYSTEM_UPDATE_PASSWORD:dummy}
-  client:
-    id: 'ds-ui'
-    secret: ${IDAM_CLIENT_SECRET:123456}
-    redirect_uri: ${IDAM_API_REDIRECT_URL:http://localhost:3000/oauth2/callback}
 
-s2s:
-  stub: false
