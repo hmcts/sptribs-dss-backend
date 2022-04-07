@@ -22,7 +22,7 @@ plugins {
   id 'pmd'
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-  id 'org.springframework.boot' version '2.6.5'
+  id 'org.springframework.boot' version '2.5.6'
   id 'org.owasp.dependencycheck' version '6.5.3'
   id 'com.github.ben-manes.versions' version '0.38.0'
   id 'org.sonarqube' version '3.3'
@@ -213,6 +213,21 @@ project.tasks['check'].dependsOn integration
 def sonarExclusions = [
   '**/uk/gov/hmcts/reform/fis/config/OpenAPIConfiguration.java',
   '**/uk/gov/hmcts/reform/fis/controllers/RootController.java',
+  '**/uk/gov/hmcts/reform/cosapi/edgecase/model/**',
+  '**/uk/gov/hmcts/reform/cosapi/edgecase/task/**',
+  '**/uk/gov/hmcts/reform/cosapi/edgecase/constants/**',
+  '**/uk/gov/hmcts/reform/cosapi/document/model/**',
+  '**/uk/gov/hmcts/reform/cosapi/document/**',
+  '**/uk/gov/hmcts/reform/cosapi/common/ccd/**',
+  '**/uk/gov/hmcts/reform/cosapi/exception/**',
+  '**/uk/gov/hmcts/reform/cosapi/model/**',
+  '**/uk/gov/hmcts/reform/cosapi/common/**',
+  '**/uk/gov/hmcts/reform/cosapi/idam/**',
+  '**/uk/gov/hmcts/reform/cosapi/edgecase/task/**',
+  '**/uk/gov/hmcts/reform/cosapi/common/config/**',
+  '**/uk/gov/hmcts/reform/cosapi/edgecase/task/**',
+  '**/uk/gov/hmcts/reform/cosapi/**',
+  '**/uk/gov/hmcts/reform/cosapi/document/content/**',
 ]
 
 sonarqube {
@@ -284,7 +299,7 @@ ext {
 def versions = [
   springfoxSwagger  : '3.0.0',
   s2sClient         : '4.0.0',
-  springCloudStarterBootstrap : '3.1.1',
+  springCloudStarterBootstrap : '3.0.4',
   springdocOpenApiUI: '1.6.6',
   comGithubHmctsJavaLogging: '6.0.1',
   jackson: '2.12.4',
@@ -294,7 +309,7 @@ def versions = [
   junit             : '5.8.1',
   junitPlatform     : '1.8.2',
   awaitility        : '1.7.0',
-  springBoot        : springBoot.class.package.implementationVersion,
+  springBoot        : '2.6.5',
   pact              : '4.1.7',
   serenityCoreVersion: '3.0.2',
   ccdCaseDocumentAmClient      : '1.7.3'
@@ -311,6 +326,7 @@ ext.libraries = [
 ]
 
 dependencies {
+  implementation group: 'com.github.hmcts', name: 'ccd-config-generator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
@@ -323,7 +339,7 @@ dependencies {
   implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformsJavaLogging
   implementation group: 'uk.gov.hmcts.reform', name: 'logging-spring', version: versions.reformsJavaLogging
   implementation group: 'com.github.hmcts', name:'ccd-case-document-am-client', version: versions.ccdCaseDocumentAmClient
-  //implementation group: 'uk.gov.hmcts.reform', name: 'idam-client', version: '2.0.0'
+  implementation group: 'uk.gov.hmcts.reform', name: 'idam-client', version: '2.0.0'
   implementation group: 'com.github.hmcts', name: 'ccd-client', version: '4.8.6'
   implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: versions.springdocOpenApiUI
 
@@ -424,7 +440,7 @@ dependencies {
 
 }
 
-mainClassName = 'uk.gov.hmcts.reform.fis.Application'
+mainClassName = 'uk.gov.hmcts.reform.cosapi.Application'
 
 ext.getVaultSecret = { String secretName ->
   new ByteArrayOutputStream().withStream { os ->
@@ -442,7 +458,8 @@ bootRun {
       println("Loading secrets from vault")
 
       systemProperty 'IDAM_API_BASEURL', 'https://idam-api.aat.platform.hmcts.net'
-      systemProperty 'UK_GOV_NOTIFY_API_KEY', getVaultSecret('uk-gov-notify-api-key')
+      // TODO: Uncomment if required later
+      //systemProperty 'UK_GOV_NOTIFY_API_KEY', getVaultSecret('uk-gov-notify-api-key')
       systemProperty 'S2S_SECRET', getVaultSecret('s2s-secret-cos-api')
       //systemProperty 'IDAM_CASEWORKER_USERNAME', getVaultSecret('idam-caseworker-username')
       //systemProperty 'IDAM_CASEWORKER_PASSWORD', getVaultSecret('idam-caseworker-password')
@@ -494,7 +511,7 @@ functional {
 generateTypeScript {
   jsonLibrary = 'jackson2'
   classPatterns = [
-    'uk.gov.hmcts.reform.fis.**.model.*',
+    'uk.gov.hmcts.reform.cosapi.**.model.*',
     'uk.gov.hmcts.ccd.sdk.type.*',
   ]
   outputFile = 'build/ts/index.ts'
@@ -587,7 +604,7 @@ task loadEnvSecrets() {
     if (!project.file('./.aat-env').exists()) {
       new ByteArrayOutputStream().withStream { os ->
         exec {
-          commandLine 'az', 'keyvault', 'secret', 'show', '--vault-name', 'nfdiv-aat', '-o', 'tsv', '--query', 'value', '--name', 'nfdiv-case-api-dot-env'
+          commandLine 'az', 'keyvault', 'secret', 'show', '--vault-name', 'fis-aat', '-o', 'tsv', '--query', 'value', '--name', 'fis-case-api-dot-env'
           standardOutput = os
         }
         project.file('./.aat-env').write(new String(os.toString().replace('\n', '').decodeBase64(), java.nio.charset.StandardCharsets.UTF_8))

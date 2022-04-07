@@ -12,12 +12,15 @@ java:
     SERVICE_AUTH_PROVIDER_URL: 'http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal'
     IDAM_WEB_URL: 'https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net/login'
     IDAM_API_URL: 'https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/o/token'
+    IDAM_API_BASEURL: 'https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net'
 
   keyVaults:
     fis:
       secrets:
-        - idam-ui-secret
-        - idam-system-user-name
-        - idam-system-user-password
-        - s2s-secret
-        - AppInsightsInstrumentationKey
+        - name: idam-system-user-name
+          alias: IDAM_SYSTEM_UPDATE_USERNAME
+        - name: idam-system-user-password
+          alias: IDAM_SYSTEM_UPDATE_PASSWORD
+        - name: s2s-secret-fis-cos-api
+          alias: S2S_SECRET
+        - name: AppInsightsInstrumentationKey
