@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi;
+package uk.gov.hmcts.reform.fis;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
