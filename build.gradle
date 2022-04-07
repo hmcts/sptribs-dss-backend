@@ -213,6 +213,7 @@ project.tasks['check'].dependsOn integration
 def sonarExclusions = [
   '**/uk/gov/hmcts/reform/fis/config/OpenAPIConfiguration.java',
   '**/uk/gov/hmcts/reform/fis/controllers/RootController.java',
+  '**/uk/gov/hmcts/reform/cosapi/edgecase/model/**'
 ]
 
 sonarqube {
