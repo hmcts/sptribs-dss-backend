@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi.config;
+package uk.gov.hmcts.reform.fis.config;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
