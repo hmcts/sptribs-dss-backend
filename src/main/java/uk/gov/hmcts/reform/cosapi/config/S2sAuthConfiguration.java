@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.fis.config;
+package uk.gov.hmcts.reform.cosapi.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

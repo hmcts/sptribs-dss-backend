@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.fis.services;
+package uk.gov.hmcts.reform.cosapi.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

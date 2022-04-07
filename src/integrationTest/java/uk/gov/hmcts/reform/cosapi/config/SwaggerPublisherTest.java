@@ -1,4 +1,3 @@
-/*
 package uk.gov.hmcts.reform.cosapi.config;
 
 import org.junit.jupiter.api.DisplayName;
@@ -17,11 +16,11 @@ import java.nio.file.Paths;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-*/
+
 /**
  * Built-in feature which saves service's swagger specs in temporary directory.
  * Each CI run on master should automatically save and upload (if updated) documentation.
- *//*
+ */
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -47,4 +46,4 @@ class SwaggerPublisherTest {
 
     }
 }
-*/
+

@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.fis.services;
+package uk.gov.hmcts.reform.cosapi.services;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
