@@ -2,12 +2,307 @@
 
 @Library("Infrastructure")
 
+import uk.gov.hmcts.contino.AppPipelineDsl
+import uk.gov.hmcts.contino.GradleBuilder
+import uk.gov.hmcts.contino.AppPipelineConfig
+import uk.gov.hmcts.contino.MetricsPublisher
+
 def type = "java"
 def product = "fis"
 def component = "cos-api"
 
-def branchesToSync = ['demo']
+GradleBuilder builder = new GradleBuilder(this, product)
+
+static Map<String, Object> secret(String secretName, String envVariable) {
+  [$class     : 'AzureKeyVaultSecret',
+   secretType : 'Secret',
+   name       : secretName,
+   envVariable: envVariable
+  ]
+}
+
+def secrets = [
+  's2s-${env}'      : [
+    secret('microservicekey-ccd-data', 'DATA_STORE_S2S_KEY'),
+    secret('microservicekey-ccd-definition', 'DEFINITION_STORE_S2S_KEY'),
+    secret('microservicekey-ccd-gw', 'CCD_API_GATEWAY_S2S_KEY'),
+    secret('microservicekey-ccd-admin', 'ADMIN_S2S_KEY'),
+    secret('microservicekey-ccd-data', 'CCD_DATA_STORE_S2S_SECRET'),
+    secret('microservicekey-ccd-definition', 'CCD_DEFINITION_STORE_S2S_SECRET')
+  ],
+  'ccd-${env}'      : [
+    secret('ccd-api-gateway-oauth2-client-secret', 'CCD_API_GATEWAY_OAUTH2_CLIENT_SECRET'),
+    secret('ccd-admin-web-oauth2-client-secret', 'ADMIN_WEB_IDAM_SECRET'),
+    secret('postcode-info-address-lookup-token', 'ADDRESS_LOOKUP_TOKEN'),
+    secret('idam-data-store-client-secret','IDAM_OAUTH2_DATA_STORE_CLIENT_SECRET'),
+    secret('idam-data-store-system-user-username','IDAM_DATA_STORE_SYSTEM_USER_USERNAME'),
+    secret('idam-data-store-system-user-password','IDAM_DATA_STORE_SYSTEM_USER_PASSWORD'),
+  ],
+  'fis-${env}'    :[
+    secret('definition-importer-username', 'DEFINITION_IMPORTER_USERNAME'),
+    secret('definition-importer-password', 'DEFINITION_IMPORTER_PASSWORD'),
+    secret('idam-secret', 'OAUTH2_CLIENT_SECRET'),
+    secret('idam-solicitor-username', 'IDAM_SOLICITOR_USERNAME'),
+    secret('idam-solicitor-password', 'IDAM_SOLICITOR_PASSWORD'),
+    secret('idam-system-user-name', 'IDAM_SYSTEM_UPDATE_USERNAME'),
+    secret('idam-system-user-password', 'IDAM_SYSTEM_UPDATE_PASSWORD'),
+    secret('s2s-secret-cos-api', 'S2S_SECRET'),
+    secret('AppInsightsInstrumentationKey', 'APP_INSIGHTS_KEY')
+  ]
+]
+
+def pipelineConf = new AppPipelineConfig()
+pipelineConf.vaultSecrets = secrets
+
+def vaultOverrides = [
+  'preview': 'aat',
+  'prod': 'aat',
+]
 
 withPipeline(type, product, component) {
-  syncBranchesWithMaster(branchesToSync)
+    enableAksStagingDeployment()
+    disableLegacyDeployment()
+    overrideVaultEnvironments(vaultOverrides)
+    loadVaultSecrets(secrets)
+    syncBranchesWithMaster(['demo', 'ithc', 'perftest'])
+    enableSlackNotifications('#family-integration-devsch')
+
+    MetricsPublisher metricsPublisher = new MetricsPublisher(this, currentBuild, product, component, params.subscription )
+    approvedEnvironmentRepository(params.environment, metricsPublisher) {
+      if(params.environment != 'prod') {
+          enableHighLevelDataSetup()
+      }
+    }
+
+  after('test') {
+      builder.gradle('integration')
+      builder.gradle('jacocoTestReport')
+
+      publishHTML target: [
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "build/reports/checkstyle",
+        reportFiles          : "main.html",
+        reportName           : "Checkstyle Main Report"
+      ]
+
+      publishHTML target: [
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "build/reports/checkstyle",
+        reportFiles          : "test.html",
+        reportName           : "Checkstyle Test Report"
+      ]
+
+      publishHTML target: [
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "build/reports/checkstyle",
+        reportFiles          : "functionalTest.html",
+        reportName           : "Checkstyle Functional Test Report"
+      ]
+
+      publishHTML target: [
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "build/reports/checkstyle",
+        reportFiles          : "integrationTest.html",
+        reportName           : "Checkstyle Integration Test Report"
+      ]
+
+      publishHTML target: [
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "build/reports/tests/test",
+        reportFiles          : "index.html",
+        reportName           : "Unit Tests Report"
+      ]
+    }
+
+  after('functionalTest:preview') {
+      publishHTML target: [
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "build/reports/tests/functional",
+        reportFiles          : "index.html",
+        reportName           : "Functional Tests Report"
+      ]
+
+//      publishHTML target: [
+//        allowMissing         : true,
+//        alwaysLinkToLastBuild: true,
+//        keepAll              : true,
+//        reportDir            : "target/site/serenity/",
+//        reportFiles          : "index.html",
+//        reportName           : "Functional Tests Report"
+//      ]
+
+      dir("${WORKSPACE}") {
+        steps.archiveArtifacts  allowEmptyArchive: true, artifacts: "build/reports/tests/functional/**/*"
+      }
+    }
+
+  after('functionalTest:aat') {
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "build/reports/tests/functional",
+      reportFiles          : "index.html",
+      reportName           : "Functional Tests Report"
+    ]
+
+//    publishHTML target: [
+//      allowMissing         : true,
+//      alwaysLinkToLastBuild: true,
+//      keepAll              : true,
+//      reportDir            : "target/site/serenity/",
+//      reportFiles          : "index.html",
+//      reportName           : "Functional Tests Report"
+//    ]
+//
+//    dir("${WORKSPACE}") {
+//      steps.archiveArtifacts artifacts: "target/site/serenity/**/*"
+//    }
+    dir("${WORKSPACE}") {
+      steps.archiveArtifacts  allowEmptyArchive: true, artifacts: "build/reports/tests/functional/**/*"
+    }
+  }
+
+  after('smokeTest:preview') {
+      publishHTML target: [
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "build/reports/tests/smoke",
+        reportFiles          : "index.html",
+        reportName           : "Smoke Test Report"
+      ]
+    }
+
+  after('smokeTest:aat') {
+      publishHTML target: [
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "build/reports/tests/smoke",
+        reportFiles          : "index.html",
+        reportName           : "Smoke Test Report"
+      ]
+    }
+
+  after('checkout') {
+      builder.gradle('generateCCDConfig')
+      generateDefinitions()
+    }
+
+  onPR {
+      env.ENVIRONMENT="preview"
+      env.CASE_API_URL = "http://fis-cos-api-pr-${CHANGE_ID}.service.core-compute-preview.internal"
+      env.CCD_DEF_NAME = "preview"
+      env.PACT_BROKER_FULL_URL = 'https://pact-broker.platform.hmcts.net'
+      env.DEFINITION_STORE_URL_BASE = "https://ccd-definition-store-fis-cos-api-pr-${CHANGE_ID}.service.core-compute-preview.internal"
+      env.CASE_DATA_STORE_BASEURL = "http://ccd-data-store-api-fis-cos-api-pr-${CHANGE_ID}.service.core-compute-preview.internal"
+      env.CITIZEN_UPDATE_CASE_STATE_ENABLED=true
+
+      setCommonEnvVariables()
+    }
+
+  onMaster {
+      env.ENVIRONMENT="aat"
+      env.CASE_API_URL="http://fis-cos-api-aat.service.core-compute-aat.internal"
+      env.CCD_DEF_NAME="aat"
+      env.DEFINITION_STORE_URL_BASE="http://ccd-definition-store-api-aat.service.core-compute-aat.internal"
+      env.CITIZEN_UPDATE_CASE_STATE_ENABLED=true
+      env.PACT_BROKER_FULL_URL = 'https://pact-broker.platform.hmcts.net'
+
+      setCommonEnvVariables()
+    }
+
+  onDemo {
+      env.ENVIRONMENT="demo"
+      env.CASE_API_URL = "http://fis-cos-api-demo.service.core-compute-demo.internal"
+      env.CCD_DEF_NAME = "demo"
+      env.IDAM_API_URL_BASE = "https://idam-api.demo.platform.hmcts.net"
+      env.S2S_URL_BASE = "http://rpe-service-auth-provider-demo.service.core-compute-demo.internal"
+      env.DEFINITION_STORE_URL_BASE = "http://ccd-definition-store-api-demo.service.core-compute-demo.internal"
+    }
+
+  onPerftest {
+      env.ENVIRONMENT="perftest"
+      env.CASE_API_URL = "http://fis-cos-api-perftest.service.core-compute-perftest.internal"
+      env.CCD_DEF_NAME = "perftest"
+      env.IDAM_API_URL_BASE = "https://idam-api.perftest.platform.hmcts.net"
+      env.S2S_URL_BASE = "http://rpe-service-auth-provider-perftest.service.core-compute-perftest.internal"
+      env.DEFINITION_STORE_URL_BASE = "http://ccd-definition-store-api-perftest.service.core-compute-perftest.internal"
+    }
+
+  onIthc {
+      env.ENVIRONMENT="ithc"
+      env.CASE_API_URL = "http://fis-cos-api-ithc.service.core-compute-ithc.internal"
+      env.CCD_DEF_NAME = "ithc"
+      env.IDAM_API_URL_BASE = "https://idam-api.ithc.platform.hmcts.net"
+      env.S2S_URL_BASE = "http://rpe-service-auth-provider-ithc.service.core-compute-ithc.internal"
+      env.DEFINITION_STORE_URL_BASE = "http://ccd-definition-store-api-ithc.service.core-compute-ithc.internal"
+    }
+
+  before('functionalTest:preview') {
+      // Only for preview upload the definitions via script as high level data set up relies on an existing environment
+      uploadCoreCaseDataDefinitions()
+    }
+
+  after('contractTest:preview') {
+    dir("${WORKSPACE}") {
+      steps.archiveArtifacts artifacts: "pacts/*.json"
+    }
+  }
+  after('contractTest:aat') {
+    dir("${WORKSPACE}") {
+      steps.archiveArtifacts artifacts: "pacts/*.json"
+    }
+  }
+
+
+  onPR() {
+      enablePactAs([AppPipelineDsl.PactRoles.CONSUMER])
+    }
+
+  onMaster() {
+      enablePactAs([AppPipelineDsl.PactRoles.CONSUMER])
+    }
+}
+
+def setCommonEnvVariables() {
+    env.IDAM_API_URL_BASE = "https://idam-api.aat.platform.hmcts.net"
+    env.IDAM_API_BASEURL = "https://idam-api.aat.platform.hmcts.net"
+    env.S2S_URL_BASE = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
+    env.CCD_API_GATEWAY_OAUTH2_CLIENT_ID = "ccd_gateway"
+    env.BEFTA_S2S_CLIENT_ID = "ccd_data"
+    env.CCD_API_GATEWAY_OAUTH2_REDIRECT_URL = "https://www-ccd.aat.platform.hmcts.net/oauth2redirect"
+    env.TEST_S2S_URL = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
+}
+
+def uploadCoreCaseDataDefinitions() {
+    dir("${WORKSPACE}/bin"){
+        sh "./add-roles.sh"
+        sh "./process-and-import-ccd-definition.sh"
+    }
+    dir("${WORKSPACE}") {
+        steps.archiveArtifacts artifacts: "build/ccd-config/*.xlsx"
+    }
+}
+
+def generateDefinitions() {
+  dir("${WORKSPACE}/bin") {
+    sh "./ccd-build-definition.sh"
+  }
+  dir("${WORKSPACE}") {
+    steps.archiveArtifacts artifacts: "build/ccd-config/*.xlsx"
+  }
 }
