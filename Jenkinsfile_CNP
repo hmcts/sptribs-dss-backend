@@ -65,7 +65,7 @@ withPipeline(type, product, component) {
     overrideVaultEnvironments(vaultOverrides)
     loadVaultSecrets(secrets)
     syncBranchesWithMaster(['demo', 'ithc', 'perftest'])
-    enableSlackNotifications('#family-integration-devsch')
+    enableSlackNotifications('#family-integration-devsch') //?
 
     MetricsPublisher metricsPublisher = new MetricsPublisher(this, currentBuild, product, component, params.subscription )
     approvedEnvironmentRepository(params.environment, metricsPublisher) {
@@ -206,7 +206,6 @@ withPipeline(type, product, component) {
       env.ENVIRONMENT="preview"
       env.CASE_API_URL = "http://fis-cos-api-pr-${CHANGE_ID}.service.core-compute-preview.internal"
       env.CCD_DEF_NAME = "preview"
-      env.PACT_BROKER_FULL_URL = 'https://pact-broker.platform.hmcts.net'
       env.DEFINITION_STORE_URL_BASE = "https://ccd-definition-store-fis-cos-api-pr-${CHANGE_ID}.service.core-compute-preview.internal"
       env.CASE_DATA_STORE_BASEURL = "http://ccd-data-store-api-fis-cos-api-pr-${CHANGE_ID}.service.core-compute-preview.internal"
       env.CITIZEN_UPDATE_CASE_STATE_ENABLED=true
@@ -220,7 +219,6 @@ withPipeline(type, product, component) {
       env.CCD_DEF_NAME="aat"
       env.DEFINITION_STORE_URL_BASE="http://ccd-definition-store-api-aat.service.core-compute-aat.internal"
       env.CITIZEN_UPDATE_CASE_STATE_ENABLED=true
-      env.PACT_BROKER_FULL_URL = 'https://pact-broker.platform.hmcts.net'
 
       setCommonEnvVariables()
     }
@@ -255,26 +253,6 @@ withPipeline(type, product, component) {
   before('functionalTest:preview') {
       // Only for preview upload the definitions via script as high level data set up relies on an existing environment
       uploadCoreCaseDataDefinitions()
-    }
-
-  after('contractTest:preview') {
-    dir("${WORKSPACE}") {
-      steps.archiveArtifacts artifacts: "pacts/*.json"
-    }
-  }
-  after('contractTest:aat') {
-    dir("${WORKSPACE}") {
-      steps.archiveArtifacts artifacts: "pacts/*.json"
-    }
-  }
-
-
-  onPR() {
-      enablePactAs([AppPipelineDsl.PactRoles.CONSUMER])
-    }
-
-  onMaster() {
-      enablePactAs([AppPipelineDsl.PactRoles.CONSUMER])
     }
 }
 
