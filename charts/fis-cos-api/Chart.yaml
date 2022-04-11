@@ -10,3 +10,8 @@ dependencies:
   - name: java
     version: 3.7.6
     repository: '@hmctspublic'
+  - name: ccd
+    version: 6.0.0
+    repository: '@hmctspublic'
+    tags:
+        - ccd-idam-pr
