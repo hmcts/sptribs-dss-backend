@@ -9,8 +9,8 @@ import uk.gov.hmcts.befta.dse.ccd.DataLoaderToDefinitionStore;
 import java.util.List;
 import java.util.Locale;
 
-import static uk.gov.hmcts.reform.cosapi.edgecase.constants.CaseType.A_58;
-import static uk.gov.hmcts.reform.cosapi.edgecase.constants.CaseType.A_60;
+import static uk.gov.hmcts.reform.cosapi.edgecase.constants.CaseType.A_100;
+import static uk.gov.hmcts.reform.cosapi.edgecase.constants.CaseType.A_200;
 
 public class HighLevelDataSetupApp extends DataLoaderToDefinitionStore {
 
@@ -67,8 +67,8 @@ public class HighLevelDataSetupApp extends DataLoaderToDefinitionStore {
     protected List<String> getAllDefinitionFilesToLoadAt(String definitionsPath) {
         String environmentName = environment.name().toLowerCase(Locale.UK);
         return List.of(
-            "build/ccd-config/ccd-" + A_58.toString() + "-" + environmentName + ".xlsx",
-            "build/ccd-config/ccd-" + A_60.toString()  + "-" + environmentName + ".xlsx"
+            "build/ccd-config/ccd-" + A_100.toString() + "-" + environmentName + ".xlsx",
+            "build/ccd-config/ccd-" + A_200.toString()  + "-" + environmentName + ".xlsx"
         );
     }
 }
