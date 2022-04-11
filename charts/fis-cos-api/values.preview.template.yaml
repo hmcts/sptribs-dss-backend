@@ -7,7 +7,7 @@ java:
   environment:
     CASE_DATA_STORE_BASEURL: http://ccd-data-store-api-fis-cos-api-pr-${CHANGE_ID}.service.core-compute-preview.internal
     CITIZEN_UPDATE_CASE_STATE_ENABLED: true
-    APP_INSIGHTS_KEY: 273cc8cd-c511-49ae-9988-9debe01d54d5
+    APP_INSIGHTS_KEY: 40c4ab72-faeb-4a79-b7ef-554038d0542f
 
   keyVaults:
     fis:

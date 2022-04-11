@@ -3,4 +3,4 @@ java:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   environment:
-    APP_INSIGHTS_KEY: 273cc8cd-c511-49ae-9988-9debe01d54d5
+    APP_INSIGHTS_KEY: 40c4ab72-faeb-4a79-b7ef-554038d0542f
