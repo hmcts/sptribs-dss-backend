@@ -207,6 +207,7 @@ def sonarExclusions = [
   '**/uk/gov/hmcts/reform/cosapi/edgecase/model/**',
   '**/uk/gov/hmcts/reform/cosapi/edgecase/task/**',
   '**/uk/gov/hmcts/reform/cosapi/edgecase/constants/**',
+  '**/uk/gov/hmcts/reform/cosapi/edgecase/event/**',
   '**/uk/gov/hmcts/reform/cosapi/document/model/**',
   '**/uk/gov/hmcts/reform/cosapi/document/**',
   '**/uk/gov/hmcts/reform/cosapi/common/ccd/**',
