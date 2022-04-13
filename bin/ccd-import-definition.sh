@@ -20,7 +20,7 @@ echo "ccd-import-definition.sh => got the serviceToken => "
 [ -z "$serviceToken" ] && >&2 echo "No service token" && exit
 [ -z "$userToken" ] && >&2 echo "No user token" && exit
 
-echo "ccd-import-definition.sh => DEFINITION_STORE_URL_BASE => "+DEFINITION_STORE_URL_BASE
+echo "ccd-import-definition.sh => DEFINITION_STORE_URL_BASE => "+${DEFINITION_STORE_URL_BASE}
 uploadResponse=$(curl --insecure --silent -w "\n%{http_code}" --show-error -X POST \
   ${DEFINITION_STORE_URL_BASE:-http://localhost:4451}/import \
   -H "Authorization: Bearer ${userToken}" \

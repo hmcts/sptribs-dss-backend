@@ -18,7 +18,7 @@ echo "add-ccd-role.sh got the serviceToken......"
 #echo "add-ccd-role.sh--${DEFINITION_IMPORTER_USERNAME}--${DEFINITION_IMPORTER_USERNAME:-ccd.docker.default@hmcts.net} ${DEFINITION_IMPORTER_PASSWORD:-Password12!} userToken: ${userToken} serviceToken: ${serviceToken}\n\n"
 
 echo "Creating CCD role: ${role}"
-echo "add-ccd-role.sh before call to curl command......"+DEFINITION_STORE_URL_BASE
+echo "add-ccd-role.sh before call to curl command......"+${DEFINITION_STORE_URL_BASE}
 
 curl --insecure --fail --show-error --silent --output /dev/null -X PUT \
   ${DEFINITION_STORE_URL_BASE:-http://localhost:4451}/api/user-role \
