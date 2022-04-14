@@ -27,3 +27,5 @@ else
 fi
 
 curl --insecure --fail --show-error --silent -X POST -H "Content-Type: application/x-www-form-urlencoded" --user "${CLIENT_ID}:${clientSecret}" "${IDAM_URL}/oauth2/token?code=${code}&redirect_uri=${redirectUri}&grant_type=authorization_code" -d "" | docker run --rm --interactive stedolan/jq -r .access_token
+
+echo "CODE--->" + ${code} + "CLIENT_ID--->" + ${CLIENT_ID} + "CLIENT SECRET--->" + ${clientSecret} + "IDAM URL--->" + ${IDAM_URL} + "REDIRET URI--->" + ${redirectUri}
