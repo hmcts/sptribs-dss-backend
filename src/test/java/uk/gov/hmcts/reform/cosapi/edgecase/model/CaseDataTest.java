@@ -9,7 +9,7 @@ import org.mockito.MockitoAnnotations;
 import uk.gov.hmcts.ccd.sdk.type.ListValue;
 import uk.gov.hmcts.ccd.sdk.type.YesOrNo;
 import uk.gov.hmcts.reform.cosapi.document.DocumentType;
-import uk.gov.hmcts.reform.cosapi.document.model.Document;
+import uk.gov.hmcts.reform.cosapi.document.model.EdgeCaseDocument;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -26,16 +26,16 @@ class CaseDataTest {
     Application application;
 
     @Mock
-    List<ListValue<Document>> documentsGenerated;
+    List<ListValue<EdgeCaseDocument>> documentsGenerated;
 
     @Mock
-    List<ListValue<Document>> applicantDocumentsUploaded;
+    List<ListValue<EdgeCaseDocument>> applicantDocumentsUploaded;
 
     @Mock
-    List<ListValue<Document>> documentsUploaded;
+    List<ListValue<EdgeCaseDocument>> documentsUploaded;
 
     @Mock
-    Document document;
+    EdgeCaseDocument edgeCaseDocument;
 
     @Mock
     Set<DocumentType> applicantCannotUploadSupportingDocument;

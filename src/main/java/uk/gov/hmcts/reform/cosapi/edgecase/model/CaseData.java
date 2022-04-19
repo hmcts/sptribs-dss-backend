@@ -15,7 +15,7 @@ import uk.gov.hmcts.reform.cosapi.edgecase.model.access.CaseworkerAccess;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.access.CollectionAccess;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.access.DefaultAccess;
 import uk.gov.hmcts.reform.cosapi.document.DocumentType;
-import uk.gov.hmcts.reform.cosapi.document.model.Document;
+import uk.gov.hmcts.reform.cosapi.document.model.EdgeCaseDocument;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class CaseData {
         typeParameterOverride = "Document",
         access = {CollectionAccess.class}
     )
-    private List<ListValue<Document>> documentsGenerated;
+    private List<ListValue<EdgeCaseDocument>> documentsGenerated;
 
     @CCD(
         label = "Applicant uploaded documents",
@@ -73,7 +73,7 @@ public class CaseData {
         typeParameterOverride = "Document",
         access = {DefaultAccess.class}
     )
-    private List<ListValue<Document>> applicantDocumentsUploaded;
+    private List<ListValue<EdgeCaseDocument>> applicantDocumentsUploaded;
 
     @CCD(
         label = "Documents uploaded",
@@ -81,13 +81,13 @@ public class CaseData {
         typeParameterOverride = "Document",
         access = {DefaultAccess.class}
     )
-    private List<ListValue<Document>> documentsUploaded;
+    private List<ListValue<EdgeCaseDocument>> documentsUploaded;
 
     @CCD(
         label = "Upload Document",
         access = {DefaultAccess.class}
     )
-    private Document document;
+    private EdgeCaseDocument edgeCaseDocument;
 
     @CCD(
         label = "Applicant cannot upload supporting documents",
@@ -131,12 +131,12 @@ public class CaseData {
     }
 
     @JsonIgnore
-    public void addToDocumentsGenerated(final ListValue<Document> listValue) {
+    public void addToDocumentsGenerated(final ListValue<EdgeCaseDocument> listValue) {
 
-        final List<ListValue<Document>> documents = getDocumentsGenerated();
+        final List<ListValue<EdgeCaseDocument>> documents = getDocumentsGenerated();
 
         if (isEmpty(documents)) {
-            final List<ListValue<Document>> documentList = new ArrayList<>();
+            final List<ListValue<EdgeCaseDocument>> documentList = new ArrayList<>();
             documentList.add(listValue);
             setDocumentsGenerated(documentList);
         } else {
@@ -144,7 +144,7 @@ public class CaseData {
         }
     }
 
-    public void sortUploadedDocuments(List<ListValue<Document>> previousDocuments) {
+    public void sortUploadedDocuments(List<ListValue<EdgeCaseDocument>> previousDocuments) {
         if (isEmpty(previousDocuments)) {
             return;
         }
@@ -156,7 +156,7 @@ public class CaseData {
 
         //Split the collection into two lists one without id's(newly added documents) and other
         // with id's(existing documents)
-        Map<Boolean, List<ListValue<Document>>> documentsWithoutIds =
+        Map<Boolean, List<ListValue<EdgeCaseDocument>>> documentsWithoutIds =
             this.getDocumentsUploaded()
                 .stream()
                 .collect(Collectors.groupingBy(listValue -> !previousListValueIds.contains(listValue.getId())));
@@ -164,10 +164,10 @@ public class CaseData {
         this.setDocumentsUploaded(sortDocuments(documentsWithoutIds));
     }
 
-    private List<ListValue<Document>> sortDocuments(final Map<Boolean,
-        List<ListValue<Document>>> documentsWithoutIds) {
+    private List<ListValue<EdgeCaseDocument>> sortDocuments(final Map<Boolean,
+        List<ListValue<EdgeCaseDocument>>> documentsWithoutIds) {
 
-        final List<ListValue<Document>> sortedDocuments = new ArrayList<>();
+        final List<ListValue<EdgeCaseDocument>> sortedDocuments = new ArrayList<>();
 
         final var newDocuments = documentsWithoutIds.get(true);
         final var previousDocuments = documentsWithoutIds.get(false);
@@ -185,12 +185,12 @@ public class CaseData {
     }
 
     @JsonIgnore
-    public void addToDocumentsUploaded(final ListValue<Document> listValue) {
+    public void addToDocumentsUploaded(final ListValue<EdgeCaseDocument> listValue) {
 
-        final List<ListValue<Document>> documents = getDocumentsUploaded();
+        final List<ListValue<EdgeCaseDocument>> documents = getDocumentsUploaded();
 
         if (isEmpty(documents)) {
-            final List<ListValue<Document>> documentList = new ArrayList<>();
+            final List<ListValue<EdgeCaseDocument>> documentList = new ArrayList<>();
             documentList.add(listValue);
             setDocumentsUploaded(documentList);
         } else {
