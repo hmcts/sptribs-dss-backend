@@ -12,7 +12,7 @@ dir=$(dirname ${0})
 role=${1}
 userToken=$(${dir}/idam-user-token.sh ${DEFINITION_IMPORTER_USERNAME:-ccd.docker.default@hmcts.net} ${DEFINITION_IMPORTER_PASSWORD:-Password12!})
 serviceToken=$(${dir}/s2s-token.sh ccd_gw)
-echo "add-ccd-role.sh--${DEFINITION_IMPORTER_USERNAME}--${DEFINITION_IMPORTER_USERNAME:-ccd.docker.default@hmcts.net} ${DEFINITION_IMPORTER_PASSWORD:-Password12!} userToken: ${userToken} serviceToken: ${serviceToken}\n\n"
+echo "add-ccd-role.sh---${DEFINITION_IMPORTER_USERNAME}--${DEFINITION_IMPORTER_USERNAME:-ccd.docker.default@hmcts.net} ${DEFINITION_IMPORTER_PASSWORD:-Password12!} userToken: ${userToken} serviceToken: ${serviceToken}\n\n"
 echo "DEFINITION_STORE_URL_BASE:--->" + ${DEFINITION_STORE_URL_BASE}
 echo "Creating CCD role: ${role}"
 curl --insecure --fail --show-error --silent --output /dev/null -X PUT \
