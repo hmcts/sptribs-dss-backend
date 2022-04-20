@@ -2,6 +2,7 @@
 /build/
 !gradle/wrapper/gradle-wrapper.jar
 *.class
+*.jar
 bin/main/application.yaml
 
 ### STS ###
