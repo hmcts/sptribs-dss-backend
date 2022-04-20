@@ -80,6 +80,7 @@
   <suppress>
     <notes>spring-core-5.3.12</notes>
     <cve>CVE-2022-22950</cve>
+    <cve>CVE-2016-1000027</cve>
   </suppress>
   <suppress>
     <notes>spring-expression-5.3.12</notes>
@@ -108,5 +109,9 @@
   <suppress>
     <notes>spring-webmvc-5.3.12</notes>
     <cve>CVE-2014-0054</cve>
+  </suppress>
+  <suppress>
+    <notes>elasticsearch-7.17.0</notes>
+    <cve>CVE-2022-23708</cve>
   </suppress>
 </suppressions>
