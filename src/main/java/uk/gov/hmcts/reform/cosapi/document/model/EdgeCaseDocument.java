@@ -19,7 +19,7 @@ import static uk.gov.hmcts.ccd.sdk.type.FieldType.TextArea;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Document {
+public class EdgeCaseDocument {
 
     @CCD(
         label = "Add content to be emailed",
@@ -66,13 +66,13 @@ public class Document {
 
     //Add handwritten constructor as a workaround for @JsonUnwrapped prefix issue
     @JsonCreator
-    public Document(@JsonProperty("documentEmailContent") String documentEmailContent,
-                    @JsonProperty("documentLink") uk.gov.hmcts.ccd.sdk.type.Document documentLink,
-                    @JsonProperty("documentDateAdded") LocalDate documentDateAdded,
-                    @JsonProperty("documentComment") String documentComment,
-                    @JsonProperty("documentFileName") String documentFileName,
-                    @JsonProperty("documentType") DocumentType documentType,
-                    @JsonProperty("documentFileId") String documentFileId) {
+    public EdgeCaseDocument(@JsonProperty("documentEmailContent") String documentEmailContent,
+                            @JsonProperty("documentLink") uk.gov.hmcts.ccd.sdk.type.Document documentLink,
+                            @JsonProperty("documentDateAdded") LocalDate documentDateAdded,
+                            @JsonProperty("documentComment") String documentComment,
+                            @JsonProperty("documentFileName") String documentFileName,
+                            @JsonProperty("documentType") DocumentType documentType,
+                            @JsonProperty("documentFileId") String documentFileId) {
         this.documentEmailContent = documentEmailContent;
         this.documentLink = documentLink;
         this.documentDateAdded = documentDateAdded;
