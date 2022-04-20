@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi.edgecase.search;
+package uk.gov.hmcts.reform.cosapi.edgecase.search.adoption;
 
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.ccd.sdk.api.CCDConfig;
@@ -15,7 +15,7 @@ import static uk.gov.hmcts.reform.cosapi.edgecase.search.CaseFieldsConstants.APP
 import static uk.gov.hmcts.reform.cosapi.edgecase.search.CaseFieldsConstants.FIRST_NAME;
 
 @Component
-public class SearchInputFields implements CCDConfig<CaseData, State, UserRole> {
+public class AdoptionSearchInputFields implements CCDConfig<CaseData, State, UserRole> {
 
     @Override
     public void configure(final ConfigBuilder<CaseData, State, UserRole> configBuilder) {

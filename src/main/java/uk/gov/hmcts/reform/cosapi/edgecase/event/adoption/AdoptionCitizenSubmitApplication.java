@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi.edgecase.event;
+package uk.gov.hmcts.reform.cosapi.edgecase.event.adoption;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import static uk.gov.hmcts.reform.cosapi.edgecase.model.access.Permissions.READ;
 
 @Slf4j
 @Component
-public class CitizenSubmitApplication implements CCDConfig<CaseData, State, UserRole> {
+public class AdoptionCitizenSubmitApplication implements CCDConfig<CaseData, State, UserRole> {
 
     public static final String CITIZEN_SUBMIT = "citizen-submit-application";
 
