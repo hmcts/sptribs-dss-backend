@@ -11,7 +11,9 @@ import uk.gov.hmcts.reform.cosapi.edgecase.model.State;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole;
 
 import static uk.gov.hmcts.reform.cosapi.edgecase.model.State.AWAITING_PAYMENT;
-import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.*;
+import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.CASE_WORKER;
+import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.CITIZEN;
+import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.SUPER_USER;
 import static uk.gov.hmcts.reform.cosapi.edgecase.model.access.Permissions.CREATE_READ_UPDATE;
 import static uk.gov.hmcts.reform.cosapi.edgecase.model.access.Permissions.READ;
 
@@ -34,8 +36,9 @@ public class PrivateLawCitizenAddPayment implements CCDConfig<PrivateLawCaseData
             .aboutToSubmitCallback(this::aboutToSubmit);
     }
 
-    public AboutToStartOrSubmitResponse<PrivateLawCaseData, State> aboutToSubmit(final CaseDetails<PrivateLawCaseData, State> details,
-                                                               final CaseDetails<PrivateLawCaseData, State> beforeDetails) {
+    public AboutToStartOrSubmitResponse<PrivateLawCaseData, State> aboutToSubmit(
+                                final CaseDetails<PrivateLawCaseData, State> details,
+                                final CaseDetails<PrivateLawCaseData, State> beforeDetails) {
         //TODO logic needs to be updated separately as per edge-case application requirement
         return AboutToStartOrSubmitResponse.<PrivateLawCaseData, State>builder()
             .data(details.getData())

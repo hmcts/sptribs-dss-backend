@@ -7,7 +7,9 @@ import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.State;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole;
 
-import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.*;
+import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.CITIZEN;
+import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.CREATOR;
+import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.SUPER_USER;
 import static uk.gov.hmcts.reform.cosapi.edgecase.model.access.Permissions.CREATE_READ_UPDATE;
 import static uk.gov.hmcts.reform.cosapi.edgecase.model.access.Permissions.READ;
 
