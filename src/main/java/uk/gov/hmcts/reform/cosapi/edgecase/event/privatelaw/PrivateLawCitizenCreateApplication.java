@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi.edgecase.event;
+package uk.gov.hmcts.reform.cosapi.edgecase.event.privatelaw;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import static uk.gov.hmcts.reform.cosapi.edgecase.model.access.Permissions.CREAT
 
 @Component
 @Slf4j
-public class CitizenCreateApplication implements CCDConfig<CaseData, State, UserRole> {
+public class PrivateLawCitizenCreateApplication implements CCDConfig<CaseData, State, UserRole> {
 
     public static final String CITIZEN_CREATE = "citizen-create-application";
 

@@ -15,7 +15,7 @@ public class AdoptionEdgeCase implements CCDConfig<CaseData, State, UserRole> {
     @Override
     public void configure(final ConfigBuilder<CaseData, State, UserRole> configBuilder) {
         configBuilder.setCallbackHost(System.getenv().getOrDefault("CASE_API_URL", "http://localhost:4550"));
-        configBuilder.caseType("A58", "New adoption case", "Handling of child adoption case");
+        configBuilder.caseType("A100", "New adoption case", "Handling of child adoption case");
         configBuilder.jurisdiction("ADOPTION", "Family jurisdiction adoption", "Child adoption");
         configBuilder.grant(State.DRAFT, Permissions.CREATE_READ_UPDATE, UserRole.CITIZEN);
     }

@@ -15,7 +15,7 @@ public class PrivateLawEdgeCase implements CCDConfig<PrivateLawCaseData, State, 
     @Override
     public void configure(final ConfigBuilder<PrivateLawCaseData, State, UserRole> configBuilder) {
         configBuilder.setCallbackHost(System.getenv().getOrDefault("CASE_API_URL", "http://localhost:4550"));
-        configBuilder.caseType("A60", "New PrivateLaw case", "Handling of child adoption case");
+        configBuilder.caseType("A200", "New PrivateLaw case", "Handling of child adoption case");
         configBuilder.jurisdiction("PRIVATELAW", "Family jurisdiction adoption", "Child adoption");
         configBuilder.grant(State.DRAFT, Permissions.CREATE_READ_UPDATE, UserRole.CITIZEN);
     }
