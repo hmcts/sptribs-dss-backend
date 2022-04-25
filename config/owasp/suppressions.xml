@@ -105,9 +105,21 @@
   <suppress>
     <notes>spring-webmvc-5.3.12</notes>
     <cve>CVE-2022-22950</cve>
+  </suppress>
+  <suppress>
+    <notes>spring-webmvc-5.3.12</notes>
     <cve>CVE-2013-4152</cve>
+  </suppress>
+  <suppress>
+    <notes>spring-webmvc-5.3.12</notes>
     <cve>CVE-2013-7315</cve>
+  </suppress>
+  <suppress>
+    <notes>spring-webmvc-5.3.12</notes>
     <cve>CVE-2014-0054</cve>
+  </suppress>
+  <suppress>
+    <notes>spring-webmvc-5.3.12</notes>
     <cve>CVE-2022-22968</cve>
   </suppress>
   <suppress>
