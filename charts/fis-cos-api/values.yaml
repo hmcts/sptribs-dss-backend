@@ -1,3 +1,13 @@
+nodejs:
+  applicationPort: 3000
+idam-pr:
+  enabled: false
+xui-webapp:
+  enabled: false
+tags:
+  ccd-pr: false
+  ccd-idam-pr: false
+
 java:
   applicationPort: 8099
   image: 'hmctspublic.azurecr.io/fis/cos-api:latest'

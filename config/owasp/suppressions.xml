@@ -64,35 +64,43 @@
   <suppress>
     <notes>spring-aop-5.3.12</notes>
     <cve>CVE-2022-22950</cve>
+    <cve>CVE-2022-22968</cve>
   </suppress>
   <suppress>
     <notes>spring-aspects-5.3.16</notes>
     <cve>CVE-2022-22950</cve>
+    <cve>CVE-2022-22968</cve>
   </suppress>
   <suppress>
     <notes>spring-beans-5.3.12</notes>
     <cve>CVE-2022-22950</cve>
+    <cve>CVE-2022-22968</cve>
   </suppress>
   <suppress>
     <notes>spring-context-5.3.12</notes>
     <cve>CVE-2022-22950</cve>
+    <cve>CVE-2022-22968</cve>
   </suppress>
   <suppress>
     <notes>spring-core-5.3.12</notes>
     <cve>CVE-2022-22950</cve>
     <cve>CVE-2016-1000027</cve>
+    <cve>CVE-2022-22968</cve>
   </suppress>
   <suppress>
     <notes>spring-expression-5.3.12</notes>
     <cve>CVE-2022-22950</cve>
+    <cve>CVE-2022-22968</cve>
   </suppress>
   <suppress>
     <notes>spring-jcl-5.3.12</notes>
     <cve>CVE-2022-22950</cve>
+    <cve>CVE-2022-22968</cve>
   </suppress>
   <suppress>
     <notes>spring-web-5.3.12</notes>
     <cve>CVE-2022-22950</cve>
+    <cve>CVE-2022-22968</cve>
   </suppress>
   <suppress>
     <notes>spring-webmvc-5.3.12</notes>
@@ -111,7 +119,23 @@
     <cve>CVE-2014-0054</cve>
   </suppress>
   <suppress>
+    <notes>spring-webmvc-5.3.12</notes>
+    <cve>CVE-2022-22968</cve>
+  </suppress>
+  <suppress>
     <notes>elasticsearch-7.17.0</notes>
     <cve>CVE-2022-23708</cve>
+  </suppress>
+  <suppress>
+    <notes>spring-plugin-core-2.0.0.RELEASE</notes>
+    <cve>CVE-2022-22968</cve>
+  </suppress>
+  <suppress>
+    <notes>spring-plugin-metadata-2.0.0.RELEASE</notes>
+    <cve>CVE-2022-22968</cve>
+  </suppress>
+  <suppress>
+    <notes>spring-retry-1.3.2</notes>
+    <cve>CVE-2022-22968</cve>
   </suppress>
 </suppressions>
