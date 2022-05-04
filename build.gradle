@@ -303,8 +303,7 @@ def versions = [
   awaitility        : '1.7.0',
   springBoot        : '2.6.5',
   serenityCoreVersion: '3.0.2',
-  ccdCaseDocumentAmClient      : '1.7.3',
-  springCloud: '3.1.1'
+  ccdCaseDocumentAmClient      : '1.7.3'
 ]
 
 ext.libraries = [
@@ -362,7 +361,7 @@ dependencies {
   implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
   implementation group: 'org.apache.poi', name: 'poi', version: '5.2.2'
   implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.2'
-  implementation(group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: versions.springCloud)
+  implementation(group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: versions.springCloudStarterBootstrap)
     {
       exclude group: 'io.reactivex', module: 'io.reactivex'
       exclude group: 'io.reactivex', module: 'rxnetty'
