@@ -23,6 +23,7 @@ import uk.gov.hmcts.reform.idam.client.IdamApi;
 @Slf4j
 public class Application {
     public static void main(final String[] args) {
+        log.info("2022/05/20 - spring application started");
         SpringApplication.run(Application.class, args);
     }
 }
