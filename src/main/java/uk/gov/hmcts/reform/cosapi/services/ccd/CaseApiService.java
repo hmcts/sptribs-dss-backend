@@ -12,6 +12,8 @@ import uk.gov.hmcts.reform.cosapi.constants.CommonConstants;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
 import uk.gov.hmcts.reform.cosapi.services.SystemUserService;
 
+import static java.util.Objects.nonNull;
+
 @Service
 public class CaseApiService {
 
@@ -74,6 +76,6 @@ public class CaseApiService {
                                                                  CommonConstants.CASE_TYPE,
                                                                  eventId);
 
-        return res != null ? res.getToken() : null;
+        return nonNull(res) ? res.getToken() : null;
     }
 }

@@ -18,14 +18,14 @@ import uk.gov.hmcts.reform.cosapi.model.CaseResponse;
 import uk.gov.hmcts.reform.cosapi.services.CaseManagementService;
 
 @RestController
-@RequestMapping(value = "/case/dss-orhestration")
+@RequestMapping("/case/dss-orchestration")
 public class CaseManagementController {
 
     @Autowired
     CaseManagementService caseManagementService;
 
-    @PostMapping(value = "/create")
-    @ApiOperation(value = "Call CCD to create case")
+    @PostMapping("/create")
+    @ApiOperation("Call CCD to create case")
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "created"),
         @ApiResponse(code = 401, message = "Provided Authroization token is missing or invalid"),
@@ -38,8 +38,8 @@ public class CaseManagementController {
         return ResponseEntity.ok(createdCase);
     }
 
-    @PutMapping(value = "/{caseId}/update")
-    @ApiOperation(value = "Call CCD to create case")
+    @PutMapping("/{caseId}/update")
+    @ApiOperation("Call CCD to create case")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "updated"),
         @ApiResponse(code = 401, message = "Provided Authroization token is missing or invalid"),

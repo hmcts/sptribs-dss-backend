@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping(value = "/doc/dss-orhestration")
+@RequestMapping("/doc/dss-orhestration")
 public class DocumentManagementController {
 
-    @PostMapping(value = "/upload")
-    @ApiOperation(value = "Call CDAM to upload document")
+    @PostMapping("/upload")
+    @ApiOperation("Call CDAM to upload document")
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "created"),
         @ApiResponse(code = 401, message = "Provided Authroization token is missing or invalid"),
@@ -30,8 +30,8 @@ public class DocumentManagementController {
         return null;
     }
 
-    @DeleteMapping(value = "/delete")
-    @ApiOperation(value = "Call CDAM to delete document")
+    @DeleteMapping("/delete")
+    @ApiOperation("Call CDAM to delete document")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "updated"),
         @ApiResponse(code = 401, message = "Provided Authroization token is missing or invalid"),

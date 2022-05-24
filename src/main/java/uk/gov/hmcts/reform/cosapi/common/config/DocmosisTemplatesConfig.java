@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.LanguagePreference;
 
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.validation.constraints.NotNull;
 
 @Component
 @ConfigurationProperties(prefix = "docmosis")

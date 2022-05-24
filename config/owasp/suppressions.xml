@@ -9,4 +9,12 @@
         <notes>spring-aop</notes>
         <cve>CVE-2022-29885</cve>
     </suppress>
+    <suppress>
+        <notes>spring-aop</notes>
+        <cve>CVE-2022-22970</cve>
+    </suppress>
+    <suppress>
+        <notes>spring-aop</notes>
+        <cve>CVE-2022-22971</cve>
+    </suppress>
 </suppressions>
