@@ -19,13 +19,11 @@ public class CaseManagementService {
     @Autowired
     CaseApiService caseApiService;
 
-    public CaseResponse createCase(String authorization, String caseDataStr) {
+    public CaseResponse createCase(String authorization, CaseData caseData) {
         try {
             // Validate Case Data (CHECKING CASE TYPE ALONE)
 
-            // Submiiting case to CCD..
-            CaseData caseData =  objectMapper.readValue(caseDataStr, CaseData.class);
-
+            // Submiiting case to CCD.
             CaseDetails caseDetails = caseApiService.createCase(authorization, caseData);
             return CaseResponse.builder().caseData(caseDetails.getData())
                 .id(caseDetails.getId()).status("Success").build();
@@ -37,18 +35,14 @@ public class CaseManagementService {
         return null;
     }
 
-    public CaseResponse updateCase(String authorization, String caseDataStr, Long caseId) {
+    public CaseResponse updateCase(String authorization, CaseData caseData, Long caseId) {
         try {
             // Validate Case Data (CHECKING CASE TYPE ALONE)
 
             // Submiiting case to CCD..
-            CaseData caseData =  objectMapper.readValue(caseDataStr, CaseData.class);
-
-            CaseDetails caseDetails = caseApiService.createCase(authorization, caseData);
+            CaseDetails caseDetails = caseApiService.updateCase(authorization, caseId, caseData);
             return CaseResponse.builder().caseData(caseDetails.getData())
                 .id(caseDetails.getId()).status("Success").build();
-
-
         } catch (Exception e) {
             log.error("Error while creating case." + e.getMessage());
         }

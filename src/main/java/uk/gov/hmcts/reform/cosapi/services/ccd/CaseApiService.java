@@ -39,7 +39,7 @@ public class CaseApiService {
         );
     }
 
-    public CaseDetails updateCase(String authorization, String caseId,
+    public CaseDetails updateCase(String authorization, Long caseId,
                                   CaseData caseData) {
 
         String userId = systemUserService.getUserId(authorization);
@@ -50,7 +50,7 @@ public class CaseApiService {
             userId,
             CommonConstants.JURISDICTION,
             CommonConstants.CASE_TYPE,
-            caseId,
+            String.valueOf(caseId),
             false,
             getCaseDataContent(authorization, caseData, userId, CommonConstants.UPDATE_CASE_EVENT_ID)
         );

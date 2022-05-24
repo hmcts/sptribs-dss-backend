@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
 import uk.gov.hmcts.reform.cosapi.model.CaseResponse;
 import uk.gov.hmcts.reform.cosapi.services.CaseManagementService;
 
@@ -31,7 +32,7 @@ public class CaseManagementController {
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<?> createCase(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorisation,
-                                        @RequestBody final String caseData) {
+                                        @RequestBody final CaseData caseData) {
 
         CaseResponse createdCase = caseManagementService.createCase(authorisation, caseData);
         return ResponseEntity.ok(createdCase);
@@ -48,7 +49,7 @@ public class CaseManagementController {
     })
     public ResponseEntity<?> updateCase(@PathVariable final Long caseId,
                                         @RequestHeader(HttpHeaders.AUTHORIZATION) String authorisation,
-                                        @RequestBody final String caseData) {
+                                        @RequestBody final CaseData caseData) {
 
         CaseResponse updatedCase = caseManagementService.updateCase(authorisation, caseData, caseId);
         return ResponseEntity.ok(updatedCase);
