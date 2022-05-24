@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import uk.gov.hmcts.ccd.sdk.api.CCD;
 import uk.gov.hmcts.ccd.sdk.type.ListValue;
 import uk.gov.hmcts.ccd.sdk.type.YesOrNo;
+import uk.gov.hmcts.reform.cosapi.common.MappableObject;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.access.CaseworkerAccess;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.access.CollectionAccess;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.access.DefaultAccess;
@@ -34,7 +35,7 @@ import static uk.gov.hmcts.ccd.sdk.type.FieldType.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class CaseData {
+public class CaseData implements MappableObject {
 
     @JsonUnwrapped(prefix = "applicant")
     @Builder.Default
@@ -46,6 +47,12 @@ public class CaseData {
         access = {CaseworkerAccess.class}
     )
     private String hyphenatedCaseRef;
+
+    @CCD(
+        label = "caseTypeOfApplication",
+        access = {CaseworkerAccess.class}
+    )
+    private String caseTypeOfApplication;
 
     @CCD(
         label = "Due Date",
