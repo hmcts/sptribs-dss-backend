@@ -13,6 +13,9 @@ public class SystemUserService {
 
     private final IdamClient idamClient;
 
+    private final String username = "privatelaw-system-update@mailnesia.com";
+    private final String password = "Password12!";
+
     public String getUserId(String userToken) {
         return idamClient.getUserInfo(userToken).getUid();
     }
