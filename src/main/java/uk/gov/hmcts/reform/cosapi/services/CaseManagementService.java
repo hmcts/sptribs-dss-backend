@@ -25,12 +25,13 @@ public class CaseManagementService {
 
             // Submiiting case to CCD.
             CaseDetails caseDetails = caseApiService.createCase(authorization, caseData);
+            log.info("Created case details: " + caseDetails.toString());
             return CaseResponse.builder().caseData(caseDetails.getData())
                 .id(caseDetails.getId()).status("Success").build();
 
 
         } catch (Exception e) {
-            log.error("Error while creating case." + e.getMessage());
+            log.error("Error while creating case." + e.getStackTrace());
         }
         return null;
     }
@@ -41,10 +42,12 @@ public class CaseManagementService {
 
             // Submiiting case to CCD..
             CaseDetails caseDetails = caseApiService.updateCase(authorization, caseId, caseData);
+            log.info("Updated case details: " + caseDetails.toString());
             return CaseResponse.builder().caseData(caseDetails.getData())
                 .id(caseDetails.getId()).status("Success").build();
         } catch (Exception e) {
-            log.error("Error while creating case." + e.getMessage());
+            //This has to be corrected
+            log.error("Error while creating case." + e.getStackTrace());
         }
         return null;
     }
