@@ -74,7 +74,7 @@ public class CaseApiService {
                                                String caseId) {
         return CaseDataContent.builder()
                 .data(caseData)
-                .event(Event.builder().id(CommonConstants.CREATE_CASE_EVENT_ID).build())
+                .event(Event.builder().id(CommonConstants.UPDATE_CASE_EVENT_ID).build())
                 .eventToken(getEventTokenForUpdate(authorization, userId, CommonConstants.UPDATE_CASE_EVENT_ID, caseId))
                 .build();
     }
