@@ -31,7 +31,7 @@ public class CaseManagementService {
 
 
         } catch (Exception e) {
-            log.error("Error while creating case." + e.getStackTrace());
+            log.error("Error while creating case." + e);
         }
         return null;
     }
@@ -47,7 +47,7 @@ public class CaseManagementService {
                 .id(caseDetails.getId()).status("Success").build();
         } catch (Exception e) {
             //This has to be corrected
-            log.error("Error while creating case." + e.getStackTrace());
+            log.error("Error while updating case." + e);
         }
         return null;
     }
