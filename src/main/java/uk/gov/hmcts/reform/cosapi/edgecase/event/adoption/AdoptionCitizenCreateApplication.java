@@ -49,7 +49,7 @@ public class AdoptionCitizenCreateApplication implements CCDConfig<CaseData, Sta
         log.info("Citizen create edge case application about to submit callback invoked");
 
         CaseData data = details.getData();
-        data.setHyphenatedCaseRef(data.formatCaseRef(details.getId()));
+
 
         return AboutToStartOrSubmitResponse.<CaseData, State>builder()
             .data(data)

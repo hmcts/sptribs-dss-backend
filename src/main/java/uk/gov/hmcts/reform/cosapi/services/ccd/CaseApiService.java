@@ -36,7 +36,7 @@ public class CaseApiService {
             userId,
             CommonConstants.JURISDICTION,
             CommonConstants.CASE_TYPE,
-            false,
+            true,
             getCaseDataContent(authorization, caseData, userId, CommonConstants.CREATE_CASE_EVENT_ID)
         );
     }
@@ -53,7 +53,7 @@ public class CaseApiService {
             CommonConstants.JURISDICTION,
             CommonConstants.CASE_TYPE,
             String.valueOf(caseId),
-            false,
+            true,
             getCaseDataContent(authorization, caseData, userId, CommonConstants.UPDATE_CASE_EVENT_ID)
         );
     }
