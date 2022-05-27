@@ -30,8 +30,8 @@ public class DocumentManagementService {
 
     public DocumentResponse deleteDocument(String authorization, String documentId) {
         try {
-           caseDocumentApiService.deleteDocument(authorization, documentId);
-            log.info("document deleted successfully.." );
+            caseDocumentApiService.deleteDocument(authorization, documentId);
+            log.info("document deleted successfully..");
             return DocumentResponse.builder().status("Success").document(null).build();
 
         } catch (Exception e) {

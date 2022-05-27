@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
 import uk.gov.hmcts.reform.cosapi.exception.CaseCreateOrUpdateException;
-import uk.gov.hmcts.reform.cosapi.exception.DocuementUploadOrDeleteException;
 import uk.gov.hmcts.reform.cosapi.model.CaseResponse;
 import uk.gov.hmcts.reform.cosapi.services.ccd.CaseApiService;
 
