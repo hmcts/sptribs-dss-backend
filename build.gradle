@@ -465,7 +465,7 @@ bootRun {
       systemProperty 'IDAM_API_BASEURL', 'https://idam-api.aat.platform.hmcts.net'
       // TODO: Uncomment if required later
       //systemProperty 'UK_GOV_NOTIFY_API_KEY', getVaultSecret('uk-gov-notify-api-key')
-      systemProperty 'S2S_SECRET', getVaultSecret('s2s-secret')
+      systemProperty 'S2S_SECRET', getVaultSecret('s2s-secret-fis-cos-api')
       //systemProperty 'IDAM_CASEWORKER_USERNAME', getVaultSecret('idam-caseworker-username')
       //systemProperty 'IDAM_CASEWORKER_PASSWORD', getVaultSecret('idam-caseworker-password')
       systemProperty 'IDAM_SYSTEM_UPDATE_USERNAME', getVaultSecret('idam-system-user-name')
@@ -500,7 +500,7 @@ functional {
 
       systemProperty 'IDAM_API_BASEURL', 'https://idam-api.aat.platform.hmcts.net'
       systemProperty 'UK_GOV_NOTIFY_API_KEY', getVaultSecret('uk-gov-notify-api-key')
-      systemProperty 'S2S_SECRET', getVaultSecret('s2s-secret')
+      systemProperty 'S2S_SECRET', getVaultSecret('s2s-secret-fis-cos-api')
       //systemProperty 'IDAM_CASEWORKER_USERNAME', getVaultSecret('idam-caseworker-username')
       //systemProperty 'IDAM_CASEWORKER_PASSWORD', getVaultSecret('idam-caseworker-password')
       systemProperty 'IDAM_SYSTEM_UPDATE_USERNAME', getVaultSecret('idam-system-user-name')
