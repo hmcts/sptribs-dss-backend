@@ -33,6 +33,6 @@ java:
           alias: IDAM_SYSTEM_UPDATE_USERNAME
         - name: idam-system-user-password
           alias: IDAM_SYSTEM_UPDATE_PASSWORD
-        - name: s2s-secret-fis-cos-api
+        - name: s2s-secret
           alias: S2S_SECRET
         - name: AppInsightsInstrumentationKey
