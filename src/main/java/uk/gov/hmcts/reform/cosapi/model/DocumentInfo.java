@@ -7,8 +7,7 @@ import lombok.Data;
 @Builder
 public class DocumentInfo {
     private String url;
-    private String mimeType;
-    private String createdOn;
-    private String hashToken;
+    private String fileName;
+    private String documentId;
     private String binaryUrl;
 }

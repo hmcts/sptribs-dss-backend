@@ -8,5 +8,4 @@ import lombok.Data;
 public class DocumentResponse {
     private String status;
     private DocumentInfo document;
-
 }

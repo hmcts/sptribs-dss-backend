@@ -32,24 +32,25 @@ public class DocumentManagementController {
     )
     @ApiOperation("Call CDAM to upload document")
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "created"),
+        @ApiResponse(code = 200, message = "Uploaded Successfully"),
+        @ApiResponse(code = 400, message = "Bad Request while uploading the document"),
         @ApiResponse(code = 401, message = "Provided Authroization token is missing or invalid"),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<?> uploadDocument(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorisation,
                                         @RequestParam("file") MultipartFile file) {
 
-        return ResponseEntity.ok(documentManagementService.storeDocument(authorisation, file));
+        return ResponseEntity.ok(documentManagementService.uploadDocument(authorisation, file));
     }
 
     @DeleteMapping("/{documentId}/delete")
     @ApiOperation("Call CDAM to delete document")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "updated"),
+        @ApiResponse(code = 200, message = "Deleted document successfully"),
+        @ApiResponse(code = 400, message = "Bad Request while deleting the document"),
         @ApiResponse(code = 401, message = "Provided Authroization token is missing or invalid"),
-        @ApiResponse(code = 500, message = "Internal Server Error"),
-        @ApiResponse(code = 404, message = "Case Not found")
-
+        @ApiResponse(code = 404, message = "Document Not found"),
+        @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<?> deleteDocument(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorisation,
                                         @PathVariable("documentId") String documentId) {

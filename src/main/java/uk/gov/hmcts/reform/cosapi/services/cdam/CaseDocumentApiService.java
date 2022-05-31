@@ -22,7 +22,7 @@ public class CaseDocumentApiService {
     @Autowired
     CaseDocumentClient caseDocumentClient;
 
-    public DocumentInfo storeDocument(String authorizationToken, MultipartFile file) {
+    public DocumentInfo uploadDocument(String authorizationToken, MultipartFile file) {
 
         String serviceAuthToken = authTokenGenerator.generate();
 
@@ -36,11 +36,13 @@ public class CaseDocumentApiService {
 
         Document uploadedDocument = uploadResponse.getDocuments().get(0);
 
+        String[] split = uploadedDocument.links.self.href.split("/");
+
         return DocumentInfo.builder()
             .url(uploadedDocument.links.self.href)
-            .mimeType(uploadedDocument.mimeType)
-            .hashToken(uploadedDocument.hashToken)
             .binaryUrl(uploadedDocument.links.binary.href)
+            .fileName(uploadedDocument.originalDocumentName)
+            .documentId(split[split.length - 1])
             .build();
     }
 
