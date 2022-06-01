@@ -7,15 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import uk.gov.hmcts.ccd.sdk.api.CCD;
-import uk.gov.hmcts.ccd.sdk.type.ListValue;
 import uk.gov.hmcts.reform.cosapi.common.MappableObject;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.access.CaseworkerAccess;
-import uk.gov.hmcts.reform.cosapi.edgecase.model.access.CollectionAccess;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.access.DefaultAccess;
-
-import java.util.List;
-
-import static uk.gov.hmcts.ccd.sdk.type.FieldType.Collection;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
