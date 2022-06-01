@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import uk.gov.hmcts.ccd.sdk.api.CCD;
 import uk.gov.hmcts.reform.cosapi.common.MappableObject;
+import uk.gov.hmcts.reform.cosapi.edgecase.model.access.CaseworkerAccess;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.access.DefaultAccess;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -17,8 +18,22 @@ import uk.gov.hmcts.reform.cosapi.edgecase.model.access.DefaultAccess;
 @Builder(toBuilder = true)
 public class CaseData implements MappableObject {
 
+    @CCD(
+        label = "Named Applicant",
+        access = {DefaultAccess.class}
+    )
+    private String namedApplicant;
+
+    @CCD(
+        label = "caseTypeOfApplication",
+        access = {CaseworkerAccess.class}
+    )
+    private String caseTypeOfApplication;
+
+
     @JsonUnwrapped(prefix = "applicant")
     @Builder.Default
     @CCD(access = {DefaultAccess.class})
     private Applicant applicant = new Applicant();
+
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
+import uk.gov.hmcts.reform.cosapi.exception.CaseCreateOrUpdateException;
 import uk.gov.hmcts.reform.cosapi.model.CaseResponse;
 import uk.gov.hmcts.reform.cosapi.services.ccd.CaseApiService;
 
@@ -32,8 +33,8 @@ public class CaseManagementService {
 
         } catch (Exception e) {
             log.error("Error while creating case." + e);
+            throw new CaseCreateOrUpdateException("Failing while creating the case" + e.getMessage(), e);
         }
-        return null;
     }
 
     public CaseResponse updateCase(String authorization, CaseData caseData, Long caseId) {
@@ -48,7 +49,7 @@ public class CaseManagementService {
         } catch (Exception e) {
             //This has to be corrected
             log.error("Error while updating case." + e);
+            throw new CaseCreateOrUpdateException("Failing while updating the case" + e.getMessage(), e);
         }
-        return null;
     }
 }

@@ -1,0 +1,9 @@
+package uk.gov.hmcts.reform.cosapi.exception;
+
+public class CaseCreateOrUpdateException extends RuntimeException {
+    private static final long serialVersionUID = 7442994120484411079L;
+
+    public CaseCreateOrUpdateException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
