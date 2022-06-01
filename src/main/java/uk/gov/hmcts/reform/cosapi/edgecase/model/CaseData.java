@@ -42,13 +42,4 @@ public class CaseData implements MappableObject {
     @CCD(access = {DefaultAccess.class})
     private Applicant applicant = new Applicant();
 
-    @CCD(
-        label = "Documents generated",
-        typeOverride = Collection,
-        typeParameterOverride = "Document",
-        access = {CollectionAccess.class}
-    )
-    private List<ListValue<Document>> documentsGenerated;
-
-
 }
