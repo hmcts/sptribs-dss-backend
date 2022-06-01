@@ -3,15 +3,21 @@ appVersion: "1.0"
 description: A Helm chart for fis-cos-api App
 name: fis-cos-api
 home: https://github.com/hmcts/fis-cos-api
-version: 0.0.5
+version: 0.0.6
 maintainers:
   - name: HMCTS fis team
 dependencies:
   - name: java
-    version: 3.7.6
-    repository: '@hmctspublic'
+    version: 3.7.7
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
   - name: ccd
-    version: 6.0.0
-    repository: '@hmctspublic'
+    version: 7.1.0
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     tags:
-        - ccd-idam-pr
+      - ccd-idam-pr
+  - name: xui-webapp
+    version: ~0.2.1
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
+    condition: xui-webapp.enabled
+
+
