@@ -6,6 +6,7 @@ public final class CommonConstants {
     public static final String CASE_TYPE = "PRLAPPS";
     public static final String CREATE_CASE_EVENT_ID = "citizen-create-dss-application";
     public static final String UPDATE_CASE_EVENT_ID = "citizen-update-dss-application";
+    public static final String SUBMIT_CASE_EVENT_ID = "citizen-submit-dss-application";
 
     private CommonConstants() {
     }

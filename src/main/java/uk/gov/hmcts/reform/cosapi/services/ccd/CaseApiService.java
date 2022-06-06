@@ -10,6 +10,7 @@ import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.ccd.client.model.Event;
 import uk.gov.hmcts.reform.ccd.client.model.StartEventResponse;
 import uk.gov.hmcts.reform.cosapi.constants.CommonConstants;
+import uk.gov.hmcts.reform.cosapi.edgecase.event.EventEnum;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
 import uk.gov.hmcts.reform.cosapi.services.SystemUserService;
 
@@ -17,6 +18,7 @@ import static java.util.Objects.nonNull;
 
 @Service
 @Slf4j
+@SuppressWarnings("PMD")
 public class CaseApiService {
 
     @Autowired
@@ -43,7 +45,7 @@ public class CaseApiService {
         );
     }
 
-    public CaseDetails updateCase(String authorization, Long caseId,
+    public CaseDetails updateCase(String authorization, EventEnum eventEnum, Long caseId,
                                   CaseData caseData) {
 
         String userId = systemUserService.getUserId(authorization);
@@ -56,8 +58,8 @@ public class CaseApiService {
             CommonConstants.CASE_TYPE,
             String.valueOf(caseId),
             true,
-                getCaseDataContent(authorization, caseData, userId,
-                        String.valueOf(caseId))
+            getCaseDataContent(authorization, caseData, eventEnum, userId,
+                    String.valueOf(caseId))
         );
     }
 
@@ -70,13 +72,20 @@ public class CaseApiService {
             .build();
     }
 
-    private CaseDataContent getCaseDataContent(String authorization, CaseData caseData, String userId,
-                                               String caseId) {
-        return CaseDataContent.builder()
-                .data(caseData)
-                .event(Event.builder().id(CommonConstants.UPDATE_CASE_EVENT_ID).build())
-                .eventToken(getEventTokenForUpdate(authorization, userId, CommonConstants.UPDATE_CASE_EVENT_ID, caseId))
-                .build();
+    private CaseDataContent getCaseDataContent(String authorization, CaseData caseData, EventEnum eventEnum,
+                                               String userId, String caseId) {
+        CaseDataContent.CaseDataContentBuilder builder = CaseDataContent.builder().data(caseData);
+        if (eventEnum.getEventType().equalsIgnoreCase(EventEnum.UPDATE.getEventType())) {
+            builder.event(Event.builder().id(CommonConstants.UPDATE_CASE_EVENT_ID).build())
+                .eventToken(getEventTokenForUpdate(authorization, userId, CommonConstants.UPDATE_CASE_EVENT_ID,
+                                                   caseId));
+        } else if (eventEnum.getEventType().equalsIgnoreCase(EventEnum.SUBMIT.getEventType())) {
+            builder.event(Event.builder().id(CommonConstants.SUBMIT_CASE_EVENT_ID).build())
+                .eventToken(getEventTokenForUpdate(authorization, userId, CommonConstants.SUBMIT_CASE_EVENT_ID,
+                                                   caseId));
+        }
+
+        return builder.build();
     }
 
     public String getEventToken(String authorization, String userId, String eventId) {

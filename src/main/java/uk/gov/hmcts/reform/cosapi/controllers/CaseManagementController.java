@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import uk.gov.hmcts.reform.cosapi.edgecase.event.EventEnum;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
 import uk.gov.hmcts.reform.cosapi.model.CaseResponse;
 import uk.gov.hmcts.reform.cosapi.services.CaseManagementService;
@@ -45,13 +47,13 @@ public class CaseManagementController {
         @ApiResponse(code = 401, message = "Provided Authroization token is missing or invalid"),
         @ApiResponse(code = 500, message = "Internal Server Error"),
         @ApiResponse(code = 404, message = "Case Not found")
-
     })
     public ResponseEntity<?> updateCase(@PathVariable final Long caseId,
                                         @RequestHeader(HttpHeaders.AUTHORIZATION) String authorisation,
+                                        @RequestParam final EventEnum event,
                                         @RequestBody final CaseData caseData) {
 
-        CaseResponse updatedCase = caseManagementService.updateCase(authorisation, caseData, caseId);
+        CaseResponse updatedCase = caseManagementService.updateCase(authorisation, event, caseData, caseId);
         return ResponseEntity.ok(updatedCase);
     }
 }
