@@ -45,7 +45,8 @@ public class AdoptionCitizenCreateApplication implements CCDConfig<CaseData, Sta
     }
 
     public AboutToStartOrSubmitResponse<CaseData, State> aboutToSubmit(final CaseDetails<CaseData, State> details,
-                                                 final CaseDetails<CaseData, State> beforeDetails) {
+                                                                       final CaseDetails<CaseData, State>
+                                                                           beforeDetails) {
         log.info("Citizen create edge case application about to submit callback invoked");
 
         CaseData data = details.getData();
@@ -56,4 +57,3 @@ public class AdoptionCitizenCreateApplication implements CCDConfig<CaseData, Sta
             .build();
     }
 }
-
