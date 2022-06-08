@@ -8,7 +8,7 @@ import uk.gov.hmcts.reform.cosapi.edgecase.model.State;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole;
 
 @Component
-public class AdoptionWorkBasketInputFields implements CCDConfig<CaseData, State, UserRole> {
+public class PrivateLawWorkBasketInputFields implements CCDConfig<CaseData, State, UserRole> {
 
     @Override
     public void configure(final ConfigBuilder<CaseData, State, UserRole> configBuilder) {

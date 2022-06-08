@@ -1,17 +1,17 @@
-package uk.gov.hmcts.reform.cosapi.edgecase.search.privatelaw;
+package uk.gov.hmcts.reform.cosapi.edgecase.search.adoption;
 
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.ccd.sdk.api.CCDConfig;
 import uk.gov.hmcts.ccd.sdk.api.ConfigBuilder;
-import uk.gov.hmcts.reform.cosapi.edgecase.model.PrivateLawCaseData;
+import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.State;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole;
 
 @Component
-public class PrivatelawSearchCasesResultFields implements CCDConfig<PrivateLawCaseData, State, UserRole> {
+public class PrivateLawSearchCasesResultFields implements CCDConfig<CaseData, State, UserRole> {
 
     @Override
-    public void configure(final ConfigBuilder<PrivateLawCaseData, State, UserRole> configBuilder) {
+    public void configure(final ConfigBuilder<CaseData, State, UserRole> configBuilder) {
 
         configBuilder
             .searchCasesFields()
