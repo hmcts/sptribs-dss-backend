@@ -31,7 +31,7 @@ public class Applicant {
         label = "Date of Birth",
         access = {DefaultAccess.class}
     )
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
     @CCD(

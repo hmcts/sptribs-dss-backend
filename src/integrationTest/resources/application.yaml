@@ -1,0 +1,95 @@
+server:
+  port: 8099
+
+management:
+  endpoint:
+    health:
+      show-details: "always"
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: health, info
+
+springdoc:
+  packagesToScan: uk.gov.hmcts.reform.cosapi.controllers
+
+#If you use a database then uncomment below lines and update db properties accordingly
+spring:
+  config:
+    import: "optional:configtree:/mnt/secrets/fis/"
+  application:
+    name: Fis Cos API
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}${DB_OPTIONS:}
+#    username: ${DB_USER_NAME}
+#    password: ${DB_PASSWORD}
+#    properties:
+#      charSet: UTF-8
+#    hikari:
+#      minimumIdle: 2
+#      maximumPoolSize: 10
+#      idleTimeout: 10000
+#      poolName: {to-be-defined}HikariCP
+#      maxLifetime: 7200000
+#      connectionTimeout: 30000
+#  jpa:
+#    properties:
+#      hibernate:
+#        jdbc:
+#          lob:
+#            # silence the 'wall-of-text' - unnecessary exception throw about blob types
+#            non_contextual_creation: true
+
+azure:
+  application-insights:
+    instrumentation-key: ${AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
+
+uk:
+  gov:
+    notify:
+      api:
+        key: ${UK_GOV_NOTIFY_API_KEY:dummy}
+        baseUrl: https://api.notifications.service.gov.uk
+      email:
+        templateVars:
+          signInAdoptionUrl: ${NOTIFY_TEMPLATE_SIGN_IN_ADOPTION_URL:https://adoption-web.aat.platform.hmcts.net/}
+          adoptionCourtEmail: some.email@justice.gov.uk
+        templates:
+          english:
+            TEST_EMAIL: 'b60ab1ad-fe9c-4098-81a5-ad6c976b7de3'
+            SAVE_SIGN_OUT: ''
+            APPLICATION_SUBMITTED: 'b60ab1ad-fe9c-4098-81a5-ad6c976b7de3'
+            APPLICANT_APPLICATION_SUBMITTED: 'a0aa356f-8c6f-437c-b1b9-3c321048001d'
+            LOCAL_COURT_APPLICATION_SUBMITTED: '381cfc64-5016-4fe7-bd88-3ceeb163ce69'
+          welsh:
+            TEST_EMAIL: '75f5d6c5-0af6-437c-afe7-623399c11e7b'
+            SAVE_SIGN_OUT: ''
+            APPLICATION_SUBMITTED: '75f5d6c5-0af6-437c-afe7-623399c11e7b'
+            APPLICANT_APPLICATION_SUBMITTED: 'dd251faa-0c40-4540-80b4-a7edb83a43f0'
+            LOCAL_COURT_APPLICATION_SUBMITTED: '2960d8dd-ab3e-4265-a71d-2d81d0fd84c8'
+
+idam:
+  s2s-auth:
+    url: ${SERVICE_AUTH_PROVIDER_URL:http://localhost:4552}
+    secret: ${S2S_SECRET:AAAAAAAAAAAAAAAA}
+    microservice: fis_cos_api
+  api:
+    url: ${IDAM_API_BASEURL:http://localhost:5000}
+  systemupdate:
+    username: ${IDAM_SYSTEM_UPDATE_USERNAME:dummysystemupdate@test.com}
+    password: ${IDAM_SYSTEM_UPDATE_PASSWORD:dummy}
+
+core_case_data:
+  api:
+    url: ${CASE_DATA_STORE_BASEURL:http://ccd-data-store-api-aat.service.core-compute-aat.internal}
+
+case_document_am:
+  url: ${CCD_CASE_DOCS_AM_API:http://ccd-case-document-am-api-aat.service.core-compute-aat.internal}
+
