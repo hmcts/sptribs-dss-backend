@@ -1,0 +1,15 @@
+{
+  "applicantAddressPostCode": "TW3 1NN",
+  "applicantLastName": "test Last Name",
+  "applicantAddress1": "test address 1",
+  "applicantEmailAddress": "test@test.com",
+  "applicantHomeNumber": "012345678890",
+  "applicantAddressTown": "London",
+  "caseTypeOfApplication": "C100",
+  "applicantFirstName": "Test First Name",
+  "applicantDateOfBirth": "2020-11-09",
+  "applicantAddressCountry": "United Kingdom",
+  "namedApplicant": "Test",
+  "applicantAddress2": "Test Address2",
+  "applicantPhoneNumber": "01234567890"
+}
