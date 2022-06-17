@@ -11,7 +11,7 @@ dependencies:
     version: 3.7.8
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
   - name: ccd
-    version: v8.0.4-alpha-2
+    version: v8.0.4-beta
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     tags:
       - ccd-idam-pr
