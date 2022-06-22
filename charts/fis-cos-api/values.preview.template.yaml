@@ -144,6 +144,10 @@ ccd:
 
 xui-webapp:
   enabled: true
+  redis:
+    architecture: standalone
+    auth:
+      enabled: false
   nodejs:
     imagePullPolicy: Always
     releaseNameOverride: ${SERVICE_NAME}-xui-webapp
