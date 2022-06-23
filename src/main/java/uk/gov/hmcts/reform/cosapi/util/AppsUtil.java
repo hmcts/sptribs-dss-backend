@@ -1,8 +1,11 @@
 package uk.gov.hmcts.reform.cosapi.util;
 
+import lombok.NoArgsConstructor;
 import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
 
+@NoArgsConstructor
+@SuppressWarnings("HideUtilityClassConstructor")
 public class AppsUtil {
 
     public static boolean isValidCaseTypeOfApplication(AppsConfig appsConfig, CaseData caseData) {
@@ -11,7 +14,7 @@ public class AppsUtil {
     }
 
     public static AppsConfig.AppsDetails getExactAppsDetails(AppsConfig appsConfig, CaseData caseData) {
-       return appsConfig.getApps().stream()
+        return appsConfig.getApps().stream()
             .filter(eachApps -> eachApps.getCaseTypeOfApplication().contains(caseData.getCaseTypeOfApplication()))
             .findFirst().get();
     }

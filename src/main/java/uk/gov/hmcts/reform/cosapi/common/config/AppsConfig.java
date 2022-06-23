@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.cosapi.common.config;
 
 import lombok.Data;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,8 +10,10 @@ import java.util.List;
 @Configuration
 @ConfigurationProperties(prefix = "caseinfo")
 @Data
+@NoArgsConstructor
 public class AppsConfig {
-   List<AppsDetails> apps;
+
+    List<AppsDetails> apps;
 
     @Data
     public static class EventsConfig {

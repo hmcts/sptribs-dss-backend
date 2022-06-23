@@ -13,6 +13,7 @@ import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @TestPropertySource("classpath:application.yaml")
+@SuppressWarnings("PMD")
 public class AppsUtilTest {
 
     @Autowired

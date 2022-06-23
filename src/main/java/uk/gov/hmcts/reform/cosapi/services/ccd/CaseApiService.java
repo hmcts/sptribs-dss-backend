@@ -15,8 +15,6 @@ import uk.gov.hmcts.reform.cosapi.edgecase.event.EventEnum;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
 import uk.gov.hmcts.reform.cosapi.services.SystemUserService;
 
-import java.util.Optional;
-
 import static java.util.Objects.nonNull;
 
 @Service

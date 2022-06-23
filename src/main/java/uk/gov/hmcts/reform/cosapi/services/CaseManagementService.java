@@ -25,7 +25,7 @@ public class CaseManagementService {
     public CaseResponse createCase(String authorization, CaseData caseData) {
         try {
             // Validate Case Data (CHECKING CASE TYPE ALONE)
-            if(!AppsUtil.isValidCaseTypeOfApplication(appsConfig, caseData)) {
+            if (!AppsUtil.isValidCaseTypeOfApplication(appsConfig, caseData)) {
                 throw new CaseCreateOrUpdateException("Invalid Case type application. Please check the request.");
             }
 
@@ -46,7 +46,7 @@ public class CaseManagementService {
     public CaseResponse updateCase(String authorization, EventEnum event, CaseData caseData, Long caseId) {
         try {
             // Validate Case Type of application
-            if(!AppsUtil.isValidCaseTypeOfApplication(appsConfig, caseData)) {
+            if (!AppsUtil.isValidCaseTypeOfApplication(appsConfig, caseData)) {
                 throw new CaseCreateOrUpdateException("Invalid Case type application. Please check the request.");
             }
 
