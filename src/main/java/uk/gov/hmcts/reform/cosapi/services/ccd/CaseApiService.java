@@ -9,10 +9,13 @@ import uk.gov.hmcts.reform.ccd.client.model.CaseDataContent;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.ccd.client.model.Event;
 import uk.gov.hmcts.reform.ccd.client.model.StartEventResponse;
+import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
 import uk.gov.hmcts.reform.cosapi.constants.CommonConstants;
 import uk.gov.hmcts.reform.cosapi.edgecase.event.EventEnum;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
 import uk.gov.hmcts.reform.cosapi.services.SystemUserService;
+
+import java.util.Optional;
 
 import static java.util.Objects.nonNull;
 
@@ -30,7 +33,11 @@ public class CaseApiService {
     @Autowired
     SystemUserService systemUserService;
 
-    public CaseDetails createCase(String authorization, CaseData caseData) {
+    @Autowired
+    AppsConfig appsConfig;
+
+    public CaseDetails createCase(String authorization, CaseData caseData,
+                                  AppsConfig.AppsDetails appsDetails) {
 
         String userId = systemUserService.getUserId(authorization);
 
@@ -38,15 +45,15 @@ public class CaseApiService {
             authorization,
             authTokenGenerator.generate(),
             userId,
-            CommonConstants.JURISDICTION,
-            CommonConstants.CASE_TYPE,
+            appsDetails.getJurisdiction(),
+            appsDetails.getCaseType(),
             true,
-            getCaseDataContent(authorization, caseData, userId)
+            getCaseDataContent(authorization, caseData, userId, appsDetails.getEventIds().getCreateEvent())
         );
     }
 
     public CaseDetails updateCase(String authorization, EventEnum eventEnum, Long caseId,
-                                  CaseData caseData) {
+                                  CaseData caseData, AppsConfig.AppsDetails appsDetails) {
 
         String userId = systemUserService.getUserId(authorization);
 
@@ -54,34 +61,34 @@ public class CaseApiService {
             authorization,
             authTokenGenerator.generate(),
             userId,
-            CommonConstants.JURISDICTION,
-            CommonConstants.CASE_TYPE,
+            appsDetails.getJurisdiction(),
+            appsDetails.getCaseType(),
             String.valueOf(caseId),
             true,
             getCaseDataContent(authorization, caseData, eventEnum, userId,
-                    String.valueOf(caseId))
+                    String.valueOf(caseId), appsDetails.getEventIds())
         );
     }
 
 
-    private CaseDataContent getCaseDataContent(String authorization, CaseData caseData, String userId) {
+    private CaseDataContent getCaseDataContent(String authorization, CaseData caseData, String userId, String eventId) {
         return CaseDataContent.builder()
             .data(caseData)
-            .event(Event.builder().id(CommonConstants.CREATE_CASE_EVENT_ID).build())
-            .eventToken(getEventToken(authorization, userId, CommonConstants.CREATE_CASE_EVENT_ID))
+            .event(Event.builder().id(eventId).build())
+            .eventToken(getEventToken(authorization, userId, eventId))
             .build();
     }
 
     private CaseDataContent getCaseDataContent(String authorization, CaseData caseData, EventEnum eventEnum,
-                                               String userId, String caseId) {
+                                               String userId, String caseId, AppsConfig.EventsConfig eventsConfig) {
         CaseDataContent.CaseDataContentBuilder builder = CaseDataContent.builder().data(caseData);
         if (eventEnum.getEventType().equalsIgnoreCase(EventEnum.UPDATE.getEventType())) {
-            builder.event(Event.builder().id(CommonConstants.UPDATE_CASE_EVENT_ID).build())
-                .eventToken(getEventTokenForUpdate(authorization, userId, CommonConstants.UPDATE_CASE_EVENT_ID,
+            builder.event(Event.builder().id(eventsConfig.getUpdateEvent()).build())
+                .eventToken(getEventTokenForUpdate(authorization, userId, eventsConfig.getUpdateEvent(),
                                                    caseId));
         } else if (eventEnum.getEventType().equalsIgnoreCase(EventEnum.SUBMIT.getEventType())) {
-            builder.event(Event.builder().id(CommonConstants.SUBMIT_CASE_EVENT_ID).build())
-                .eventToken(getEventTokenForUpdate(authorization, userId, CommonConstants.SUBMIT_CASE_EVENT_ID,
+            builder.event(Event.builder().id(eventsConfig.getSubmitEvent()).build())
+                .eventToken(getEventTokenForUpdate(authorization, userId, eventsConfig.getSubmitEvent(),
                                                    caseId));
         }
 

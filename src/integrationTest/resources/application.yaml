@@ -93,3 +93,26 @@ core_case_data:
 case_document_am:
   url: ${CCD_CASE_DOCS_AM_API:http://ccd-case-document-am-api-aat.service.core-compute-aat.internal}
 
+caseinfo:
+  apps:
+    - caseType: PRLAPPS
+      jurisdiction: PRIVATELAW
+      eventIds:
+        createEvent: citizen-prl-create-dss-application
+        updateEvent: citizen-prl-update-dss-application
+        submitEvent: citizen-prl-submit-dss-application
+      caseTypeOfApplication:
+        - C100
+        - FL401
+        - FL403
+        - C43
+    - caseType: ADOPTION
+      jurisdiction: ADOPTION
+      eventIds:
+        createEvent: citizen-adop-create-dss-application
+        updateEvent: citizen-adop-update-dss-application
+        submitEvent: citizen-adop-submit-dss-application
+      caseTypeOfApplication:
+        - A58
+        - A100
+        - A200
