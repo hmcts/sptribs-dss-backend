@@ -19,13 +19,9 @@ public class HighLevelDataSetupApp extends DataLoaderToDefinitionStore {
     public static final String PUBLIC = "PUBLIC";
     private static final CcdRoleConfig[] CCD_ROLES_NEEDED_FOR_ADOPTION = {
         new CcdRoleConfig("citizen", PUBLIC),
-        new CcdRoleConfig("caseworker-adoption", PUBLIC),
-        new CcdRoleConfig("caseworker-adoption-caseworker", PUBLIC),
-        new CcdRoleConfig("caseworker-adoption-courtadmin", PUBLIC),
-        new CcdRoleConfig("caseworker-adoption-superuser", PUBLIC),
-        new CcdRoleConfig("caseworker-adoption-la", PUBLIC),
-        new CcdRoleConfig("caseworker-adoption-judge", PUBLIC),
-        new CcdRoleConfig("caseworker-adoption-solicitor", PUBLIC)
+        new CcdRoleConfig("caseworker-privatelaw", PUBLIC),
+        new CcdRoleConfig("caseworker-privatelaw-courtadmin", PUBLIC),
+        new CcdRoleConfig("caseworker-privatelaw-solicitor", PUBLIC)
     };
 
     private final CcdEnvironment environment;
@@ -67,8 +63,7 @@ public class HighLevelDataSetupApp extends DataLoaderToDefinitionStore {
     protected List<String> getAllDefinitionFilesToLoadAt(String definitionsPath) {
         String environmentName = environment.name().toLowerCase(Locale.UK);
         return List.of(
-            "build/ccd-config/ccd-" + A_100.toString() + "-" + environmentName + ".xlsx",
-            "build/ccd-config/ccd-" + A_200.toString()  + "-" + environmentName + ".xlsx"
+            "build/ccd-config/ccd-" + "PRLAPPS" + "-" + environmentName + ".xlsx"
         );
     }
 }

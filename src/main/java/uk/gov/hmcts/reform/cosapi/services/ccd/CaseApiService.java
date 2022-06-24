@@ -31,9 +31,6 @@ public class CaseApiService {
     @Autowired
     SystemUserService systemUserService;
 
-    @Autowired
-    AppsConfig appsConfig;
-
     public CaseDetails createCase(String authorization, CaseData caseData,
                                   AppsConfig.AppsDetails appsDetails) {
 
@@ -67,7 +64,6 @@ public class CaseApiService {
                     String.valueOf(caseId), appsDetails.getEventIds())
         );
     }
-
 
     private CaseDataContent getCaseDataContent(String authorization, CaseData caseData, String userId, String eventId) {
         return CaseDataContent.builder()

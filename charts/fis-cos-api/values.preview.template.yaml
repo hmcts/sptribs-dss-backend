@@ -23,16 +23,6 @@ java:
         - name: idam-system-user-password
           alias: IDAM_SYSTEM_UPDATE_PASSWORD
 
-idam-pr:
-  enabled: true
-  releaseNameOverride: ${SERVICE_NAME}-ccd-idam-pr
-  redirect_uris:
-    CCD Admin:
-      - https://admin-web-${SERVICE_FQDN}/oauth2redirect
-    XUI:
-      - https://xui-${SERVICE_FQDN}/oauth2/callback
-      - http://xui-${SERVICE_FQDN}/oauth2/callback
-
 ccd:
   ccd:
     definitionImporter:
