@@ -4,12 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
 import uk.gov.hmcts.reform.cosapi.exception.DocumentUploadOrDeleteException;
 import uk.gov.hmcts.reform.cosapi.model.DocumentInfo;
 import uk.gov.hmcts.reform.cosapi.model.DocumentResponse;
 import uk.gov.hmcts.reform.cosapi.services.cdam.CaseDocumentApiService;
-import uk.gov.hmcts.reform.cosapi.util.AppsUtil;
 
 @Service
 @Slf4j
@@ -18,13 +16,9 @@ public class DocumentManagementService {
     @Autowired
     CaseDocumentApiService caseDocumentApiService;
 
-    @Autowired
-    AppsConfig appsConfig;
-
-    public DocumentResponse uploadDocument(String authorization, String caseTypeOfApplication, MultipartFile file) {
+    public DocumentResponse uploadDocument(String authorization, MultipartFile file) {
         try {
-            DocumentInfo document = caseDocumentApiService.uploadDocument(authorization, file, AppsUtil
-                .getExactAppsDetails(appsConfig, caseTypeOfApplication));
+            DocumentInfo document = caseDocumentApiService.uploadDocument(authorization, file);
             log.info("Stored Doc Detail: " + document.toString());
             return DocumentResponse.builder().status("Success").document(document).build();
 

@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.cosapi.exception.DocumentUploadOrDeleteException;
 import uk.gov.hmcts.reform.cosapi.model.DocumentInfo;
@@ -21,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_FGM;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_C100_ID;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_C100;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_TEST_AUTHORIZATION;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_URL;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.RESPONSE_STATUS_SUCCESS;
@@ -34,7 +33,6 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@TestPropertySource("classpath:application.yaml")
 @ActiveProfiles("test")
 class DocumentManagementControllerTest {
 
@@ -51,12 +49,12 @@ class DocumentManagementControllerTest {
 
     @Test
     void testC100DocumentControllerFileUpload() throws Exception {
-        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
+        String caseDataJson = loadJson(CASE_DATA_FILE_C100);
 
         DocumentInfo document = DocumentInfo.builder()
-            .documentId(CASE_DATA_FGM_ID)
+            .documentId(CASE_DATA_C100_ID)
             .url(TEST_URL)
-            .fileName(CASE_DATA_FILE_FGM).build();
+            .fileName(CASE_DATA_FILE_C100).build();
 
         DocumentResponse documentResponse = DocumentResponse.builder()
             .status(RESPONSE_STATUS_SUCCESS)
@@ -64,21 +62,16 @@ class DocumentManagementControllerTest {
 
         MockMultipartFile multipartFile = new MockMultipartFile(
             JSON_FILE_TYPE,
-            CASE_DATA_FILE_FGM,
+            CASE_DATA_FILE_C100,
             JSON_CONTENT_TYPE,
             caseDataJson.getBytes()
         );
 
-        when(documentManagementService.uploadDocument(
-            CASE_TEST_AUTHORIZATION,
-            CASE_DATA_FGM_ID,
-            multipartFile
-        )).thenReturn(
+        when(documentManagementService.uploadDocument(CASE_TEST_AUTHORIZATION, multipartFile)).thenReturn(
             documentResponse);
 
         ResponseEntity<?> uploadDocumentResponse = documentManagementController.uploadDocument(
             CASE_TEST_AUTHORIZATION,
-            CASE_DATA_FGM_ID,
             multipartFile
         );
 
@@ -94,9 +87,9 @@ class DocumentManagementControllerTest {
     @Test
     void testDeleteC100DocumentControllerFailedWithException() throws Exception {
         DocumentInfo documentInfo = DocumentInfo.builder()
-            .documentId(CASE_DATA_FGM_ID)
+            .documentId(CASE_DATA_C100_ID)
             .url(TEST_URL)
-            .fileName(CASE_DATA_FILE_FGM).build();
+            .fileName(CASE_DATA_FILE_C100).build();
 
         when(documentManagementService.deleteDocument(
             CASE_TEST_AUTHORIZATION,

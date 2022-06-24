@@ -17,7 +17,7 @@ import uk.gov.hmcts.reform.ccd.document.am.feign.CaseDocumentClient;
 import uk.gov.hmcts.reform.ccd.document.am.model.Classification;
 import uk.gov.hmcts.reform.ccd.document.am.model.Document;
 import uk.gov.hmcts.reform.ccd.document.am.model.UploadResponse;
-import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
+import uk.gov.hmcts.reform.cosapi.constants.CommonConstants;
 import uk.gov.hmcts.reform.cosapi.model.DocumentInfo;
 
 import java.util.ArrayList;
@@ -28,12 +28,10 @@ import java.util.UUID;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
-import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.PRL_CASE_TYPE;
-import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.PRL_JURISDICTION;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_FGM;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_C100;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.JSON_FILE_TYPE;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.JSON_CONTENT_TYPE;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_C100_ID;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_URL;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_AUTHORIZATION_TOKEN;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_TEST_AUTHORIZATION;
@@ -62,11 +60,11 @@ class CaseDocumentApiServiceTest {
 
     @Test
     void testC100UpdateCaseDocumentService() throws Exception {
-        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
+        String caseDataJson = loadJson(CASE_DATA_FILE_C100);
 
         MockMultipartFile multipartFile = new MockMultipartFile(
             JSON_FILE_TYPE,
-            CASE_DATA_FILE_FGM,
+            CASE_DATA_FILE_C100,
             JSON_CONTENT_TYPE,
             caseDataJson.getBytes()
         );
@@ -85,7 +83,7 @@ class CaseDocumentApiServiceTest {
 
         Document document = Document.builder()
             .classification(Classification.RESTRICTED)
-            .originalDocumentName(CASE_DATA_FILE_FGM)
+            .originalDocumentName(CASE_DATA_FILE_C100)
             .hashToken("SomeToken")
             .size(caseDataJson.getBytes().length)
             .mimeType(JSON_CONTENT_TYPE)
@@ -96,36 +94,25 @@ class CaseDocumentApiServiceTest {
         List<Document> documents = new ArrayList<>();
         documents.add(document);
 
-        AppsConfig.AppsDetails appsDetails = new AppsConfig.AppsDetails();
-
-        appsDetails.setJurisdiction(PRL_JURISDICTION);
-        appsDetails.setCaseType(PRL_CASE_TYPE);
-        appsDetails.setJurisdiction(PRL_JURISDICTION);
-        appsDetails.setCaseTypeOfApplication(List.of(CASE_DATA_FGM_ID));
-        AppsConfig.EventsConfig eventsConfig = new AppsConfig.EventsConfig();
-        eventsConfig.setUpdateEvent("citizen-prl-update-dss-application");
-        appsDetails.setEventIds(eventsConfig);
-
         UploadResponse uploadResponse = new UploadResponse(documents);
+
+        DocumentInfo documentInfo = DocumentInfo.builder()
+            .documentId(CASE_DATA_C100_ID)
+            .url(TEST_URL)
+            .fileName(CASE_DATA_FILE_C100).build();
 
         when(caseDocumentClient.uploadDocuments(
             CASE_TEST_AUTHORIZATION,
             TEST_AUTHORIZATION_TOKEN,
-            PRL_CASE_TYPE,
-            PRL_JURISDICTION,
+            CommonConstants.CASE_TYPE,
+            CommonConstants.JURISDICTION,
             multipartFileLst
         )).thenReturn(uploadResponse);
 
         DocumentInfo testUploadResponse = caseDocumentApiService.uploadDocument(
             CASE_TEST_AUTHORIZATION,
-            multipartFile,
-            appsDetails
+            multipartFile
         );
-
-        DocumentInfo documentInfo = DocumentInfo.builder()
-            .documentId(CASE_DATA_FGM_ID)
-            .url(TEST_URL)
-            .fileName(CASE_DATA_FILE_FGM).build();
 
         Assertions.assertEquals(documentInfo.getFileName(), testUploadResponse.getFileName());
         Assertions.assertEquals(document.links.self.href, testUploadResponse.getUrl());
@@ -137,7 +124,9 @@ class CaseDocumentApiServiceTest {
 
         when(authTokenGenerator.generate()).thenReturn(TEST_AUTHORIZATION_TOKEN);
 
-        doNothing().when(caseDocumentClient).deleteDocument(
+
+        doNothing().when(caseDocumentClient)
+            .deleteDocument(
                 CASE_TEST_AUTHORIZATION,
                 TEST_AUTHORIZATION_TOKEN,
                 TEST_CASE_DATA_FILE_UUID,
