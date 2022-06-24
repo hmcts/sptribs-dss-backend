@@ -205,6 +205,8 @@ withPipeline(type, product, component) {
       env.CCD_DEF_NAME = "preview"
       env.DEFINITION_STORE_URL_BASE = "http://ccd-definition-store-fis-cos-api-pr-${CHANGE_ID}.service.core-compute-preview.internal"
       env.CASE_DATA_STORE_BASEURL = "http://ccd-data-store-api-fis-cos-api-pr-${CHANGE_ID}.service.core-compute-preview.internal"
+      env.S2S_URL_BASE = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
+      env.IDAM_API_URL_BASE = "https://idam-api.aat.platform.hmcts.net"
       env.CITIZEN_UPDATE_CASE_STATE_ENABLED=true
 
       setCommonEnvVariables()

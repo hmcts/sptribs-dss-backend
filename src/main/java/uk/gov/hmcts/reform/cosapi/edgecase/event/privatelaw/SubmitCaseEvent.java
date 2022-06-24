@@ -12,9 +12,7 @@ import uk.gov.hmcts.reform.cosapi.edgecase.model.State;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole;
 
 import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.CITIZEN;
-import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.SUPER_USER;
 import static uk.gov.hmcts.reform.cosapi.edgecase.model.access.Permissions.CREATE_READ_UPDATE;
-import static uk.gov.hmcts.reform.cosapi.edgecase.model.access.Permissions.READ;
 
 @Component
 @Slf4j
@@ -30,7 +28,6 @@ public class SubmitCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
             .description("The applicant confirms SOT")
             .retries(120, 120)
             .grant(CREATE_READ_UPDATE, CITIZEN)
-            .grant(READ, SUPER_USER)
             .aboutToSubmitCallback(this::aboutToSubmit);
     }
 

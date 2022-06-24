@@ -20,4 +20,4 @@ clientSecret=${OAUTH2_CLIENT_SECRET}
 redirectUri=http://localhost:3000/receiver
 #redirectUri=http://localhost:3000/oauth2/callback
 
-curl --insecure --fail --show-error --silent -X POST -H "Content-Type: application/x-www-form-urlencoded" "accept: application/json" "${IDAM_API_URL}/o/token?username=${username}&password=${password}&scope=openid%20profile%20roles&client_id=${client_id}&client_secret=${clientSecret}&redirect_uri=${redirectUri}&grant_type=password" -d "" | docker run --rm --interactive stedolan/jq -r .access_token
+curl --location --request POST "${IDAM_API_URL}/o/token?username=${username}&password=${password}&scope=openid%20profile%20roles&client_id=${client_id}&client_secret=${clientSecret}&redirect_uri=${redirectUri}&grant_type=password" --header 'accept: application/json' --header 'Content-Type: application/x-www-form-urlencoded'  | docker run --rm --interactive stedolan/jq -r .access_token

@@ -11,9 +11,7 @@ import uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole;
 
 import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.CITIZEN;
 import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.CREATOR;
-import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.SUPER_USER;
 import static uk.gov.hmcts.reform.cosapi.edgecase.model.access.Permissions.CREATE_READ_UPDATE;
-import static uk.gov.hmcts.reform.cosapi.edgecase.model.access.Permissions.READ;
 
 @Component
 @Slf4j
@@ -28,8 +26,7 @@ public class UpdateCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
             .description("Edge case application update")
             .retries(120, 120)
             .grant(CREATE_READ_UPDATE, CITIZEN)
-            .grant(CREATE_READ_UPDATE, CREATOR)
-            .grant(READ, SUPER_USER);
+            .grant(CREATE_READ_UPDATE, CREATOR);
     }
 
 }
