@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import uk.gov.hmcts.reform.cosapi.exception.DocuementUploadOrDeleteException;
+import uk.gov.hmcts.reform.cosapi.exception.DocumentUploadOrDeleteException;
 import uk.gov.hmcts.reform.cosapi.model.DocumentInfo;
 import uk.gov.hmcts.reform.cosapi.model.DocumentResponse;
 import uk.gov.hmcts.reform.cosapi.services.cdam.CaseDocumentApiService;
@@ -24,7 +24,7 @@ public class DocumentManagementService {
 
         } catch (Exception e) {
             log.error("Error while uploading document ." + e.getMessage());
-            throw new DocuementUploadOrDeleteException("Failing while uploading the document. The error message is "
+            throw new DocumentUploadOrDeleteException("Failing while uploading the document. The error message is "
                                                            + e.getMessage(), e);
         }
     }
@@ -37,7 +37,7 @@ public class DocumentManagementService {
 
         } catch (Exception e) {
             log.error("Error while deleting  document ." + e.getMessage());
-            throw new DocuementUploadOrDeleteException("Failing while deleting the document. The error message is "
+            throw new DocumentUploadOrDeleteException("Failing while deleting the document. The error message is "
                                                            + e.getMessage(), e);
         }
     }
