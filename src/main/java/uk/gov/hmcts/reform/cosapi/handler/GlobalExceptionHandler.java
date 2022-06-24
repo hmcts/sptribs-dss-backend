@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 import uk.gov.hmcts.reform.cosapi.exception.CaseCreateOrUpdateException;
-import uk.gov.hmcts.reform.cosapi.exception.DocuementUploadOrDeleteException;
+import uk.gov.hmcts.reform.cosapi.exception.DocumentUploadOrDeleteException;
 
 @ControllerAdvice
 @Slf4j
@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().build();
     }
 
-    @ExceptionHandler({DocuementUploadOrDeleteException.class})
+    @ExceptionHandler({DocumentUploadOrDeleteException.class})
     public ResponseEntity<Object> handleDocumentException(Exception exception) {
         log.error(exception.getMessage(), exception);
 
