@@ -25,55 +25,10 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
-#  datasource:
-#    driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}${DB_OPTIONS:}
-#    username: ${DB_USER_NAME}
-#    password: ${DB_PASSWORD}
-#    properties:
-#      charSet: UTF-8
-#    hikari:
-#      minimumIdle: 2
-#      maximumPoolSize: 10
-#      idleTimeout: 10000
-#      poolName: {to-be-defined}HikariCP
-#      maxLifetime: 7200000
-#      connectionTimeout: 30000
-#  jpa:
-#    properties:
-#      hibernate:
-#        jdbc:
-#          lob:
-#            # silence the 'wall-of-text' - unnecessary exception throw about blob types
-#            non_contextual_creation: true
 
 azure:
   application-insights:
     instrumentation-key: ${AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
-
-uk:
-  gov:
-    notify:
-      api:
-        key: ${UK_GOV_NOTIFY_API_KEY:dummy}
-        baseUrl: https://api.notifications.service.gov.uk
-      email:
-        templateVars:
-          signInAdoptionUrl: ${NOTIFY_TEMPLATE_SIGN_IN_ADOPTION_URL:https://adoption-web.aat.platform.hmcts.net/}
-          adoptionCourtEmail: some.email@justice.gov.uk
-        templates:
-          english:
-            TEST_EMAIL: 'b60ab1ad-fe9c-4098-81a5-ad6c976b7de3'
-            SAVE_SIGN_OUT: ''
-            APPLICATION_SUBMITTED: 'b60ab1ad-fe9c-4098-81a5-ad6c976b7de3'
-            APPLICANT_APPLICATION_SUBMITTED: 'a0aa356f-8c6f-437c-b1b9-3c321048001d'
-            LOCAL_COURT_APPLICATION_SUBMITTED: '381cfc64-5016-4fe7-bd88-3ceeb163ce69'
-          welsh:
-            TEST_EMAIL: '75f5d6c5-0af6-437c-afe7-623399c11e7b'
-            SAVE_SIGN_OUT: ''
-            APPLICATION_SUBMITTED: '75f5d6c5-0af6-437c-afe7-623399c11e7b'
-            APPLICANT_APPLICATION_SUBMITTED: 'dd251faa-0c40-4540-80b4-a7edb83a43f0'
-            LOCAL_COURT_APPLICATION_SUBMITTED: '2960d8dd-ab3e-4265-a71d-2d81d0fd84c8'
 
 idam:
   s2s-auth:
