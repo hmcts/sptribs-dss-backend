@@ -8,7 +8,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import uk.gov.hmcts.ccd.sdk.api.CCD;
+import uk.gov.hmcts.ccd.sdk.type.YesOrNo;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.access.DefaultAccess;
+import uk.gov.hmcts.reform.cosapi.model.ContactPreference;
 
 import java.time.LocalDate;
 
@@ -33,6 +35,12 @@ public class Applicant {
     )
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
+
+    @CCD(
+            label = "Contact Preference",
+            access = {DefaultAccess.class}
+    )
+    private ContactPreference contactPreference;
 
     @CCD(
         label = "Email address",
@@ -60,5 +68,11 @@ public class Applicant {
 
     @CCD(label = "Post code")
     private String addressPostCode;
+
+    @CCD(
+            label = "Statement Of Truth",
+            access = {DefaultAccess.class}
+    )
+    private YesOrNo statementOfTruth;
 
 }

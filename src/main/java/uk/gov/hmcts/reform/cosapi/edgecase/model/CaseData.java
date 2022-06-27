@@ -7,9 +7,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import uk.gov.hmcts.ccd.sdk.api.CCD;
+import uk.gov.hmcts.ccd.sdk.type.ListValue;
 import uk.gov.hmcts.reform.cosapi.common.MappableObject;
+import uk.gov.hmcts.reform.cosapi.document.model.EdgeCaseDocument;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.access.CaseworkerAccess;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.access.DefaultAccess;
+
+import java.util.List;
+
+import static uk.gov.hmcts.ccd.sdk.type.FieldType.Collection;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
@@ -35,5 +41,21 @@ public class CaseData implements MappableObject {
     @Builder.Default
     @CCD(access = {DefaultAccess.class})
     private Applicant applicant = new Applicant();
+
+    @CCD(
+            label = "Applicant application form uploaded documents",
+            typeOverride = Collection,
+            typeParameterOverride = "EdgeCaseDocument",
+            access = {DefaultAccess.class}
+    )
+    private List<ListValue<EdgeCaseDocument>> applicantApplicationFormDocuments;
+
+    @CCD(
+            label = "Applicant additional uploaded documents",
+            typeOverride = Collection,
+            typeParameterOverride = "EdgeCaseDocument",
+            access = {DefaultAccess.class}
+    )
+    private List<ListValue<EdgeCaseDocument>> applicantAdditionalDocuments;
 
 }
