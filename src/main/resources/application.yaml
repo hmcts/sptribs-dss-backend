@@ -81,8 +81,8 @@ uk:
 
 idam:
   s2s-auth:
-    url: ${SERVICE_AUTH_PROVIDER_URL:http://localhost:4552}
-    secret: ${S2S_SECRET:AAAAAAAAAAAAAAAA}
+    url: ${SERVICE_AUTH_PROVIDER_URL:http://rpe-service-auth-provider-aat.service.core-compute-aat.internal}
+    secret: ${S2S_SECRET:XXXXXXXX}
     microservice: fis_cos_api
   api:
     url: ${IDAM_API_BASEURL:http://localhost:5000}
@@ -97,3 +97,26 @@ core_case_data:
 case_document_am:
   url: ${CCD_CASE_DOCS_AM_API:http://ccd-case-document-am-api-aat.service.core-compute-aat.internal}
 
+caseinfo:
+  apps:
+    - caseType: PRLAPPS
+      jurisdiction: PRIVATELAW
+      eventIds:
+        createEvent: citizen-prl-create-dss-application
+        updateEvent: citizen-prl-update-dss-application
+        submitEvent: citizen-prl-submit-dss-application
+      caseTypeOfApplication:
+        - C100
+        - FL401
+        - FL403
+        - C43
+    - caseType: ADOPTION
+      jurisdiction: ADOPTION
+      eventIds:
+        createEvent: citizen-adop-create-dss-application
+        updateEvent: citizen-adop-update-dss-application
+        submitEvent: citizen-adop-submit-dss-application
+      caseTypeOfApplication:
+        - A58
+        - A100
+        - A200

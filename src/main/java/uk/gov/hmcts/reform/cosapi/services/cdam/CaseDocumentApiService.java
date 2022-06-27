@@ -7,7 +7,7 @@ import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.ccd.document.am.feign.CaseDocumentClient;
 import uk.gov.hmcts.reform.ccd.document.am.model.Document;
 import uk.gov.hmcts.reform.ccd.document.am.model.UploadResponse;
-import uk.gov.hmcts.reform.cosapi.constants.CommonConstants;
+import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
 import uk.gov.hmcts.reform.cosapi.model.DocumentInfo;
 
 import java.util.Arrays;
@@ -23,15 +23,16 @@ public class CaseDocumentApiService {
     @Autowired
     CaseDocumentClient caseDocumentClient;
 
-    public DocumentInfo uploadDocument(String authorizationToken, MultipartFile file) {
+    public DocumentInfo uploadDocument(String authorizationToken, MultipartFile file,
+                                       AppsConfig.AppsDetails appsDetails) {
 
         String serviceAuthToken = authTokenGenerator.generate();
 
         UploadResponse uploadResponse = caseDocumentClient.uploadDocuments(
             authorizationToken,
             serviceAuthToken,
-            CommonConstants.CASE_TYPE,
-            CommonConstants.JURISDICTION,
+            appsDetails.getCaseType(),
+            appsDetails.getJurisdiction(),
             Arrays.asList(file)
         );
 

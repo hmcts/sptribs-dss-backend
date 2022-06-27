@@ -38,9 +38,10 @@ public class DocumentManagementController {
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<?> uploadDocument(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorisation,
+                                        @RequestParam("caseTypeOfApplication") String caseTypeOfApplication,
                                         @RequestParam("file") MultipartFile file) {
 
-        return ResponseEntity.ok(documentManagementService.uploadDocument(authorisation, file));
+        return ResponseEntity.ok(documentManagementService.uploadDocument(authorisation, caseTypeOfApplication, file));
     }
 
     @DeleteMapping("/{documentId}/delete")

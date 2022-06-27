@@ -439,7 +439,7 @@ dependencies {
   testImplementation (group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenityCoreVersion)
   testImplementation (group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenityCoreVersion)
   testImplementation (group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenityCoreVersion)
-
+  
   smokeTestCompile sourceSets.main.runtimeClasspath
   smokeTestCompile sourceSets.test.runtimeClasspath
 
@@ -617,6 +617,11 @@ task buildCCDXlsx(type: Exec, dependsOn: generateCCDConfig) {
 
 // Gradle 7.x issue, workaround from: https://github.com/gradle/gradle/issues/17236#issuecomment-894768083
 rootProject.tasks.named("processSmokeTestResources") {
+  duplicatesStrategy = 'include'
+}
+
+// Gradle 7.x issue, workaround from: https://github.com/gradle/gradle/issues/17236#issuecomment-894768083
+rootProject.tasks.named("processIntegrationTestResources") {
   duplicatesStrategy = 'include'
 }
 

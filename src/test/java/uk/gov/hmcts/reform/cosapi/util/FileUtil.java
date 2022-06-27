@@ -1,34 +1,41 @@
 package uk.gov.hmcts.reform.cosapi.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
-import java.io.File;
-import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
-@SuppressWarnings("PMD")
+@SuppressWarnings({"PMD", "HideUtilityClassConstructor"})
 public class FileUtil {
-    private static final ObjectMapper MAPPER = new ObjectMapper();
-
-    static {
-        JavaTimeModule datetime = new JavaTimeModule();
-        datetime.addSerializer(LocalDateSerializer.INSTANCE);
-        MAPPER.registerModule(datetime);
+    public static String loadJson(final String filePath) throws Exception {
+        return new String(loadResource(filePath), Charset.forName("utf-8"));
     }
 
-    private FileUtil() {
+    public static byte[] loadResource(final String filePath) throws Exception {
+        URL url = FileUtil.class.getClassLoader().getResource(filePath);
+
+        if (url == null) {
+            throw new IllegalArgumentException(String.format("Could not find resource in path %s", filePath));
+        }
+
+        return Files.readAllBytes(Paths.get(url.toURI()));
     }
 
-    public static String loadJson(String jsonFilePath) throws IOException {
-        return Files.readString(Paths.get(jsonFilePath), UTF_8);
+    public static <T> T loadJsonToObject(String filePath, Class<T> type) {
+        try {
+            return new ObjectMapper().readValue(loadJson(filePath), type);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static <T> T jsonToObject(String s, Class<T> clazz) throws IOException {
-        return MAPPER.readValue(new File(s), clazz);
+    public static <T> String objectToJson(T object) {
+        try {
+            return new ObjectMapper().writeValueAsString(object);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

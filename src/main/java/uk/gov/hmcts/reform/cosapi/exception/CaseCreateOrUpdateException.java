@@ -6,4 +6,8 @@ public class CaseCreateOrUpdateException extends RuntimeException {
     public CaseCreateOrUpdateException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    public CaseCreateOrUpdateException(String message) {
+        super(message);
+    }
 }
