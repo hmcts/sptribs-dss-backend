@@ -110,6 +110,8 @@ caseinfo:
         - FL401
         - FL403
         - C43
+        - FMPO
+        - FGM
     - caseType: ADOPTION
       jurisdiction: ADOPTION
       eventIds:
