@@ -75,10 +75,8 @@ caseinfo:
         updateEvent: citizen-prl-update-dss-application
         submitEvent: citizen-prl-submit-dss-application
       caseTypeOfApplication:
-        - C100
-        - FL401
-        - FL403
-        - C43
+        - FMPO
+        - FGM
     - caseType: ADOPTION
       jurisdiction: ADOPTION
       eventIds:
@@ -86,6 +84,4 @@ caseinfo:
         updateEvent: citizen-adop-update-dss-application
         submitEvent: citizen-adop-submit-dss-application
       caseTypeOfApplication:
-        - A58
-        - A100
-        - A200
+        - RELADOP
