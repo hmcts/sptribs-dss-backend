@@ -9,6 +9,7 @@ import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,11 +57,13 @@ public class CaseManagementControllerFunctionalTest {
     @Test
     public void shouldSuccessfullyCreateACase() throws Exception {
         String caseResponseStr = loadJson("response/create-case-response.json");
-        CaseResponse caseResponse = OBJECT_MAPPER.readValue(caseResponseStr, new TypeReference<>() {
+
+        Response response = createCase();
+        response.then().assertThat().statusCode(200);
+        CaseResponse caseResponse = OBJECT_MAPPER.readValue(response.getBody().asString(), new TypeReference<>() {
         });
 
-        createCase().then().assertThat().statusCode(200);
-
+        Assert.assertNotNull(caseResponse.getId());
     }
 
     private Response createCase() throws Exception {
