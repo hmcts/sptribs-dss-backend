@@ -62,7 +62,7 @@ public class DocumentManagementControllerIntegrationTest {
     public void shouldSuccessfullyUploadDoc() throws Exception {
 
         DocumentResponse documentResponse = DocumentResponse.builder().build();
-        when(documentManagementService.uploadDocument(anyString(), any(MultipartFile.class)))
+        when(documentManagementService.uploadDocument(anyString(), anyString(), any(MultipartFile.class)))
             .thenReturn(documentResponse);
 
         MockMultipartFile file = new MockMultipartFile(
@@ -76,6 +76,7 @@ public class DocumentManagementControllerIntegrationTest {
                                               .file(file)
                                               .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                                               .header(AUTHORIZATION, AUTHORIZATION_VALUE)
+                                              .param("caseTypeOfApplication", "C100")
                                               .accept(APPLICATION_JSON_VALUE))
             .andExpect(status().isOk())
             .andReturn()
@@ -89,7 +90,7 @@ public class DocumentManagementControllerIntegrationTest {
     public void uploadDocWithException() throws Exception {
 
         DocumentResponse documentResponse = DocumentResponse.builder().build();
-        when(documentManagementService.uploadDocument(anyString(), any(MultipartFile.class)))
+        when(documentManagementService.uploadDocument(anyString(), anyString(), any(MultipartFile.class)))
             .thenThrow(new DocuementUploadOrDeleteException("Error", new Exception()));
 
         MockMultipartFile file = new MockMultipartFile(
@@ -103,6 +104,7 @@ public class DocumentManagementControllerIntegrationTest {
                                               .file(file)
                                               .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                                               .header(AUTHORIZATION, AUTHORIZATION_VALUE)
+                                              .param("caseTypeOfApplication", "C100")
                                               .accept(APPLICATION_JSON_VALUE))
             .andExpect(status().is5xxServerError())
             .andReturn()

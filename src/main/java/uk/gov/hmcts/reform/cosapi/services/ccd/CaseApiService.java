@@ -10,7 +10,6 @@ import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.ccd.client.model.Event;
 import uk.gov.hmcts.reform.ccd.client.model.StartEventResponse;
 import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
-import uk.gov.hmcts.reform.cosapi.constants.CommonConstants;
 import uk.gov.hmcts.reform.cosapi.edgecase.event.EventEnum;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
 import uk.gov.hmcts.reform.cosapi.services.SystemUserService;
@@ -43,7 +42,7 @@ public class CaseApiService {
             appsDetails.getJurisdiction(),
             appsDetails.getCaseType(),
             true,
-            getCaseDataContent(authorization, caseData, userId, appsDetails.getEventIds().getCreateEvent())
+            getCaseDataContent(authorization, caseData, userId, appsDetails)
         );
     }
 
@@ -61,40 +60,42 @@ public class CaseApiService {
             String.valueOf(caseId),
             true,
             getCaseDataContent(authorization, caseData, eventEnum, userId,
-                    String.valueOf(caseId), appsDetails.getEventIds())
+                    String.valueOf(caseId), appsDetails)
         );
     }
 
-    private CaseDataContent getCaseDataContent(String authorization, CaseData caseData, String userId, String eventId) {
+    private CaseDataContent getCaseDataContent(String authorization, CaseData caseData, String userId,
+                                               AppsConfig.AppsDetails appsDetails) {
         return CaseDataContent.builder()
             .data(caseData)
-            .event(Event.builder().id(eventId).build())
-            .eventToken(getEventToken(authorization, userId, eventId))
+            .event(Event.builder().id(appsDetails.getEventIds().getCreateEvent()).build())
+            .eventToken(getEventToken(authorization, userId, appsDetails.getEventIds().getCreateEvent(), appsDetails))
             .build();
     }
 
     private CaseDataContent getCaseDataContent(String authorization, CaseData caseData, EventEnum eventEnum,
-                                               String userId, String caseId, AppsConfig.EventsConfig eventsConfig) {
+                                               String userId, String caseId, AppsConfig.AppsDetails appsDetails) {
         CaseDataContent.CaseDataContentBuilder builder = CaseDataContent.builder().data(caseData);
         if (eventEnum.getEventType().equalsIgnoreCase(EventEnum.UPDATE.getEventType())) {
-            builder.event(Event.builder().id(eventsConfig.getUpdateEvent()).build())
-                .eventToken(getEventTokenForUpdate(authorization, userId, eventsConfig.getUpdateEvent(),
-                                                   caseId));
+            builder.event(Event.builder().id(appsDetails.getEventIds().getUpdateEvent()).build())
+                .eventToken(getEventTokenForUpdate(authorization, userId, appsDetails.getEventIds().getUpdateEvent(),
+                                                   caseId, appsDetails));
         } else if (eventEnum.getEventType().equalsIgnoreCase(EventEnum.SUBMIT.getEventType())) {
-            builder.event(Event.builder().id(eventsConfig.getSubmitEvent()).build())
-                .eventToken(getEventTokenForUpdate(authorization, userId, eventsConfig.getSubmitEvent(),
-                                                   caseId));
+            builder.event(Event.builder().id(appsDetails.getEventIds().getSubmitEvent()).build())
+                .eventToken(getEventTokenForUpdate(authorization, userId, appsDetails.getEventIds().getSubmitEvent(),
+                                                   caseId, appsDetails));
         }
 
         return builder.build();
     }
 
-    public String getEventToken(String authorization, String userId, String eventId) {
+    public String getEventToken(String authorization, String userId, String eventId,
+                                AppsConfig.AppsDetails appsDetails) {
         StartEventResponse res = coreCaseDataApi.startForCitizen(authorization,
                                                                  authTokenGenerator.generate(),
                                                                  userId,
-                                                                 CommonConstants.JURISDICTION,
-                                                                 CommonConstants.CASE_TYPE,
+                                                                 appsDetails.getJurisdiction(),
+                                                                 appsDetails.getCaseType(),
                                                                  eventId);
 
         //This has to be removed
@@ -103,12 +104,13 @@ public class CaseApiService {
         return nonNull(res) ? res.getToken() : null;
     }
 
-    public String getEventTokenForUpdate(String authorization, String userId, String eventId, String caseId) {
+    public String getEventTokenForUpdate(String authorization, String userId, String eventId, String caseId,
+                                         AppsConfig.AppsDetails appsDetails) {
         StartEventResponse res = coreCaseDataApi.startEventForCitizen(authorization,
                 authTokenGenerator.generate(),
                 userId,
-                CommonConstants.JURISDICTION,
-                CommonConstants.CASE_TYPE,
+                appsDetails.getJurisdiction(),
+                appsDetails.getCaseType(),
                 caseId,
                 eventId);
 
