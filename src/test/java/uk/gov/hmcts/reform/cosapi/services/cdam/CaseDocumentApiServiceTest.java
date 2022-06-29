@@ -17,6 +17,7 @@ import uk.gov.hmcts.reform.ccd.document.am.feign.CaseDocumentClient;
 import uk.gov.hmcts.reform.ccd.document.am.model.Classification;
 import uk.gov.hmcts.reform.ccd.document.am.model.Document;
 import uk.gov.hmcts.reform.ccd.document.am.model.UploadResponse;
+import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
 import uk.gov.hmcts.reform.cosapi.constants.CommonConstants;
 import uk.gov.hmcts.reform.cosapi.model.DocumentInfo;
 
@@ -28,6 +29,8 @@ import java.util.UUID;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
+import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.PRL_CASE_TYPE;
+import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.PRL_JURISDICTION;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_C100;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.JSON_FILE_TYPE;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.JSON_CONTENT_TYPE;
@@ -101,17 +104,26 @@ class CaseDocumentApiServiceTest {
             .url(TEST_URL)
             .fileName(CASE_DATA_FILE_C100).build();
 
+        AppsConfig.AppsDetails appsDetails = new AppsConfig.AppsDetails();
+
+        appsDetails.setJurisdiction(PRL_JURISDICTION);
+        appsDetails.setCaseType(PRL_CASE_TYPE);
+        appsDetails.setJurisdiction(PRL_JURISDICTION);
+        appsDetails.setCaseTypeOfApplication(List.of(CASE_DATA_C100_ID));
+        appsDetails.setEventIds(null);
+
         when(caseDocumentClient.uploadDocuments(
             CASE_TEST_AUTHORIZATION,
             TEST_AUTHORIZATION_TOKEN,
-            CommonConstants.CASE_TYPE,
-            CommonConstants.JURISDICTION,
+            CommonConstants.PRL_CASE_TYPE,
+            CommonConstants.PRL_JURISDICTION,
             multipartFileLst
         )).thenReturn(uploadResponse);
 
         DocumentInfo testUploadResponse = caseDocumentApiService.uploadDocument(
             CASE_TEST_AUTHORIZATION,
-            multipartFile
+            multipartFile,
+            appsDetails
         );
 
         Assertions.assertEquals(documentInfo.getFileName(), testUploadResponse.getFileName());
