@@ -13,6 +13,19 @@ import java.util.List;
 @NoArgsConstructor
 public class AppsConfig {
 
+    private static AppsConfig appsCache = null;
+    private static AppsConfig appsConfigInstance;
+
+    public static AppsConfig getInstance() {
+        if (appsConfigInstance == null) {
+            appsConfigInstance = new AppsConfig();
+        }
+        if (appsCache == null) {
+            appsCache = appsConfigInstance;
+        }
+        return appsConfigInstance;
+    }
+
     List<AppsDetails> apps;
 
     @Data

@@ -8,16 +8,20 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
+import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
 import uk.gov.hmcts.reform.cosapi.edgecase.event.EventEnum;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
 import uk.gov.hmcts.reform.cosapi.exception.CaseCreateOrUpdateException;
 import uk.gov.hmcts.reform.cosapi.model.CaseResponse;
 import uk.gov.hmcts.reform.cosapi.services.ccd.CaseApiService;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,6 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.PRL_CASE_TYPE;
+import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.PRL_JURISDICTION;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_C100_ID;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_C100;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_TEST_AUTHORIZATION;
@@ -39,6 +45,7 @@ import static uk.gov.hmcts.reform.cosapi.util.TestFileUtil.loadJson;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@TestPropertySource("classpath:application.yaml")
 @ActiveProfiles("test")
 class CaseManagementServiceTest {
     private final ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
@@ -46,12 +53,18 @@ class CaseManagementServiceTest {
     @InjectMocks
     private CaseManagementService caseManagementService;
 
+    @Autowired
+    private AppsConfig appsConfig;
+
+    private AppsConfig.AppsDetails c100AppDetails;
+
     @Mock
     CaseApiService caseApiService;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+
     }
 
     @Test
@@ -69,7 +82,10 @@ class CaseManagementServiceTest {
 
         CaseResponse caseResponse = CaseResponse.builder().caseData(caseDataMap).build();
 
-        when(caseApiService.createCase(CASE_TEST_AUTHORIZATION, caseData)).thenReturn(caseDetail);
+        c100AppDetails = appsConfig.getApps().stream().filter(eachApps -> eachApps.getCaseTypeOfApplication().contains(
+            CASE_DATA_C100_ID)).findAny().orElse(null);
+
+        when(caseApiService.createCase(CASE_TEST_AUTHORIZATION, caseData, c100AppDetails)).thenReturn(caseDetail);
 
         CaseResponse createCaseResponse = caseManagementService.createCase(CASE_TEST_AUTHORIZATION, caseData);
         assertEquals(createCaseResponse.getCaseData(), caseResponse.getCaseData());
@@ -97,7 +113,7 @@ class CaseManagementServiceTest {
 
         caseDataMap.put(CASE_DATA_C100_ID, caseData);
 
-        when(caseApiService.createCase(CASE_TEST_AUTHORIZATION, caseData)).thenThrow(
+        when(caseApiService.createCase(CASE_TEST_AUTHORIZATION, caseData, c100AppDetails)).thenThrow(
             new CaseCreateOrUpdateException(
                 CASE_CREATE_FAILURE_MSG,
                 new RuntimeException()
@@ -131,7 +147,8 @@ class CaseManagementServiceTest {
             CASE_TEST_AUTHORIZATION,
             EventEnum.UPDATE,
             TEST_CASE_ID,
-            caseData
+            caseData,
+            c100AppDetails
         )).thenReturn(caseDetail);
 
         CaseResponse updateCaseResponse = caseManagementService.updateCase(
@@ -169,7 +186,7 @@ class CaseManagementServiceTest {
 
         caseDataMap.put(CASE_DATA_C100_ID, caseData);
 
-        when(caseApiService.updateCase(CASE_TEST_AUTHORIZATION, EventEnum.UPDATE, TEST_CASE_ID, caseData)).thenThrow(
+        when(caseApiService.updateCase(CASE_TEST_AUTHORIZATION, EventEnum.UPDATE, TEST_CASE_ID, caseData, c100AppDetails)).thenThrow(
             new CaseCreateOrUpdateException(
                 CASE_UPDATE_FAILURE_MSG,
                 new RuntimeException()

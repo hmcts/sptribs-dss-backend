@@ -6,15 +6,20 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
 import uk.gov.hmcts.reform.cosapi.exception.DocumentUploadOrDeleteException;
 import uk.gov.hmcts.reform.cosapi.model.DocumentInfo;
 import uk.gov.hmcts.reform.cosapi.model.DocumentResponse;
 import uk.gov.hmcts.reform.cosapi.services.DocumentManagementService;
+import uk.gov.hmcts.reform.cosapi.util.AppsUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -33,6 +38,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@TestPropertySource("classpath:application.yaml")
 @ActiveProfiles("test")
 class DocumentManagementControllerTest {
 
@@ -41,6 +47,9 @@ class DocumentManagementControllerTest {
 
     @Mock
     DocumentManagementService documentManagementService;
+
+    @Autowired
+    AppsConfig appsConfig;
 
     @BeforeEach
     void setUp() {
@@ -67,11 +76,12 @@ class DocumentManagementControllerTest {
             caseDataJson.getBytes()
         );
 
-        when(documentManagementService.uploadDocument(CASE_TEST_AUTHORIZATION, multipartFile)).thenReturn(
+        when(documentManagementService.uploadDocument(CASE_TEST_AUTHORIZATION, CASE_DATA_C100_ID, multipartFile)).thenReturn(
             documentResponse);
 
         ResponseEntity<?> uploadDocumentResponse = documentManagementController.uploadDocument(
             CASE_TEST_AUTHORIZATION,
+            CASE_DATA_C100_ID,
             multipartFile
         );
 
