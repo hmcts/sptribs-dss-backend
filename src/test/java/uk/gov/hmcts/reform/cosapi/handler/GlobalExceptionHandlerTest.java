@@ -15,6 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.cosapi.exception.CaseCreateOrUpdateException;
 import uk.gov.hmcts.reform.cosapi.exception.DocumentUploadOrDeleteException;
+
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_URL;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.DOCUMENT_DELETE_FAILURE_MSG;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.DOCUMENT_UPLOAD_FAILURE_MSG;
@@ -49,8 +50,10 @@ class GlobalExceptionHandlerTest {
 
         ResponseEntity<?> responseDeleteHandler = globalExceptionHandler.handleDocumentException(delException);
 
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,
-                     responseDeleteHandler.getStatusCode());
+        assertEquals(
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            responseDeleteHandler.getStatusCode()
+        );
 
         assertTrue(responseDeleteHandler.getBody().toString().contains(DOCUMENT_DELETE_FAILURE_MSG));
     }
@@ -64,8 +67,10 @@ class GlobalExceptionHandlerTest {
 
         ResponseEntity<?> exceptionResponseHandler = globalExceptionHandler.handleDocumentException(updException);
 
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,
-                     exceptionResponseHandler.getStatusCode());
+        assertEquals(
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            exceptionResponseHandler.getStatusCode()
+        );
 
         assertTrue(exceptionResponseHandler.getBody().toString().contains(DOCUMENT_UPLOAD_FAILURE_MSG));
     }

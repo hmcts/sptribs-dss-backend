@@ -10,18 +10,21 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
 
+import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.PRL_CASE_TYPE;
+import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.PRL_JURISDICTION;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @TestPropertySource("classpath:application.yaml")
-@SuppressWarnings("PMD")
-public class AppsUtilTest {
+class AppsUtilTest {
 
     @Autowired
     AppsConfig appsConfig;
 
     @Test
     void isValidCaseTypeOfApplicationTest() {
-        CaseData a100CaseData = CaseData.builder().caseTypeOfApplication("C100").build();
+        CaseData a100CaseData = CaseData.builder().caseTypeOfApplication(CASE_DATA_FGM_ID).build();
         Assert.assertTrue(AppsUtil.isValidCaseTypeOfApplication(appsConfig, a100CaseData));
     }
 
@@ -32,10 +35,10 @@ public class AppsUtilTest {
     }
 
     @Test
-    void getExactAppDetailsTest() {
-        CaseData c100CaseData = CaseData.builder().caseTypeOfApplication("C100").build();
+    void validateExactAppDetailsTest() {
+        CaseData c100CaseData = CaseData.builder().caseTypeOfApplication(CASE_DATA_FGM_ID).build();
         AppsConfig.AppsDetails appDetails = AppsUtil.getExactAppsDetails(appsConfig, c100CaseData);
-        Assert.assertEquals("PRLAPPS", appDetails.getCaseType());
-        Assert.assertEquals("PRIVATELAW", appDetails.getJurisdiction());
+        Assert.assertEquals(PRL_CASE_TYPE, appDetails.getCaseType());
+        Assert.assertEquals(PRL_JURISDICTION, appDetails.getJurisdiction());
     }
 }

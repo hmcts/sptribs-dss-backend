@@ -14,7 +14,7 @@ class InvalidResourceExceptionTest {
         String createCaseDataFileNotExist = "C100CaseDataNotExist.json";
 
         Exception exception = assertThrows(Exception.class, () -> {
-            byte [] caseDataJson = loadResource(createCaseDataFileNotExist);
+            byte[] caseDataJson = loadResource(createCaseDataFileNotExist);
             assertNull(caseDataJson);
         });
 

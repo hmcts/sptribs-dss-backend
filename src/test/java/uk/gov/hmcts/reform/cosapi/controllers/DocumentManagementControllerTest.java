@@ -6,27 +6,23 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
 import uk.gov.hmcts.reform.cosapi.exception.DocumentUploadOrDeleteException;
 import uk.gov.hmcts.reform.cosapi.model.DocumentInfo;
 import uk.gov.hmcts.reform.cosapi.model.DocumentResponse;
 import uk.gov.hmcts.reform.cosapi.services.DocumentManagementService;
-import uk.gov.hmcts.reform.cosapi.util.AppsUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_C100_ID;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_C100;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_FGM;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_TEST_AUTHORIZATION;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_URL;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.RESPONSE_STATUS_SUCCESS;
@@ -48,9 +44,6 @@ class DocumentManagementControllerTest {
     @Mock
     DocumentManagementService documentManagementService;
 
-    @Autowired
-    AppsConfig appsConfig;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -58,12 +51,12 @@ class DocumentManagementControllerTest {
 
     @Test
     void testC100DocumentControllerFileUpload() throws Exception {
-        String caseDataJson = loadJson(CASE_DATA_FILE_C100);
+        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
 
         DocumentInfo document = DocumentInfo.builder()
-            .documentId(CASE_DATA_C100_ID)
+            .documentId(CASE_DATA_FGM_ID)
             .url(TEST_URL)
-            .fileName(CASE_DATA_FILE_C100).build();
+            .fileName(CASE_DATA_FILE_FGM).build();
 
         DocumentResponse documentResponse = DocumentResponse.builder()
             .status(RESPONSE_STATUS_SUCCESS)
@@ -71,17 +64,21 @@ class DocumentManagementControllerTest {
 
         MockMultipartFile multipartFile = new MockMultipartFile(
             JSON_FILE_TYPE,
-            CASE_DATA_FILE_C100,
+            CASE_DATA_FILE_FGM,
             JSON_CONTENT_TYPE,
             caseDataJson.getBytes()
         );
 
-        when(documentManagementService.uploadDocument(CASE_TEST_AUTHORIZATION, CASE_DATA_C100_ID, multipartFile)).thenReturn(
+        when(documentManagementService.uploadDocument(
+            CASE_TEST_AUTHORIZATION,
+            CASE_DATA_FGM_ID,
+            multipartFile
+        )).thenReturn(
             documentResponse);
 
         ResponseEntity<?> uploadDocumentResponse = documentManagementController.uploadDocument(
             CASE_TEST_AUTHORIZATION,
-            CASE_DATA_C100_ID,
+            CASE_DATA_FGM_ID,
             multipartFile
         );
 
@@ -97,9 +94,9 @@ class DocumentManagementControllerTest {
     @Test
     void testDeleteC100DocumentControllerFailedWithException() throws Exception {
         DocumentInfo documentInfo = DocumentInfo.builder()
-            .documentId(CASE_DATA_C100_ID)
+            .documentId(CASE_DATA_FGM_ID)
             .url(TEST_URL)
-            .fileName(CASE_DATA_FILE_C100).build();
+            .fileName(CASE_DATA_FILE_FGM).build();
 
         when(documentManagementService.deleteDocument(
             CASE_TEST_AUTHORIZATION,
