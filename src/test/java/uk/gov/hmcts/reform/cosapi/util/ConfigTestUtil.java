@@ -20,14 +20,14 @@ public final class ConfigTestUtil {
 
     }
 
-    //might need to alter this
     public static ConfigBuilderImpl<CaseData, State, UserRole> createCaseDataConfigBuilder() {
         return new ConfigBuilderImpl<>(new ResolvedCCDConfig<>(
             CaseData.class,
             State.class,
             UserRole.class,
             new HashMap<>(),
-            ImmutableSet.copyOf(State.class.getEnumConstants())));
+            ImmutableSet.copyOf(State.class.getEnumConstants())
+        ));
     }
 
     @SuppressWarnings({"unchecked"})

@@ -18,7 +18,7 @@ import uk.gov.hmcts.reform.cosapi.services.CaseManagementService;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_C100;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_FGM;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_TEST_AUTHORIZATION;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_CREATE_FAILURE_MSG;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_UPDATE_FAILURE_MSG;
@@ -44,7 +44,7 @@ class CaseCreateOrUpdateExceptionTest {
     @Test
     void testCreateCaseDataCaseCreateUpdateException() throws Exception {
         String createCaseTestAuth = CASE_TEST_AUTHORIZATION;
-        String caseDataJson = loadJson(CASE_DATA_FILE_C100);
+        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
         CaseData caseData = mapper.readValue(caseDataJson, CaseData.class);
 
         when(caseManagementService.createCase(createCaseTestAuth, caseData))
@@ -60,7 +60,7 @@ class CaseCreateOrUpdateExceptionTest {
     @Test
     void testUpdateCaseDataCaseCreateUpdateException() throws Exception {
         String updateCaseTestAuth = CASE_TEST_AUTHORIZATION;
-        String caseDataJson = loadJson(CASE_DATA_FILE_C100);
+        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
         CaseData caseData = mapper.readValue(caseDataJson, CaseData.class);
 
         when(caseManagementService.createCase(updateCaseTestAuth, caseData))
