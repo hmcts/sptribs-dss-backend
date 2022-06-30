@@ -32,6 +32,7 @@ import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.ccd.sdk.api.Permission.C;
 import static uk.gov.hmcts.ccd.sdk.api.Permission.R;
 import static uk.gov.hmcts.ccd.sdk.api.Permission.U;
+import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.PRL_CASE_TYPE;
 import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.CITIZEN;
 import static uk.gov.hmcts.reform.cosapi.util.ConfigTestUtil.createCaseDataConfigBuilder;
 import static uk.gov.hmcts.reform.cosapi.util.ConfigTestUtil.getEventsFrom;
@@ -59,7 +60,7 @@ class CreateCaseEventTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         fgmAppDetail = new AppsConfig.AppsDetails();
-        fgmAppDetail.setCaseType(CommonConstants.PRL_CASE_TYPE);
+        fgmAppDetail.setCaseType(PRL_CASE_TYPE);
         fgmAppDetail.setJurisdiction(CommonConstants.PRL_JURISDICTION);
         fgmAppDetail.setCaseTypeOfApplication(List.of(CASE_DATA_FGM_ID));
 
@@ -83,7 +84,7 @@ class CreateCaseEventTest {
 
         assertThat(getEventsFrom(configBuilder).values())
             .extracting(Event::getId)
-            .contains(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.PRL_CASE_TYPE).getEventIds()
+            .contains(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, PRL_CASE_TYPE).getEventIds()
                           .getCreateEvent());
 
         SetMultimap<UserRole, Permission> expectedRolesAndPermissions =
