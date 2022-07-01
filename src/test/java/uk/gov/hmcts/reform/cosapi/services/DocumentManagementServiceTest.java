@@ -1,8 +1,8 @@
 package uk.gov.hmcts.reform.cosapi.services;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -10,62 +10,98 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
+import uk.gov.hmcts.reform.cosapi.constants.CommonConstants;
 import uk.gov.hmcts.reform.cosapi.exception.DocumentUploadOrDeleteException;
 import uk.gov.hmcts.reform.cosapi.model.DocumentInfo;
 import uk.gov.hmcts.reform.cosapi.model.DocumentResponse;
 import uk.gov.hmcts.reform.cosapi.services.cdam.CaseDocumentApiService;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
-import static uk.gov.hmcts.reform.cosapi.util.TestFileUtil.loadJson;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_FGM;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_URL;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_TEST_AUTHORIZATION;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_C100_ID;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_C100;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.JSON_FILE_TYPE;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.JSON_CONTENT_TYPE;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.JSON_FILE_TYPE;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_TEST_AUTHORIZATION;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.RESPONSE_STATUS_SUCCESS;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.DOCUMENT_DELETE_FAILURE_MSG;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.DOCUMENT_UPLOAD_FAILURE_MSG;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.DOCUMENT_DELETE_FAILURE_MSG;
+import static uk.gov.hmcts.reform.cosapi.util.TestFileUtil.loadJson;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@TestPropertySource("classpath:application.yaml")
 @ActiveProfiles("test")
 class DocumentManagementServiceTest {
-
     @InjectMocks
     private DocumentManagementService documentManagementService;
 
     @Mock
-    CaseDocumentApiService caseDocumentApiService;
+    private CaseDocumentApiService caseDocumentApiService;
+
+    @Mock
+    private AppsConfig appsConfig;
+
+    @Mock
+    private AppsConfig.AppsDetails fgmAppDetail;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+
     }
 
     @Test
-    void testUploadC100Document() throws Exception {
-        String caseDataJson = loadJson(CASE_DATA_FILE_C100);
+    void testUploadFgmDocument() throws Exception {
+        fgmAppDetail = new AppsConfig.AppsDetails();
+        fgmAppDetail.setCaseType(CommonConstants.PRL_CASE_TYPE);
+        fgmAppDetail.setJurisdiction(CommonConstants.PRL_JURISDICTION);
+        fgmAppDetail.setCaseTypeOfApplication(List.of(CASE_DATA_FGM_ID));
+        AppsConfig.EventsConfig eventsConfig = new AppsConfig.EventsConfig();
+        eventsConfig.setCreateEvent("");
+
+        fgmAppDetail.setEventIds(eventsConfig);
 
         DocumentInfo documentInfo = DocumentInfo.builder()
-            .documentId(CASE_DATA_C100_ID)
+            .documentId(CASE_DATA_FGM_ID)
             .url(TEST_URL)
-            .fileName(CASE_DATA_FILE_C100).build();
+            .fileName(CASE_DATA_FILE_FGM).build();
+
+        when(appsConfig.getApps()).thenReturn(Arrays.asList(fgmAppDetail));
+
+        Assertions.assertNotNull(fgmAppDetail);
+
+        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
 
         MockMultipartFile multipartFile = new MockMultipartFile(
             JSON_FILE_TYPE,
-            CASE_DATA_FILE_C100,
+            CASE_DATA_FILE_FGM,
             JSON_CONTENT_TYPE,
             caseDataJson.getBytes()
         );
 
-        when(caseDocumentApiService.uploadDocument(CASE_TEST_AUTHORIZATION, multipartFile)).thenReturn(documentInfo);
+        when(caseDocumentApiService.uploadDocument(
+            CASE_TEST_AUTHORIZATION,
+            multipartFile,
+            fgmAppDetail
+        )).thenReturn(documentInfo);
 
         DocumentResponse testUploadResponse = (DocumentResponse) documentManagementService.uploadDocument(
             CASE_TEST_AUTHORIZATION,
+            fgmAppDetail
+                .getCaseTypeOfApplication()
+                .stream()
+                .filter(eachCase -> eachCase.equals(CASE_DATA_FGM_ID))
+                .findFirst()
+                .get(),
             multipartFile
         );
 
@@ -78,35 +114,39 @@ class DocumentManagementServiceTest {
     }
 
     @Test
-    void testUploadC100DocumentFailedWithException() throws Exception {
-        String caseDataJson = loadJson(CASE_DATA_FILE_C100);
+    void testUploadFgmDocumentFailedWithException() throws Exception {
+        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
 
         MockMultipartFile multipartFile = new MockMultipartFile(
             JSON_FILE_TYPE,
-            CASE_DATA_FILE_C100,
+            CASE_DATA_FILE_FGM,
             JSON_CONTENT_TYPE,
             caseDataJson.getBytes()
         );
 
-        when(caseDocumentApiService.uploadDocument(CASE_TEST_AUTHORIZATION, multipartFile)).thenThrow(
+        when(caseDocumentApiService.uploadDocument(
+            CASE_TEST_AUTHORIZATION,
+            multipartFile,
+            fgmAppDetail
+        )).thenThrow(
             new DocumentUploadOrDeleteException(
                 DOCUMENT_UPLOAD_FAILURE_MSG,
                 new RuntimeException()
             ));
 
         Exception exception = assertThrows(Exception.class, () -> {
-            documentManagementService.uploadDocument(CASE_TEST_AUTHORIZATION, multipartFile);
+            documentManagementService.uploadDocument(CASE_TEST_AUTHORIZATION, CASE_DATA_FGM_ID, multipartFile);
         });
 
         assertTrue(exception.getMessage().contains(DOCUMENT_UPLOAD_FAILURE_MSG));
     }
 
     @Test
-    void testDeleteC100Document() {
+    void testDeleteFgmDocument() {
 
         DocumentResponse testDeleteResponse = (DocumentResponse) documentManagementService.deleteDocument(
             CASE_TEST_AUTHORIZATION,
-            CASE_DATA_C100_ID
+            CASE_DATA_FGM_ID
         );
 
         Assertions.assertNotNull(testDeleteResponse);
@@ -114,11 +154,11 @@ class DocumentManagementServiceTest {
     }
 
     @Test
-    void testDeleteC100DocumentFailedWithException() throws Exception {
+    void testDeleteFgmDocumentFailedWithException() throws Exception {
         DocumentInfo documentInfo = DocumentInfo.builder()
-            .documentId(CASE_DATA_C100_ID)
+            .documentId(CASE_DATA_FGM_ID)
             .url(TEST_URL)
-            .fileName(CASE_DATA_FILE_C100).build();
+            .fileName(CASE_DATA_FILE_FGM).build();
 
         when(documentManagementService.deleteDocument(
             CASE_TEST_AUTHORIZATION,

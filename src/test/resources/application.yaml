@@ -56,3 +56,26 @@ core_case_data:
 
 case_document_am:
   url: ${CCD_CASE_DOCS_AM_API:http://ccd-case-document-am-api-aat.service.core-compute-aat.internal}
+
+document_management:
+  url: ${DOCUMENT_MANAGEMENT_URL:http://dm-store-aat.service.core-compute-aat.internal}
+
+caseinfo:
+  apps:
+    - caseType: PRLAPPS
+      jurisdiction: PRIVATELAW
+      eventIds:
+        createEvent: citizen-prl-create-dss-application
+        updateEvent: citizen-prl-update-dss-application
+        submitEvent: citizen-prl-submit-dss-application
+      caseTypeOfApplication:
+        - FMPO
+        - FGM
+    - caseType: ADOPTION
+      jurisdiction: ADOPTION
+      eventIds:
+        createEvent: citizen-adop-create-dss-application
+        updateEvent: citizen-adop-update-dss-application
+        submitEvent: citizen-adop-submit-dss-application
+      caseTypeOfApplication:
+        - RELADOP

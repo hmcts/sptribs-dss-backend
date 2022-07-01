@@ -36,8 +36,8 @@ class AppsUtilTest {
 
     @Test
     void validateExactAppDetailsTest() {
-        CaseData c100CaseData = CaseData.builder().caseTypeOfApplication(CASE_DATA_FGM_ID).build();
-        AppsConfig.AppsDetails appDetails = AppsUtil.getExactAppsDetails(appsConfig, c100CaseData);
+        CaseData fgmCaseData = CaseData.builder().caseTypeOfApplication(CASE_DATA_FGM_ID).build();
+        AppsConfig.AppsDetails appDetails = AppsUtil.getExactAppsDetails(appsConfig, fgmCaseData);
         Assert.assertEquals(PRL_CASE_TYPE, appDetails.getCaseType());
         Assert.assertEquals(PRL_JURISDICTION, appDetails.getJurisdiction());
     }

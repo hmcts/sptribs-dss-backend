@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class InvalidResourceExceptionTest {
     @Test
     void testInvalidResourceExceptionThrownForNonExistentFile() throws Exception {
-        String createCaseDataFileNotExist = "C100CaseDataNotExist.json";
+        String createCaseDataFileNotExist = "FGMCaseDataNotExist.json";
 
         Exception exception = assertThrows(Exception.class, () -> {
             byte [] caseDataJson = loadResource(createCaseDataFileNotExist);

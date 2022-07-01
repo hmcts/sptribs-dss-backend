@@ -24,8 +24,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_C100;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_C100_ID;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_FGM;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_TEST_AUTHORIZATION;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_CASE_EMAIL_ADDRESS;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_UPDATE_CASE_EMAIL_ADDRESS;
@@ -50,8 +50,8 @@ class CaseManagementControllerTest {
     }
 
     @Test
-    void testC100CreateCaseData() throws Exception {
-        String caseDataJson = loadJson(CASE_DATA_FILE_C100);
+    void testFgmCreateCaseData() throws Exception {
+        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
         CaseData caseData = mapper.readValue(caseDataJson, CaseData.class);
 
         Map<String, Object> caseDataMap = new ConcurrentHashMap<>();
@@ -69,13 +69,13 @@ class CaseManagementControllerTest {
     }
 
     @Test
-    void testC100UpdateCaseData() throws Exception {
-        String caseDataJson = loadJson(CASE_DATA_FILE_C100);
+    void testFgmUpdateCaseData() throws Exception {
+        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
         CaseData caseData = mapper.readValue(caseDataJson, CaseData.class);
 
         Map<String, Object> caseDataMap = new ConcurrentHashMap<>();
 
-        caseDataMap.put(CASE_DATA_C100_ID, caseData);
+        caseDataMap.put(CASE_DATA_FGM_ID, caseData);
         CaseResponse caseResponse = CaseResponse.builder().caseData(caseDataMap).build();
         caseResponse.setId(TEST_CASE_ID);
         caseResponse.setStatus(null);
@@ -93,7 +93,7 @@ class CaseManagementControllerTest {
         CaseResponse testPreUpdResponse = (CaseResponse) preUpdateCaseResponse.getBody();
         assertEquals(TEST_CASE_EMAIL_ADDRESS, caseData.getApplicant().getEmailAddress());
 
-        CaseData caseDataUpdate = (CaseData) testPreUpdResponse.getCaseData().get(CASE_DATA_C100_ID);
+        CaseData caseDataUpdate = (CaseData) testPreUpdResponse.getCaseData().get(CASE_DATA_FGM_ID);
         caseDataUpdate.getApplicant().setEmailAddress(TEST_UPDATE_CASE_EMAIL_ADDRESS);
 
         ResponseEntity<?> postUpdateCaseResponse = caseManagementController.updateCase(
@@ -105,7 +105,7 @@ class CaseManagementControllerTest {
 
         CaseResponse caseDataUpdateResponse = (CaseResponse) (postUpdateCaseResponse.getBody());
 
-        CaseData caseDataUpdatedFromResponse = (CaseData) (caseDataUpdateResponse.getCaseData().get(CASE_DATA_C100_ID));
+        CaseData caseDataUpdatedFromResponse = (CaseData) (caseDataUpdateResponse.getCaseData().get(CASE_DATA_FGM_ID));
 
         assertEquals(caseDataUpdatedFromResponse.getApplicant().getEmailAddress(),
                      caseDataUpdate.getApplicant().getEmailAddress());

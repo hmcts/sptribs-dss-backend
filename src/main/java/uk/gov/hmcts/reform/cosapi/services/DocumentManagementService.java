@@ -4,10 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
 import uk.gov.hmcts.reform.cosapi.exception.DocumentUploadOrDeleteException;
 import uk.gov.hmcts.reform.cosapi.model.DocumentInfo;
 import uk.gov.hmcts.reform.cosapi.model.DocumentResponse;
 import uk.gov.hmcts.reform.cosapi.services.cdam.CaseDocumentApiService;
+import uk.gov.hmcts.reform.cosapi.util.AppsUtil;
 
 @Service
 @Slf4j
@@ -16,9 +18,13 @@ public class DocumentManagementService {
     @Autowired
     CaseDocumentApiService caseDocumentApiService;
 
-    public DocumentResponse uploadDocument(String authorization, MultipartFile file) {
+    @Autowired
+    AppsConfig appsConfig;
+
+    public DocumentResponse uploadDocument(String authorization, String caseTypeOfApplication, MultipartFile file) {
         try {
-            DocumentInfo document = caseDocumentApiService.uploadDocument(authorization, file);
+            DocumentInfo document = caseDocumentApiService.uploadDocument(authorization, file, AppsUtil
+                .getExactAppsDetails(appsConfig, caseTypeOfApplication));
             log.info("Stored Doc Detail: " + document.toString());
             return DocumentResponse.builder().status("Success").document(document).build();
 
@@ -38,7 +44,7 @@ public class DocumentManagementService {
         } catch (Exception e) {
             log.error("Error while deleting  document ." + e.getMessage());
             throw new DocumentUploadOrDeleteException("Failing while deleting the document. The error message is "
-                                                           + e.getMessage(), e);
+                                                          + e.getMessage(), e);
         }
     }
 }
