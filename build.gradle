@@ -54,7 +54,7 @@ sourceSets {
     java {
       compileClasspath += main.output
       runtimeClasspath += main.output
-      srcDir file('src/smokeTest/java')
+      srcDir file('src/functionalTest/java')
     }
   }
 
@@ -120,8 +120,8 @@ test {
 task functional(type: Test) {
   description = "Runs functional tests"
   group = "Verification"
-  testClassesDirs = sourceSets.smokeTest.output.classesDirs
-  classpath = sourceSets.smokeTest.runtimeClasspath
+  testClassesDirs = sourceSets.functionalTest.output.classesDirs
+  classpath = sourceSets.functionalTest.runtimeClasspath
   finalizedBy(aggregate)
   failFast = true
 }
