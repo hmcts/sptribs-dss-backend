@@ -107,8 +107,15 @@ class CaseManagementControllerTest {
 
         CaseData caseDataUpdatedFromResponse = (CaseData) (caseDataUpdateResponse.getCaseData().get(CASE_DATA_FGM_ID));
 
+<<<<<<< HEAD
         assertEquals(caseDataUpdatedFromResponse.getApplicant().getEmailAddress(),
                      caseDataUpdate.getApplicant().getEmailAddress());
+=======
+        assertEquals(
+            caseDataUpdatedFromResponse.getApplicant().getEmailAddress(),
+            caseDataUpdate.getApplicant().getEmailAddress()
+        );
+>>>>>>> origin/feature/ISDB-308
         assertEquals(TEST_UPDATE_CASE_EMAIL_ADDRESS, caseDataUpdate.getApplicant().getEmailAddress());
 
         assertNotNull(testPreUpdResponse);

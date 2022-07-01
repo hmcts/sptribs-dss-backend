@@ -17,14 +17,15 @@ import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @TestPropertySource("classpath:application.yaml")
-class AppsUtilTest {
+@SuppressWarnings("PMD")
+public class AppsUtilTest {
 
     @Autowired
     AppsConfig appsConfig;
 
     @Test
     void isValidCaseTypeOfApplicationTest() {
-        CaseData a100CaseData = CaseData.builder().caseTypeOfApplication(CASE_DATA_FGM_ID).build();
+        CaseData a100CaseData = CaseData.builder().caseTypeOfApplication("C100").build();
         Assert.assertTrue(AppsUtil.isValidCaseTypeOfApplication(appsConfig, a100CaseData));
     }
 
