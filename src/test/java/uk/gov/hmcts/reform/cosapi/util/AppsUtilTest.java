@@ -25,7 +25,7 @@ public class AppsUtilTest {
 
     @Test
     void isValidCaseTypeOfApplicationTest() {
-        CaseData a100CaseData = CaseData.builder().caseTypeOfApplication("C100").build();
+        CaseData a100CaseData = CaseData.builder().caseTypeOfApplication(CASE_DATA_FGM_ID).build();
         Assert.assertTrue(AppsUtil.isValidCaseTypeOfApplication(appsConfig, a100CaseData));
     }
 
