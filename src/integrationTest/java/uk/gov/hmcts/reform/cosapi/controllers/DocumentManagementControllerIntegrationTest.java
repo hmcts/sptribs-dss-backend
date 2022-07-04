@@ -17,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
-import uk.gov.hmcts.reform.cosapi.exception.DocuementUploadOrDeleteException;
+import uk.gov.hmcts.reform.cosapi.exception.DocumentUploadOrDeleteException;
 import uk.gov.hmcts.reform.cosapi.model.DocumentResponse;
 import uk.gov.hmcts.reform.cosapi.services.DocumentManagementService;
 
@@ -91,7 +91,7 @@ public class DocumentManagementControllerIntegrationTest {
 
         DocumentResponse documentResponse = DocumentResponse.builder().build();
         when(documentManagementService.uploadDocument(anyString(), anyString(), any(MultipartFile.class)))
-            .thenThrow(new DocuementUploadOrDeleteException("Error", new Exception()));
+            .thenThrow(new DocumentUploadOrDeleteException("Error", new Exception()));
 
         MockMultipartFile file = new MockMultipartFile(
             "file",
@@ -138,7 +138,7 @@ public class DocumentManagementControllerIntegrationTest {
 
         DocumentResponse documentResponse = DocumentResponse.builder().build();
         when(documentManagementService.deleteDocument(anyString(), anyString()))
-            .thenThrow(new DocuementUploadOrDeleteException("Error", new Exception()));
+            .thenThrow(new DocumentUploadOrDeleteException("Error", new Exception()));
 
         String response = mockMvc.perform(delete("/doc/dss-orhestration/123/delete")
                                               .contentType(APPLICATION_JSON_VALUE)
