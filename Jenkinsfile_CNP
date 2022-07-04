@@ -208,6 +208,8 @@ withPipeline(type, product, component) {
       env.S2S_URL_BASE = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
       env.IDAM_API_URL_BASE = "https://idam-api.aat.platform.hmcts.net"
       env.CITIZEN_UPDATE_CASE_STATE_ENABLED=true
+      env.PACT_BROKER_FULL_URL = 'https://pact-broker.platform.hmcts.net'
+      enablePactAs([AppPipelineDsl.PactRoles.CONSUMER])
 
       setCommonEnvVariables()
     }
@@ -218,7 +220,8 @@ withPipeline(type, product, component) {
       env.CCD_DEF_NAME="aat"
       env.DEFINITION_STORE_URL_BASE="http://ccd-definition-store-api-aat.service.core-compute-aat.internal"
       env.CITIZEN_UPDATE_CASE_STATE_ENABLED=true
-
+      env.PACT_BROKER_FULL_URL = 'https://pact-broker.platform.hmcts.net'
+      enablePactAs([AppPipelineDsl.PactRoles.CONSUMER])
       setCommonEnvVariables()
     }
 
@@ -254,6 +257,8 @@ withPipeline(type, product, component) {
       uploadCoreCaseDataDefinitions()
     }
 }
+
+env.PACT_BROKER_FULL_URL = 'https://pact-broker.platform.hmcts.net'
 
 def setCommonEnvVariables() {
     env.IDAM_API_URL_BASE = "https://idam-api.aat.platform.hmcts.net"

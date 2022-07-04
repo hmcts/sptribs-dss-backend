@@ -28,6 +28,7 @@ plugins {
   id 'org.sonarqube' version '3.3'
   id 'idea'
   id 'hmcts.ccd.sdk' version '0.25.16'
+  id 'au.com.dius.pact' version '4.1.7'
 }
 
 apply plugin: 'cz.habarta.typescript-generator'
@@ -67,6 +68,14 @@ sourceSets {
     resources.srcDir file('src/integrationTest/resources')
   }
 
+  contractTest {
+    java {
+      compileClasspath += main.output
+      runtimeClasspath += main.output
+      srcDir file('src/contractTest/java')
+    }
+    //resources.srcDir file('src/contractTest/resources')
+  }
   smokeTest {
     java {
       compileClasspath += main.output
@@ -93,6 +102,10 @@ configurations {
   smokeTestImplementation.extendsFrom testImplementation
   smokeTestRuntime.extendsFrom testRuntime
   smokeTestCompile.extendsFrom testCompile
+
+  contractTestImplementation.extendsFrom testImplementation
+  contractTestRuntime.extendsFrom testRuntime
+  contractTestCompile.extendsFrom testCompile
 }
 
 tasks.withType(JavaCompile) {
@@ -295,7 +308,10 @@ def versions = [
   awaitility        : '1.7.0',
   springBoot        : '2.6.5',
   serenityCoreVersion: '3.0.2',
-  ccdCaseDocumentAmClient      : '1.7.3'
+  ccdCaseDocumentAmClient      : '1.7.3',
+  pact                         : '4.1.7',
+  guava                        : '30.1-jre',
+  httpComponents         :'4.5.13'
 ]
 
 ext.libraries = [
@@ -432,6 +448,31 @@ dependencies {
 
   smokeTestCompile sourceSets.main.runtimeClasspath
   smokeTestCompile sourceSets.test.runtimeClasspath
+
+  contractTestCompile sourceSets.main.runtimeClasspath
+  contractTestCompile sourceSets.test.runtimeClasspath
+
+  contractTestCompile group: 'com.google.guava', name: 'guava', version: versions.guava
+  contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'junit5', version: versions.pact
+  contractTestRuntimeOnly group: 'au.com.dius.pact.consumer', name: 'junit5', version: versions.pact
+  contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'java8', version: versions.pact
+  contractTestRuntimeOnly group: 'au.com.dius.pact.consumer', name: 'java8', version: versions.pact
+
+  contractTestImplementation group: 'au.com.dius.pact.provider', name: 'spring', version: versions.pact
+  contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5spring', version: versions.pact
+
+  contractTestCompile group: 'org.apache.httpcomponents', name: 'httpclient', version: versions.httpComponents
+
+  testRuntimeOnly "org.junit.platform:junit-platform-commons:1.8.2"
+
+
+  contractTestCompile("org.junit.jupiter:junit-jupiter-api:5.8.2")
+  contractTestRuntime("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.2"
+  contractTestImplementation('org.junit.jupiter:junit-jupiter-api:5.7.2')
+
+  contractTestCompile sourceSets.main.runtimeClasspath
+  contractTestCompile sourceSets.test.runtimeClasspath
 
 }
 
@@ -617,4 +658,38 @@ rootProject.tasks.named("processIntegrationTestResources") {
 
 wrapper {
   distributionType = Wrapper.DistributionType.ALL
+}
+
+task contract(type: Test, description: 'Runs the consumer Pact tests.', group: 'Delivery pipeline') {
+  useJUnitPlatform()
+
+  testClassesDirs = sourceSets.contractTest.output.classesDirs
+  classpath = sourceSets.contractTest.runtimeClasspath
+
+  include "uk/gov/hmcts/reform/cosapi/clients/**"
+  systemProperty 'pact.rootDir', "pacts"
+  environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
+}
+
+task runAndPublishConsumerPactTests(type: Test){
+  logger.lifecycle("Runs pact Tests")
+  testClassesDirs = sourceSets.contractTest.output.classesDirs
+  classpath = sourceSets.contractTest.runtimeClasspath
+}
+
+runAndPublishConsumerPactTests.dependsOn contract
+
+runAndPublishConsumerPactTests.finalizedBy pactPublish
+
+project.ext {
+  pactVersion = getCheckedOutGitCommitHash()
+}
+
+pact {
+  publish {
+    pactDirectory = 'pacts'
+    pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:80'
+    tags = [System.getenv("PACT_BRANCH_NAME") ?:'Dev']
+    version = project.pactVersion
+  }
 }
