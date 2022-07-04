@@ -215,24 +215,16 @@ project.tasks['sonarqube'].dependsOn jacocoTestReport
 project.tasks['check'].dependsOn integration
 
 def sonarExclusions = [
-  '**/uk/gov/hmcts/reform/fis/config/OpenAPIConfiguration.java',
-  '**/uk/gov/hmcts/reform/fis/controllers/RootController.java',
-  '**/uk/gov/hmcts/reform/cosapi/edgecase/model/**',
-  '**/uk/gov/hmcts/reform/cosapi/edgecase/task/**',
-  '**/uk/gov/hmcts/reform/cosapi/edgecase/constants/**',
-  '**/uk/gov/hmcts/reform/cosapi/edgecase/event/**',
-  '**/uk/gov/hmcts/reform/cosapi/document/model/**',
-  '**/uk/gov/hmcts/reform/cosapi/document/**',
-  '**/uk/gov/hmcts/reform/cosapi/common/ccd/**',
-  '**/uk/gov/hmcts/reform/cosapi/exception/**',
-  '**/uk/gov/hmcts/reform/cosapi/model/**',
   '**/uk/gov/hmcts/reform/cosapi/common/**',
-  '**/uk/gov/hmcts/reform/cosapi/idam/**',
+  '**/uk/gov/hmcts/reform/cosapi/document/content/DocmosisTemplateConstants.java',
+  '**/uk/gov/hmcts/reform/cosapi/document/model/**',
+  '**/uk/gov/hmcts/reform/cosapi/edgecase/constants/**',
+  '**/uk/gov/hmcts/reform/cosapi/edgecase/model/**',
+  '**/uk/gov/hmcts/reform/cosapi/edgecase/search/**',
   '**/uk/gov/hmcts/reform/cosapi/edgecase/task/**',
-  '**/uk/gov/hmcts/reform/cosapi/common/config/**',
-  '**/uk/gov/hmcts/reform/cosapi/edgecase/task/**',
-  '**/uk/gov/hmcts/reform/cosapi/**',
-  '**/uk/gov/hmcts/reform/cosapi/document/content/**',
+  '**/uk/gov/hmcts/reform/cosapi/model/PaymentStatus.java',
+  '**/uk/gov/hmcts/reform/fis/config/OpenAPIConfiguration.java',
+  '**/uk/gov/hmcts/reform/fis/controllers/RootController.java'
 ]
 
 sonarqube {

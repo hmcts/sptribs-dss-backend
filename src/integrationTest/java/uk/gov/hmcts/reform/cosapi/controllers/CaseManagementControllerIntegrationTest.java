@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import static uk.gov.hmcts.reform.cosapi.common.config.ControllerConstants.AUTHORIZATION;
 import static uk.gov.hmcts.reform.cosapi.common.config.ControllerConstants.AUTHORIZATION_VALUE;
-import static uk.gov.hmcts.reform.cosapi.util.FileUtil.loadJson;
+import static uk.gov.hmcts.reform.cosapi.util.TestFileUtil.loadJson;
 import static uk.gov.hmcts.reform.cosapi.util.TestResourceUtil.expectedResponse;
 
 
