@@ -19,6 +19,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import uk.gov.hmcts.reform.cosapi.clients.CommonConstants;
 import uk.gov.hmcts.reform.idam.client.IdamClient;
 import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 
@@ -39,7 +40,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class IdamApiConsumerTest {
 
     public static final String TOKEN_REGEXP = "[a-zA-Z0-9._-]+";
-    public static final String BEARER_TOKEN = "Bearer UserAuthToken";
+
 
     @Autowired
     private IdamClient idamClient;
@@ -66,7 +67,7 @@ public class IdamApiConsumerTest {
             .uponReceiving("IDAM returns user info to the client")
             .path(IDAM_OPENID_USERINFO_URL)
             .headerFromProviderState("Authorization", "Bearer ${access_token}",
-                                     BEARER_TOKEN)
+                                     CommonConstants.AUTHORIZATION_HEADER)
             .method(HttpMethod.GET.toString())
             .willRespondWith()
             .status(HttpStatus.SC_OK)
@@ -77,7 +78,7 @@ public class IdamApiConsumerTest {
     @Test
     @PactTestFor(pactMethod = "executeGetUserInfo")
     void verifyUserInfo() {
-        UserInfo actualUserInfo = idamClient.getUserInfo(BEARER_TOKEN);
+        UserInfo actualUserInfo = idamClient.getUserInfo(CommonConstants.AUTHORIZATION_HEADER);
 
         UserInfo expectedUserInfo = UserInfo.builder()
             .familyName("Smith")

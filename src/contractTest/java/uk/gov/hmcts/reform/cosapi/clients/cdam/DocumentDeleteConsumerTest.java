@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
+import uk.gov.hmcts.reform.cosapi.clients.CommonConstants;
 
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -27,11 +27,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @PactFolder("pacts")
 @SpringBootTest({  "document_delete_api:http://localhost:5007"})
 public class DocumentDeleteConsumerTest {
-
-
-    private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final String someAuthToken = "someAuthToken";
-    private static final String someDocumentId = "456c0976-3178-46dd-b9ce-5ab5d47c625a";
 
 
     @Pact(provider = "document_delete_api", consumer = "fis_cos")
@@ -47,8 +42,8 @@ public class DocumentDeleteConsumerTest {
             .given("A request to delete a document")
             .uponReceiving("a request to delete a document with valid authorization")
             .method("POST")
-            .headers(AUTHORIZATION_HEADER, someAuthToken)
-            .path("/" + someDocumentId + "/documents")
+            .headers(CommonConstants.AUTHORIZATION_HEADER, CommonConstants.someAuthToken)
+            .path("/" + CommonConstants.someDocumentId + "/documents")
             .willRespondWith()
             .status(HttpStatus.SC_OK)
             .toPact();
@@ -58,8 +53,9 @@ public class DocumentDeleteConsumerTest {
     @PactTestFor(pactMethod = "deleteDocument")
     public void verifyDeleteDocument(MockServer mockServer) throws IOException {
 
-        HttpResponse downloadDocumentResponse = Request.Post(mockServer.getUrl() + "/" + someDocumentId + "/documents")
-            .addHeader(AUTHORIZATION_HEADER, someAuthToken)
+        HttpResponse downloadDocumentResponse = Request.Post(mockServer.getUrl()
+                                      + "/" + CommonConstants.someDocumentId  + "/documents")
+            .addHeader(CommonConstants.AUTHORIZATION_HEADER, CommonConstants.someAuthToken)
             .execute().returnResponse();
 
         Assertions.assertEquals(200, downloadDocumentResponse.getStatusLine().getStatusCode());

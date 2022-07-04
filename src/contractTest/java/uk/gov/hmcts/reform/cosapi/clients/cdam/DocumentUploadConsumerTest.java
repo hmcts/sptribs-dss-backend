@@ -18,6 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.apache.http.client.fluent.Request;
+import uk.gov.hmcts.reform.cosapi.clients.CommonConstants;
 
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -26,12 +27,6 @@ import org.apache.http.client.fluent.Request;
 @PactFolder("pacts")
 @SpringBootTest({  "document_upload_api:http://localhost:5006"})
 public class DocumentUploadConsumerTest {
-
-    private static final String SERVICE_AUTHORIZATION_HEADER = "ServiceAuthorization";
-    private static final String someServiceAuthToken = "someServiceAuthToken";
-    private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final String someAuthToken = "someAuthToken";
-
 
     @Pact(provider = "document_upload_api", consumer = "fis_cos")
     RequestResponsePact uploadDocument(PactDslWithProvider builder) throws JSONException, IOException {
@@ -46,8 +41,8 @@ public class DocumentUploadConsumerTest {
             .given("A request to upload a document")
             .uponReceiving("a request to upload a document with valid authorization")
             .method("POST")
-            .headers(SERVICE_AUTHORIZATION_HEADER, someServiceAuthToken)
-            .headers(AUTHORIZATION_HEADER, someAuthToken)
+            .headers(CommonConstants.SERVICE_AUTHORIZATION_HEADER, CommonConstants.someServiceAuthToken)
+            .headers(CommonConstants.AUTHORIZATION_HEADER, CommonConstants.someAuthToken)
             .path("/cases/documents")
             .willRespondWith()
             .status(HttpStatus.SC_OK)
@@ -59,8 +54,8 @@ public class DocumentUploadConsumerTest {
     public void verifyUploadDocument(MockServer mockServer) throws IOException {
 
         HttpResponse downloadDocumentResponse = Request.Post(mockServer.getUrl() + "/cases/documents")
-            .addHeader(SERVICE_AUTHORIZATION_HEADER, someServiceAuthToken)
-            .addHeader(AUTHORIZATION_HEADER, someAuthToken)
+            .addHeader(CommonConstants.SERVICE_AUTHORIZATION_HEADER, CommonConstants.someServiceAuthToken)
+            .addHeader(CommonConstants.AUTHORIZATION_HEADER, CommonConstants.someAuthToken)
             .execute().returnResponse();
 
         Assertions.assertEquals(200, downloadDocumentResponse.getStatusLine().getStatusCode());
