@@ -54,9 +54,8 @@ sourceSets {
     java {
       compileClasspath += main.output
       runtimeClasspath += main.output
-      srcDir file('src/smokeTest/java')
+      srcDir file('src/functionalTest/java')
     }
-    resources.srcDir file('src/smokeTest/resources')
   }
 
   integrationTest {
@@ -74,7 +73,6 @@ sourceSets {
       runtimeClasspath += main.output
       srcDir file('src/smokeTest/java')
     }
-    resources.srcDir file('src/smokeTest/resources')
   }
 }
 
@@ -122,8 +120,8 @@ test {
 task functional(type: Test) {
   description = "Runs functional tests"
   group = "Verification"
-  testClassesDirs = sourceSets.smokeTest.output.classesDirs
-  classpath = sourceSets.smokeTest.runtimeClasspath
+  testClassesDirs = sourceSets.functionalTest.output.classesDirs
+  classpath = sourceSets.functionalTest.runtimeClasspath
   finalizedBy(aggregate)
   failFast = true
 }
@@ -140,7 +138,7 @@ task smoke(type: Test) {
   description = "Runs Smoke Tests"
   setTestClassesDirs(sourceSets.smokeTest.output.classesDirs)
   setClasspath(sourceSets.smokeTest.runtimeClasspath)
-  include "uk/gov/hmcts/reform/cosapi/smoke/**"
+  include "uk/gov/hmcts/reform/cosapi/smoketests/**"
   failFast = true
 }
 
@@ -204,24 +202,16 @@ project.tasks['sonarqube'].dependsOn jacocoTestReport
 project.tasks['check'].dependsOn integration
 
 def sonarExclusions = [
-  '**/uk/gov/hmcts/reform/fis/config/OpenAPIConfiguration.java',
-  '**/uk/gov/hmcts/reform/fis/controllers/RootController.java',
-  '**/uk/gov/hmcts/reform/cosapi/edgecase/model/**',
-  '**/uk/gov/hmcts/reform/cosapi/edgecase/task/**',
-  '**/uk/gov/hmcts/reform/cosapi/edgecase/constants/**',
-  '**/uk/gov/hmcts/reform/cosapi/edgecase/event/**',
-  '**/uk/gov/hmcts/reform/cosapi/document/model/**',
-  '**/uk/gov/hmcts/reform/cosapi/document/**',
-  '**/uk/gov/hmcts/reform/cosapi/common/ccd/**',
-  '**/uk/gov/hmcts/reform/cosapi/exception/**',
-  '**/uk/gov/hmcts/reform/cosapi/model/**',
   '**/uk/gov/hmcts/reform/cosapi/common/**',
-  '**/uk/gov/hmcts/reform/cosapi/idam/**',
+  '**/uk/gov/hmcts/reform/cosapi/document/content/DocmosisTemplateConstants.java',
+  '**/uk/gov/hmcts/reform/cosapi/document/model/**',
+  '**/uk/gov/hmcts/reform/cosapi/edgecase/constants/**',
+  '**/uk/gov/hmcts/reform/cosapi/edgecase/model/**',
+  '**/uk/gov/hmcts/reform/cosapi/edgecase/search/**',
   '**/uk/gov/hmcts/reform/cosapi/edgecase/task/**',
-  '**/uk/gov/hmcts/reform/cosapi/common/config/**',
-  '**/uk/gov/hmcts/reform/cosapi/edgecase/task/**',
-  '**/uk/gov/hmcts/reform/cosapi/**',
-  '**/uk/gov/hmcts/reform/cosapi/document/content/**',
+  '**/uk/gov/hmcts/reform/cosapi/model/PaymentStatus.java',
+  '**/uk/gov/hmcts/reform/fis/config/OpenAPIConfiguration.java',
+  '**/uk/gov/hmcts/reform/fis/controllers/RootController.java'
 ]
 
 sonarqube {
@@ -439,7 +429,7 @@ dependencies {
   testImplementation (group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenityCoreVersion)
   testImplementation (group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenityCoreVersion)
   testImplementation (group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenityCoreVersion)
-  
+
   smokeTestCompile sourceSets.main.runtimeClasspath
   smokeTestCompile sourceSets.test.runtimeClasspath
 

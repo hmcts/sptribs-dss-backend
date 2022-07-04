@@ -25,6 +25,7 @@ public class CaseManagementService {
     public CaseResponse createCase(String authorization, CaseData caseData) {
         try {
             // Validate Case Data (CHECKING CASE TYPE ALONE)
+            log.info("Case data received from UI: " + caseData.toString());
             if (!AppsUtil.isValidCaseTypeOfApplication(appsConfig, caseData)) {
                 throw new CaseCreateOrUpdateException("Invalid Case type application. Please check the request.");
             }
