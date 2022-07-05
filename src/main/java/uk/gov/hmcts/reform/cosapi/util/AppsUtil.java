@@ -16,18 +16,18 @@ public class AppsUtil {
     public static AppsConfig.AppsDetails getExactAppsDetails(AppsConfig appsConfig, CaseData caseData) {
         return appsConfig.getApps().stream()
             .filter(eachApps -> eachApps.getCaseTypeOfApplication().contains(caseData.getCaseTypeOfApplication()))
-            .findFirst().get();
+            .findFirst().orElse(null);
     }
 
     public static AppsConfig.AppsDetails getExactAppsDetails(AppsConfig appsConfig, String caseTypeOfApplication) {
         return appsConfig.getApps().stream()
             .filter(eachApps -> eachApps.getCaseTypeOfApplication().contains(caseTypeOfApplication))
-            .findFirst().get();
+            .findFirst().orElse(null);
     }
 
     public static AppsConfig.AppsDetails getExactAppsDetailsByCaseType(AppsConfig appsConfig, String caseType) {
         return appsConfig.getApps().stream()
             .filter(eachApps -> eachApps.getCaseType().equalsIgnoreCase(caseType))
-            .findFirst().get();
+            .findFirst().orElse(null);
     }
 }
