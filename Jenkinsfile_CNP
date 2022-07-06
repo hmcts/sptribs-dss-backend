@@ -67,7 +67,7 @@ withPipeline(type, product, component) {
     syncBranchesWithMaster(['demo', 'ithc', 'perftest'])
     enableSlackNotifications('#family-integration-devsch') //?
 
-    MetricsPublisher metricsPublisher = new MetricsPublisher(this, currentBuild, product, component, params.subscription )
+    MetricsPublisher metricsPublisher = new MetricsPublisher(this, currentBuild, product, component )
     approvedEnvironmentRepository(params.environment, metricsPublisher) {
       if(params.environment != 'prod') {
           enableHighLevelDataSetup()
