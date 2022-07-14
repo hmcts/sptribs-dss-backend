@@ -119,4 +119,13 @@ public class CaseApiService {
 
         return nonNull(res) ? res.getToken() : null;
     }
+
+    public CaseDetails getCaseDetails(String authorization, Long caseId) {
+
+        return coreCaseDataApi.getCase(
+            authorization,
+            authTokenGenerator.generate(),
+            String.valueOf(caseId));
+
+    }
 }
