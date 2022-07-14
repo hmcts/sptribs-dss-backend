@@ -224,7 +224,11 @@ def sonarExclusions = [
   '**/uk/gov/hmcts/reform/cosapi/edgecase/task/**',
   '**/uk/gov/hmcts/reform/cosapi/model/PaymentStatus.java',
   '**/uk/gov/hmcts/reform/fis/config/OpenAPIConfiguration.java',
-  '**/uk/gov/hmcts/reform/fis/controllers/RootController.java'
+  '**/uk/gov/hmcts/reform/fis/controllers/RootController.java',
+  '**/uk/gov/hmcts/reform/cosapi/controllers/CaseManagementController.java',
+  '**/uk/gov/hmcts/reform/cosapi/services/ccd/CaseApiService.java',
+  '**/uk/gov/hmcts/reform/cosapi/services/cdam/CaseManagementService.java',
+
 ]
 
 sonarqube {
