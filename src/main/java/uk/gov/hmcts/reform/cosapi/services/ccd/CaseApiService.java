@@ -122,9 +122,14 @@ public class CaseApiService {
 
     public CaseDetails getCaseDetails(String authorization, Long caseId) {
 
-        return coreCaseDataApi.getCase(
+        String userId = systemUserService.getUserId(authorization);
+
+        return coreCaseDataApi.readForCitizen(
             authorization,
             authTokenGenerator.generate(),
+            userId,
+            "PRIVATELAW",
+            "PRLAPPS",
             String.valueOf(caseId));
 
     }
