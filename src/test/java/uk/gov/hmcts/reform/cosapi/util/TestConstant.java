@@ -13,6 +13,7 @@ public final class TestConstant {
     public static final String CASE_TEST_AUTHORIZATION = "testAuth";
     public static final String CASE_CREATE_FAILURE_MSG = "Failing while creating the case ";
     public static final String CASE_UPDATE_FAILURE_MSG = "Failing while updating the case ";
+    public static final String CASE_FETCH_FAILURE_MSG = "Failing while fetching the case details ";
     public static final String DOCUMENT_DELETE_FAILURE_MSG =
         "Failing while deleting the document. The error message is ";
     public static final String DOCUMENT_UPLOAD_FAILURE_MSG =

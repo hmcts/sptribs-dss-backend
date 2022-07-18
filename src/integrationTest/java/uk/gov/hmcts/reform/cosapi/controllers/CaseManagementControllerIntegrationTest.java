@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.reform.cosapi.edgecase.event.EventEnum;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
@@ -261,4 +262,34 @@ public class CaseManagementControllerIntegrationTest {
 
         Assert.assertEquals("Error", response);
     }
+
+    @Test
+    public void shouldSuccessfullyFetchCase() throws Exception {
+
+        String caseResponseStr = loadJson("response/create-case-response.json");
+        CaseResponse caseResponse = OBJECT_MAPPER.readValue(caseResponseStr, new TypeReference<>() {
+        });
+
+        when(caseManagementService.fetchCaseDetails(anyString(),anyLong()))
+            .thenReturn(caseResponse);
+
+        String response = mockMvc.perform(MockMvcRequestBuilders
+                                              .get("/case/dss-orchestration/fetchCaseDetails/1")
+                                              .header(AUTHORIZATION, AUTHORIZATION_VALUE)
+                                              )
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString(UTF_8);
+
+        assertThatJson(response)
+            .when(IGNORING_ARRAY_ORDER)
+            .isEqualTo(
+                json(
+                    expectedResponse("classpath:response/create-case-response.json")
+                )
+            );
+    }
+
+
 }

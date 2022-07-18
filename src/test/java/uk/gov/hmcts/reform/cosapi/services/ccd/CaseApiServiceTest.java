@@ -44,6 +44,7 @@ import static uk.gov.hmcts.reform.cosapi.util.TestFileUtil.loadJson;
 @SpringBootTest
 @TestPropertySource("classpath:application.yaml")
 @ActiveProfiles("test")
+@SuppressWarnings("PMD")
 class CaseApiServiceTest {
     private final ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
     private static final String TEST_CASE_REFERENCE = "123";
@@ -223,5 +224,36 @@ class CaseApiServiceTest {
         assertEquals(createCaseDetail.getCaseTypeId(), caseDetail.getCaseTypeId());
         assertEquals(createCaseDetail.getData(), caseDetail.getData());
         assertEquals(createCaseDetail.getData().get(TEST_CASE_REFERENCE), caseDataMap.get(TEST_CASE_REFERENCE));
+    }
+
+    @Test
+    void getCaseDetails() throws Exception {
+        String caseDatajson = loadJson(CASE_DATA_FILE_FGM);
+        CaseData caseData = mapper.readValue(caseDatajson,CaseData.class);
+
+        Map<String, Object> caseDataMap = new ConcurrentHashMap<>();
+        caseDataMap.put(TEST_CASE_REFERENCE, caseData);
+
+        CaseDetails caseDetail = CaseDetails.builder().caseTypeId(CASE_DATA_FGM_ID)
+            .id(TEST_CASE_ID)
+            .data(caseDataMap)
+            .jurisdiction(PRL_JURISDICTION)
+            .build();
+
+
+        when(coreCaseDataApi.getCase(
+            CASE_TEST_AUTHORIZATION,
+            authTokenGenerator.generate(),
+            String.valueOf(TEST_CASE_ID)))
+            .thenReturn(caseDetail);
+
+        CaseDetails caseDetails = coreCaseDataApi.getCase(
+            CASE_TEST_AUTHORIZATION,
+            authTokenGenerator.generate(),
+            String.valueOf(TEST_CASE_ID));
+
+        assertEquals(caseDetails.getId(),caseDetail.getId());
+        assertEquals(caseDetails.getData(),caseDetails.getData());
+
     }
 }

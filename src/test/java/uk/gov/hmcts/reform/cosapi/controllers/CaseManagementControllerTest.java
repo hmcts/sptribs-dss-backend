@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.cosapi.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -116,4 +117,32 @@ class CaseManagementControllerTest {
         assertNotNull(testPreUpdResponse);
         assertEquals(HttpStatus.OK, postUpdateCaseResponse.getStatusCode());
     }
+
+    @Test
+    void testFetchCaseDetails() throws IOException {
+
+        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
+        CaseData caseData = mapper.readValue(caseDataJson,CaseData.class);
+
+        Map<String, Object> caseDataMap = new ConcurrentHashMap<>();
+        caseDataMap.put(CASE_DATA_FGM_ID, caseData);
+
+        CaseResponse caseResponse = CaseResponse.builder().caseData(caseDataMap).build();
+        caseResponse.setId(TEST_CASE_ID);
+        caseResponse.setStatus(null);
+
+        when(caseManagementService.fetchCaseDetails(CASE_TEST_AUTHORIZATION,TEST_CASE_ID)).thenReturn(caseResponse);
+
+        ResponseEntity<?> postFetchCaseResponse = caseManagementController.fetchCaseDetails(
+            TEST_CASE_ID,
+            CASE_TEST_AUTHORIZATION
+        );
+
+        CaseResponse caseDataFetchResponse = (CaseResponse) (postFetchCaseResponse.getBody());
+
+        assertEquals(caseDataFetchResponse.getId(),caseResponse.getId());
+        assertEquals(postFetchCaseResponse.getStatusCode(),HttpStatus.OK);
+
+    }
+
 }
