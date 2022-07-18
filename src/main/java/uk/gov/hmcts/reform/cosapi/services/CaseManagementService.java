@@ -63,4 +63,21 @@ public class CaseManagementService {
             throw new CaseCreateOrUpdateException("Failing while updating the case" + e.getMessage(), e);
         }
     }
+
+    public CaseResponse fetchCaseDetails(String authorization,Long caseId) {
+
+        try {
+            CaseDetails caseDetails = caseApiService.getCaseDetails(authorization,
+                                                                    caseId);
+            log.info("Case Details for CaseID :{} and CaseDetails:{}", caseId, caseDetails);
+            return CaseResponse.builder().caseData(caseDetails.getData())
+                .id(caseDetails.getId()).status("Success").build();
+        } catch (Exception e) {
+            log.error("Error while fetching Case Details" + e);
+            throw new CaseCreateOrUpdateException("Failing while fetcing the case details" + e.getMessage(), e);
+        }
+
+    }
+
+
 }

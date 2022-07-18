@@ -34,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_FGM;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_FETCH_FAILURE_MSG;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_CASE_ID;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_USER;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
@@ -245,4 +246,53 @@ class CaseManagementServiceTest {
 
         assertTrue(exception.getMessage().contains(CASE_UPDATE_FAILURE_MSG));
     }
+
+    @Test
+    void testFetchCaseDetail() throws Exception {
+        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
+        CaseData caseData = mapper.readValue(caseDataJson, CaseData.class);
+
+        String origEmailAddress = caseData.getApplicant().getEmailAddress();
+        caseData.getApplicant().setEmailAddress(TEST_UPDATE_CASE_EMAIL_ADDRESS);
+        assertNotEquals(caseData.getApplicant().getEmailAddress(), origEmailAddress);
+
+        when(authTokenGenerator.generate()).thenReturn(TEST_USER);
+
+        Map<String, Object> caseDataMap = new ConcurrentHashMap<>();
+        caseDataMap.put(CASE_DATA_FGM_ID, caseData);
+
+        CaseDetails caseDetail = CaseDetails.builder()
+            .id(TEST_CASE_ID)
+            .data(caseDataMap)
+            .build();
+
+        when(caseApiService.getCaseDetails(CASE_TEST_AUTHORIZATION,TEST_CASE_ID))
+            .thenReturn(caseDetail);
+
+        CaseResponse fetchCaseResponse = caseManagementService.fetchCaseDetails(
+            CASE_TEST_AUTHORIZATION,
+            TEST_CASE_ID);
+
+        assertEquals(fetchCaseResponse.getId(), caseDetail.getId());
+        assertEquals(RESPONSE_STATUS_SUCCESS, fetchCaseResponse.getStatus());
+
+
+    }
+
+    @Test
+    void testFetchCaseDetailsWithException() throws Exception {
+
+        when(caseApiService.getCaseDetails(CASE_TEST_AUTHORIZATION,TEST_CASE_ID))
+            .thenThrow(new CaseCreateOrUpdateException(
+                CASE_FETCH_FAILURE_MSG, new RuntimeException()
+            ));
+
+        Exception ex = assertThrows(Exception.class, () -> {
+            caseManagementService.fetchCaseDetails(CASE_TEST_AUTHORIZATION,TEST_CASE_ID);
+        });
+
+        assertTrue(ex.getMessage().contains(CASE_FETCH_FAILURE_MSG));
+
+    }
+
 }
