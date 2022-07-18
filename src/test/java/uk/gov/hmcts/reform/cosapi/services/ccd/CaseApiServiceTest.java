@@ -247,10 +247,9 @@ class CaseApiServiceTest {
             String.valueOf(TEST_CASE_ID)))
             .thenReturn(caseDetail);
 
-        CaseDetails caseDetails = coreCaseDataApi.getCase(
+        CaseDetails caseDetails = caseApiService.getCaseDetails(
             CASE_TEST_AUTHORIZATION,
-            authTokenGenerator.generate(),
-            String.valueOf(TEST_CASE_ID));
+            TEST_CASE_ID);
 
         assertEquals(caseDetails.getId(),caseDetail.getId());
         assertEquals(caseDetails.getData(),caseDetails.getData());
