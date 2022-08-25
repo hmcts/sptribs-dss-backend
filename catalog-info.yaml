@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "fis-cos-api"
+  annotations:
+    # This must match folder-name/job-name in Jenkins.
+    jenkins.io/job-full-name: cft:HMCTS_d_to_i/fis-cos-api
+    github.com/project-slug: hmcts/fis-cos-api
+  tags:
+    - java
+  links:
+    - url: https://hmcts-reform.slack.com/app_redirect?channel=family-integration-devs
+      title: "#family-integration-devs on Slack"
+      icon: chat
+spec:
+  type: service
+  lifecycle: production
+  owner: dts_family_integration
