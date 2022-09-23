@@ -480,7 +480,7 @@ mainClassName = 'uk.gov.hmcts.reform.cosapi.Application'
 ext.getVaultSecret = { String secretName ->
   new ByteArrayOutputStream().withStream { os ->
     exec {
-      commandLine 'az', 'keyvault', 'secret', 'show', '--vault-name', 'fis-aat', '-o', 'tsv', '--query', 'value', '--name', secretName
+      commandLine 'az', 'keyvault', 'secret', 'show', '--vault-name', 'fis-kv-aat', '-o', 'tsv', '--query', 'value', '--name', secretName
       standardOutput = os
     }
     return os.toString().replace('\n', '')
@@ -617,7 +617,7 @@ task loadEnvSecrets() {
     if (!project.file('./.aat-env').exists()) {
       new ByteArrayOutputStream().withStream { os ->
         exec {
-          commandLine 'az', 'keyvault', 'secret', 'show', '--vault-name', 'fis-aat', '-o', 'tsv', '--query', 'value', '--name', 'fis-case-api-dot-env'
+          commandLine 'az', 'keyvault', 'secret', 'show', '--vault-name', 'fis-kv-aat', '-o', 'tsv', '--query', 'value', '--name', 'fis-case-api-dot-env'
           standardOutput = os
         }
         project.file('./.aat-env').write(new String(os.toString().replace('\n', '').decodeBase64(), java.nio.charset.StandardCharsets.UTF_8))
