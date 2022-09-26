@@ -3,12 +3,12 @@ appVersion: "1.0"
 description: A Helm chart for fis-cos-api App
 name: fis-cos-api
 home: https://github.com/hmcts/fis-cos-api
-version: 0.0.9
+version: 0.0.10
 maintainers:
   - name: HMCTS fis team
 dependencies:
   - name: java
-    version: 3.7.8
+    version: 3.7.9
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
   - name: ccd
     version: v8.0.5
