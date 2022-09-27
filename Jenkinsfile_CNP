@@ -8,7 +8,7 @@ import uk.gov.hmcts.contino.AppPipelineConfig
 import uk.gov.hmcts.contino.MetricsPublisher
 
 def type = "java"
-def product = "fis-kv"
+def product = "fis"
 def component = "cos-api"
 
 GradleBuilder builder = new GradleBuilder(this, product)
@@ -22,7 +22,7 @@ static Map<String, Object> secret(String secretName, String envVariable) {
 }
 
 def secrets = [
-  's2s-${env}'      : [
+  's2s-aat'      : [
     secret('microservicekey-ccd-data', 'DATA_STORE_S2S_KEY'),
     secret('microservicekey-ccd-definition', 'DEFINITION_STORE_S2S_KEY'),
     secret('microservicekey-ccd-gw', 'CCD_API_GATEWAY_S2S_KEY'),
@@ -30,7 +30,7 @@ def secrets = [
     secret('microservicekey-ccd-data', 'CCD_DATA_STORE_S2S_SECRET'),
     secret('microservicekey-ccd-definition', 'CCD_DEFINITION_STORE_S2S_SECRET')
   ],
-  'ccd-${env}'      : [
+  'ccd-aat'      : [
     secret('ccd-api-gateway-oauth2-client-secret', 'CCD_API_GATEWAY_OAUTH2_CLIENT_SECRET'),
     secret('ccd-admin-web-oauth2-client-secret', 'ADMIN_WEB_IDAM_SECRET'),
     secret('postcode-info-address-lookup-token', 'ADDRESS_LOOKUP_TOKEN'),
@@ -38,7 +38,7 @@ def secrets = [
     secret('idam-data-store-system-user-username','IDAM_DATA_STORE_SYSTEM_USER_USERNAME'),
     secret('idam-data-store-system-user-password','IDAM_DATA_STORE_SYSTEM_USER_PASSWORD'),
   ],
-  'fis-${env}'    :[
+  'fis-kv-aat'    :[
     secret('definition-importer-username', 'DEFINITION_IMPORTER_USERNAME'),
     secret('definition-importer-password', 'DEFINITION_IMPORTER_PASSWORD'),
     secret('idam-ui-secret', 'OAUTH2_CLIENT_SECRET'),
@@ -62,7 +62,6 @@ def vaultOverrides = [
 withPipeline(type, product, component) {
     enableAksStagingDeployment()
     disableLegacyDeployment()
-    overrideVaultEnvironments(vaultOverrides)
     loadVaultSecrets(secrets)
     syncBranchesWithMaster(['demo', 'ithc', 'perftest'])
     enableSlackNotifications('#family-integration-devsch') //?
