@@ -7,7 +7,7 @@ locals {
 }
 
 data "azurerm_key_vault" "fis_key_vault" {
-  name = fis-kv-aat
+  name = "fis-kv-aat"
   resource_group_name = "${var.raw_product}-${var.env}"
 }
 
