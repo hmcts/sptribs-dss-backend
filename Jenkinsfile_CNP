@@ -38,7 +38,7 @@ def secrets = [
     secret('idam-data-store-system-user-username','IDAM_DATA_STORE_SYSTEM_USER_USERNAME'),
     secret('idam-data-store-system-user-password','IDAM_DATA_STORE_SYSTEM_USER_PASSWORD'),
   ],
-  'fis-${env}'    :[
+  'fis-kv-${env}'    :[
     secret('definition-importer-username', 'DEFINITION_IMPORTER_USERNAME'),
     secret('definition-importer-password', 'DEFINITION_IMPORTER_PASSWORD'),
     secret('idam-ui-secret', 'OAUTH2_CLIENT_SECRET'),
