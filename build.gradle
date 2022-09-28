@@ -211,31 +211,30 @@ jacocoTestCoverageVerification {
   }
 }
 
-project.tasks['sonarqube'].dependsOn jacocoTestReport
-project.tasks['check'].dependsOn integration
-
-def sonarExclusions = [
-  '**/uk/gov/hmcts/reform/cosapi/common/**',
-  '**/uk/gov/hmcts/reform/cosapi/document/content/DocmosisTemplateConstants.java',
-  '**/uk/gov/hmcts/reform/cosapi/document/model/**',
-  '**/uk/gov/hmcts/reform/cosapi/edgecase/constants/**',
-  '**/uk/gov/hmcts/reform/cosapi/edgecase/model/**',
-  '**/uk/gov/hmcts/reform/cosapi/edgecase/search/**',
-  '**/uk/gov/hmcts/reform/cosapi/edgecase/task/**',
-  '**/uk/gov/hmcts/reform/cosapi/model/PaymentStatus.java',
-  '**/uk/gov/hmcts/reform/fis/config/OpenAPIConfiguration.java',
-]
-
-sonarqube {
-  properties {
-    property "sonar.projectName", "sptribs :: sptribs-dss-backend"
-    property "sonar.projectKey", "uk.gov.hmcts.reform:sptribs-dss-backend"
-    property "sonar.exclusions", sonarExclusions.join(', ')
-    property "sonar.coverage.exclusions", sonarExclusions.join(', ')
-    property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
-  }
-}
-
+//project.tasks['sonarqube'].dependsOn jacocoTestReport
+//project.tasks['check'].dependsOn integration
+//
+//def sonarExclusions = [
+//  '**/uk/gov/hmcts/reform/cosapi/common/**',
+//  '**/uk/gov/hmcts/reform/cosapi/document/content/DocmosisTemplateConstants.java',
+//  '**/uk/gov/hmcts/reform/cosapi/document/model/**',
+//  '**/uk/gov/hmcts/reform/cosapi/edgecase/constants/**',
+//  '**/uk/gov/hmcts/reform/cosapi/edgecase/model/**',
+//  '**/uk/gov/hmcts/reform/cosapi/edgecase/search/**',
+//  '**/uk/gov/hmcts/reform/cosapi/edgecase/task/**',
+//  '**/uk/gov/hmcts/reform/cosapi/model/PaymentStatus.java',
+//  '**/uk/gov/hmcts/reform/fis/config/OpenAPIConfiguration.java',
+//]
+//
+//sonarqube {
+//  properties {
+//    property "sonar.projectName", "sptribs :: sptribs-dss-backend"
+//    property "sonar.projectKey", "uk.gov.hmcts.reform:sptribs-dss-backend"
+//    property "sonar.exclusions", sonarExclusions.join(', ')
+//    property "sonar.coverage.exclusions", sonarExclusions.join(', ')
+//    property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
+//  }
+//}
 
 // before committing a change, make sure task still works
 dependencyUpdates {
