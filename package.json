@@ -4,7 +4,7 @@
   "description": "Utility to help creating CCD config definitions",
   "main": "build/ts/index.d.ts",
   "types": "build/ts/index.d.ts",
-  "repository": "git@github.com:hmcts/fis-cos-api.git",
+  "repository": "git@github.com:hmcts/sptribs-dss-backend.git",
   "license": "MIT",
   "private": false,
   "engines": {

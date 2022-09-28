@@ -10,14 +10,14 @@ tags:
 
 java:
   applicationPort: 8099
-  image: 'hmctspublic.azurecr.io/fis/cos-api:latest'
-  ingressHost: fis-cos-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-  aadIdentityName: fis
+  image: 'hmctspublic.azurecr.io/sptribs/dss-backend:latest'
+  ingressHost: sptribs-dss-backend-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+  aadIdentityName: sptribs
 
   environment:
     NODE_ENV: production
-    REFORM_TEAM: fis
-    REFORM_SERVICE_NAME: fis-cos-api
+    REFORM_TEAM: sptribs
+    REFORM_SERVICE_NAME: sptribs-dss-backend
 
     SERVICE_AUTH_PROVIDER_URL: 'http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal'
     IDAM_WEB_URL: 'https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net/login'
@@ -27,12 +27,12 @@ java:
     CCD_CASE_DOCS_AM_API: "http://ccd-case-document-am-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
 
   keyVaults:
-    fis:
+    sptribs:
       secrets:
         - name: idam-system-user-name
           alias: IDAM_SYSTEM_UPDATE_USERNAME
         - name: idam-system-user-password
           alias: IDAM_SYSTEM_UPDATE_PASSWORD
-        - name: s2s-secret-fis-cos-api
+        - name: s2s-secret-sptribs-dss-backend
           alias: S2S_SECRET
         - name: AppInsightsInstrumentationKey

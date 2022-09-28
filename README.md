@@ -1,6 +1,6 @@
 ## sptribs-dss-backend-api
 
-[![Build Status](https://travis-ci.org/hmcts/fis-cos-api.svg?branch=master)](https://travis-ci.org/hmcts/fis-cos-api)
+[![Build Status](https://travis-ci.org/hmcts/sptribs-dss-backend.svg?branch=master)](https://travis-ci.org/hmcts/sptribs-dss-backend)
 
 ## Notes
 
@@ -35,7 +35,7 @@ Create docker image:
   docker-compose build
 ```
 
-Run the distribution (created in `build/install/fis-cos-api` directory)
+Run the distribution (created in `build/install/sptribs-dss-backend` directory)
 by executing the following command:
 
 ```bash

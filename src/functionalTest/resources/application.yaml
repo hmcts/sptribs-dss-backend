@@ -28,9 +28,9 @@ springdoc:
 #If you use a database then uncomment below lines and update db properties accordingly
 spring:
   config:
-    import: "optional:configtree:/mnt/secrets/fis/"
+    import: "optional:configtree:/mnt/secrets/sptribs/"
   application:
-    name: Fis Cos API
+    name: sptribs dss backend API
   main:
     allow-bean-definition-overriding: true
   mvc:
@@ -45,7 +45,7 @@ idam:
   s2s-auth:
     url: ${SERVICE_AUTH_PROVIDER_URL:http://rpe-service-auth-provider-aat.service.core-compute-aat.internal}
     secret: ${S2S_SECRET:XXXXXXXX}
-    microservice: fis_cos_api
+    microservice: sptribs_dss_backend
   api:
     url: https://idam-api.aat.platform.hmcts.net
   client:

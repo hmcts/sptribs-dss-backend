@@ -29,7 +29,7 @@ import uk.gov.hmcts.reform.cosapi.clients.CommonConstants;
 public class DocumentDeleteConsumerTest {
 
 
-    @Pact(provider = "document_delete_api", consumer = "fis_cos")
+    @Pact(provider = "document_delete_api", consumer = "sptribs_cos")
     RequestResponsePact deleteDocument(PactDslWithProvider builder) throws JSONException, IOException {
         // @formatter:off
 

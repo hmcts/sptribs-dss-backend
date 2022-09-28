@@ -52,7 +52,7 @@ public class IdamApiConsumerTest {
         Thread.sleep(4000);
     }
 
-    @Pact(provider = "Idam_api", consumer = "fis_cos")
+    @Pact(provider = "Idam_api", consumer = "sptribs_cos")
     public RequestResponsePact executeGetUserInfo(PactDslWithProvider builder) {
 
         Map<String, Object> params = new HashMap<>();
@@ -60,7 +60,7 @@ public class IdamApiConsumerTest {
         params.put("client_id", "pact");
         params.put("client_secret", "pactsecret");
         params.put("scope", "openid profile roles");
-        params.put("username", "fis_cos@mailinator.com");
+        params.put("username", "sptribs_cos@mailinator.com");
         params.put("password", "generic");
 
         return builder.given("I have obtained an access_token as a user", params)
@@ -85,7 +85,7 @@ public class IdamApiConsumerTest {
             .givenName("John")
             .name("John Smith")
             .roles(Lists.newArrayList("citizen_journey"))
-            .sub("fis_cos@mailinator.com")
+            .sub("sptribs_cos@mailinator.com")
             .uid("33dff5a7-3b6f-45f1-b5e7-5f9be1ede355")
             .build();
 
@@ -112,7 +112,7 @@ public class IdamApiConsumerTest {
 
     private PactDslJsonBody createUserInfoResponse() {
         return new PactDslJsonBody()
-            .stringType("sub", "fis_cos@mailinator.com")
+            .stringType("sub", "sptribs_cos@mailinator.com")
             .stringType("uid", "33dff5a7-3b6f-45f1-b5e7-5f9be1ede355")
             .minArrayLike("roles", 1, PactDslJsonRootValue.stringType("citizen_journey"), 1)
             .stringType("name", "John Smith")

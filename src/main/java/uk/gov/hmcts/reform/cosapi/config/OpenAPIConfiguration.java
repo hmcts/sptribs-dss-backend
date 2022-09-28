@@ -13,7 +13,7 @@ public class OpenAPIConfiguration {
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
-            .info(new Info().title("fis-cos-api")
+            .info(new Info().title("sptribs-dss-backend")
                       .description("Create & update case and Upload and delete docs ")
                       .version("v0.0.1")
                       .license(new License().name("MIT").url("https://opensource.org/licenses/MIT")))

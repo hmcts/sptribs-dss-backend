@@ -5,16 +5,16 @@ java:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   environment:
-    CASE_DATA_STORE_BASEURL: http://ccd-data-store-api-fis-cos-api-pr-${CHANGE_ID}.service.core-compute-preview.internal
+    CASE_DATA_STORE_BASEURL: http://ccd-data-store-api-sptribs-dss-backend-pr-${CHANGE_ID}.service.core-compute-preview.internal
     CITIZEN_UPDATE_CASE_STATE_ENABLED: true
     APP_INSIGHTS_KEY: 40c4ab72-faeb-4a79-b7ef-554038d0542f
 
   keyVaults:
-    fis:
+    sptribs:
       secrets:
         - name: uk-gov-notify-api-key
           alias: UK_GOV_NOTIFY_API_KEY
-        - name: s2s-secret-fis-cos-api
+        - name: s2s-secret-sptribs-dss-backend
           alias: S2S_SECRET
         - name: idam-secret
           alias: IDAM_CLIENT_SECRET
@@ -64,8 +64,8 @@ ccd:
         DATA_STORE_DB_HOST: ${SERVICE_NAME}-postgresql
         DATA_STORE_IDAM_KEY: ${DATA_STORE_S2S_KEY}
         DATA_STORE_DEFAULT_LOG_LEVEL: info
-        DATA_STORE_S2S_AUTHORISED_SERVICES: ccd_data,ccd_gw,ccd_admin,ccd_ps,fis_cos_api,ds-ui
-        CCD_S2S_AUTHORISED_SERVICES_CASE_USER_ROLES: fis_cos_api
+        DATA_STORE_S2S_AUTHORISED_SERVICES: ccd_data,ccd_gw,ccd_admin,ccd_ps,sptribs_dss_backend,ds-ui
+        CCD_S2S_AUTHORISED_SERVICES_CASE_USER_ROLES: sptribs_dss_backend
         ELASTIC_SEARCH_ENABLED: false
         CCD_DM_DOMAIN: http://dm-store-aat.service.core-compute-aat.internal
         CCD_DOCUMENT_URL_PATTERN: ^https?://(((?:api-gateway\.preprod\.dm\.reform\.hmcts\.net|dm-store-aat\.service\.core-compute-aat\.internal(?::\d+)?)\/documents\/[A-Za-z0-9-]+(?:\/binary)?)|(em-hrs-api-aat\.service\.core-compute-aat\.internal(?::\d+)?\/hearing-recordings\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\/segments\/[0-9]))
