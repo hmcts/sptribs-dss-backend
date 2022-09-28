@@ -9,7 +9,7 @@ import uk.gov.hmcts.contino.MetricsPublisher
 
 def type = "java"
 def product = "sptribs"
-def component = "cos-api"
+def component = "dss-backend"
 
 GradleBuilder builder = new GradleBuilder(this, product)
 
