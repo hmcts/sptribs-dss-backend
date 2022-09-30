@@ -228,14 +228,13 @@ def sonarExclusions = [
 
 sonarqube {
   properties {
-    property "sonar.projectName", "fis :: fis-cos-api"
-    property "sonar.projectKey", "uk.gov.hmcts.reform:fis-cos-api"
+    property "sonar.projectName", "sptribs :: sptribs-dss-backend"
+    property "sonar.projectKey", "uk.gov.hmcts.reform:sptribs-dss-backend"
     property "sonar.exclusions", sonarExclusions.join(', ')
     property "sonar.coverage.exclusions", sonarExclusions.join(', ')
     property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
   }
 }
-
 
 // before committing a change, make sure task still works
 dependencyUpdates {
@@ -480,7 +479,7 @@ mainClassName = 'uk.gov.hmcts.reform.cosapi.Application'
 ext.getVaultSecret = { String secretName ->
   new ByteArrayOutputStream().withStream { os ->
     exec {
-      commandLine 'az', 'keyvault', 'secret', 'show', '--vault-name', 'fis-kv-aat', '-o', 'tsv', '--query', 'value', '--name', secretName
+      commandLine 'az', 'keyvault', 'secret', 'show', '--vault-name', 'sptribs-aat', '-o', 'tsv', '--query', 'value', '--name', secretName
       standardOutput = os
     }
     return os.toString().replace('\n', '')
@@ -495,7 +494,7 @@ bootRun {
       systemProperty 'IDAM_API_BASEURL', 'https://idam-api.aat.platform.hmcts.net'
       // TODO: Uncomment if required later
       //systemProperty 'UK_GOV_NOTIFY_API_KEY', getVaultSecret('uk-gov-notify-api-key')
-      systemProperty 'S2S_SECRET', getVaultSecret('s2s-secret-fis-cos-api')
+      systemProperty 'S2S_SECRET', getVaultSecret('s2s-secret-sptribs-dss-backend')
       //systemProperty 'IDAM_CASEWORKER_USERNAME', getVaultSecret('idam-caseworker-username')
       //systemProperty 'IDAM_CASEWORKER_PASSWORD', getVaultSecret('idam-caseworker-password')
       systemProperty 'IDAM_SYSTEM_UPDATE_USERNAME', getVaultSecret('idam-system-user-name')
@@ -515,7 +514,7 @@ bootRun {
 
 bootJar {
   getArchiveFileName().set(provider {
-    'fis-cos-api.jar'
+    'sptribs-dss-backend.jar'
   })
 
   manifest {
@@ -530,7 +529,7 @@ functional {
 
       systemProperty 'IDAM_API_BASEURL', 'https://idam-api.aat.platform.hmcts.net'
       systemProperty 'UK_GOV_NOTIFY_API_KEY', getVaultSecret('uk-gov-notify-api-key')
-      systemProperty 'S2S_SECRET', getVaultSecret('s2s-secret-fis-cos-api')
+      systemProperty 'S2S_SECRET', getVaultSecret('s2s-secret-sptribs-dss-backend')
       //systemProperty 'IDAM_CASEWORKER_USERNAME', getVaultSecret('idam-caseworker-username')
       //systemProperty 'IDAM_CASEWORKER_PASSWORD', getVaultSecret('idam-caseworker-password')
       systemProperty 'IDAM_SYSTEM_UPDATE_USERNAME', getVaultSecret('idam-system-user-name')
@@ -573,7 +572,7 @@ tasks.register('stopCosApiContainer') {
   doFirst {
     exec {
       executable "sh"
-      args "-c", "docker stop fis-cos-api || exit 0"
+      args "-c", "docker stop sptribs-dss-backend || exit 0"
     }
   }
 }
@@ -593,7 +592,7 @@ def reloadCcd = tasks.register('reloadCcd') {
         def (key, value) = it.tokenize('=')
         environment key, value
       }
-      commandLine 'docker-compose', '-f', '../docker-compose.yml', 'up', '--build', '-d', 'fis-cos-api'
+      commandLine 'docker-compose', '-f', '../docker-compose.yml', 'up', '--build', '-d', 'sptribs-dss-backend'
     }
   }
 }
@@ -617,7 +616,7 @@ task loadEnvSecrets() {
     if (!project.file('./.aat-env').exists()) {
       new ByteArrayOutputStream().withStream { os ->
         exec {
-          commandLine 'az', 'keyvault', 'secret', 'show', '--vault-name', 'fis-kv-aat', '-o', 'tsv', '--query', 'value', '--name', 'fis-case-api-dot-env'
+          commandLine 'az', 'keyvault', 'secret', 'show', '--vault-name', 'sptribs-aat', '-o', 'tsv', '--query', 'value', '--name', 'sptribs-case-api-dot-env'
           standardOutput = os
         }
         project.file('./.aat-env').write(new String(os.toString().replace('\n', '').decodeBase64(), java.nio.charset.StandardCharsets.UTF_8))

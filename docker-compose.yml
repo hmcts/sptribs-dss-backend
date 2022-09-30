@@ -1,7 +1,7 @@
 version: '2.1'
 
 services:
-  fis-cos-api:
+  sptribs-dss-backend:
     build:
       context: .
       args:

@@ -30,7 +30,7 @@ public class CaseManagementConsumerTest {
 
 
 
-    @Pact(provider = "ccd_submitForCitizen_api", consumer = "fis_cos")
+    @Pact(provider = "ccd_submitForCitizen_api", consumer = "sptribs_cos")
     RequestResponsePact createCase(PactDslWithProvider builder) throws JSONException, IOException {
 
         PactDslJsonBody body = new PactDslJsonBody()

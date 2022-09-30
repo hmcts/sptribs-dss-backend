@@ -8,8 +8,8 @@ import uk.gov.hmcts.contino.AppPipelineConfig
 import uk.gov.hmcts.contino.MetricsPublisher
 
 def type = "java"
-def product = "fis"
-def component = "cos-api"
+def product = "sptribs"
+def component = "dss-backend"
 
 GradleBuilder builder = new GradleBuilder(this, product)
 
@@ -38,15 +38,15 @@ def secrets = [
     secret('idam-data-store-system-user-username','IDAM_DATA_STORE_SYSTEM_USER_USERNAME'),
     secret('idam-data-store-system-user-password','IDAM_DATA_STORE_SYSTEM_USER_PASSWORD'),
   ],
-  'fis-${env}'    :[
-    secret('definition-importer-username', 'DEFINITION_IMPORTER_USERNAME'),
-    secret('definition-importer-password', 'DEFINITION_IMPORTER_PASSWORD'),
+  'sptribs-aat'    :[
+    secret('definition-importer-user-name', 'DEFINITION_IMPORTER_USERNAME'),
+    secret('definition-importer-pw', 'DEFINITION_IMPORTER_PASSWORD'),
     secret('idam-ui-secret', 'OAUTH2_CLIENT_SECRET'),
     secret('idam-solicitor-username', 'IDAM_SOLICITOR_USERNAME'),
     secret('idam-solicitor-password', 'IDAM_SOLICITOR_PASSWORD'),
     secret('idam-system-user-name', 'IDAM_SYSTEM_UPDATE_USERNAME'),
     secret('idam-system-user-password', 'IDAM_SYSTEM_UPDATE_PASSWORD'),
-    secret('s2s-secret-fis-cos-api', 'S2S_SECRET'),
+    secret('s2s-secret-sptribs-dss-backend', 'S2S_SECRET'),
     secret('AppInsightsInstrumentationKey', 'APP_INSIGHTS_KEY'),
   ]
 ]
@@ -201,10 +201,10 @@ withPipeline(type, product, component) {
 
   onPR {
       env.ENVIRONMENT="preview"
-      env.CASE_API_URL = "http://fis-cos-api-pr-${CHANGE_ID}.service.core-compute-preview.internal"
+      env.CASE_API_URL = "http://sptribs-dss-backend-pr-${CHANGE_ID}.service.core-compute-preview.internal"
       env.CCD_DEF_NAME = "preview"
-      env.DEFINITION_STORE_URL_BASE = "http://ccd-definition-store-fis-cos-api-pr-${CHANGE_ID}.service.core-compute-preview.internal"
-      env.CASE_DATA_STORE_BASEURL = "http://ccd-data-store-api-fis-cos-api-pr-${CHANGE_ID}.service.core-compute-preview.internal"
+      env.DEFINITION_STORE_URL_BASE = "http://ccd-definition-store-sptribs-dss-backend-pr-${CHANGE_ID}.service.core-compute-preview.internal"
+      env.CASE_DATA_STORE_BASEURL = "http://ccd-data-store-api-sptribs-dss-backend-pr-${CHANGE_ID}.service.core-compute-preview.internal"
       env.S2S_URL_BASE = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
       env.IDAM_API_URL_BASE = "https://idam-api.aat.platform.hmcts.net"
       env.CITIZEN_UPDATE_CASE_STATE_ENABLED=true
@@ -216,7 +216,7 @@ withPipeline(type, product, component) {
 
   onMaster {
       env.ENVIRONMENT="aat"
-      env.CASE_API_URL="http://fis-cos-api-aat.service.core-compute-aat.internal"
+      env.CASE_API_URL="http://sptribs-dss-backend-aat.service.core-compute-aat.internal"
       env.CCD_DEF_NAME="aat"
       env.DEFINITION_STORE_URL_BASE="http://ccd-definition-store-api-aat.service.core-compute-aat.internal"
       env.CITIZEN_UPDATE_CASE_STATE_ENABLED=true
@@ -227,7 +227,7 @@ withPipeline(type, product, component) {
 
   onDemo {
       env.ENVIRONMENT="demo"
-      env.CASE_API_URL = "http://fis-cos-api-demo.service.core-compute-demo.internal"
+      env.CASE_API_URL = "http://sptribs-dss-backend-demo.service.core-compute-demo.internal"
       env.CCD_DEF_NAME = "demo"
       env.IDAM_API_URL_BASE = "https://idam-api.demo.platform.hmcts.net"
       env.S2S_URL_BASE = "http://rpe-service-auth-provider-demo.service.core-compute-demo.internal"
@@ -236,7 +236,7 @@ withPipeline(type, product, component) {
 
   onPerftest {
       env.ENVIRONMENT="perftest"
-      env.CASE_API_URL = "http://fis-cos-api-perftest.service.core-compute-perftest.internal"
+      env.CASE_API_URL = "http://sptribs-dss-backend-perftest.service.core-compute-perftest.internal"
       env.CCD_DEF_NAME = "perftest"
       env.IDAM_API_URL_BASE = "https://idam-api.perftest.platform.hmcts.net"
       env.S2S_URL_BASE = "http://rpe-service-auth-provider-perftest.service.core-compute-perftest.internal"
@@ -245,7 +245,7 @@ withPipeline(type, product, component) {
 
   onIthc {
       env.ENVIRONMENT="ithc"
-      env.CASE_API_URL = "http://fis-cos-api-ithc.service.core-compute-ithc.internal"
+      env.CASE_API_URL = "http://sptribs-dss-backend-ithc.service.core-compute-ithc.internal"
       env.CCD_DEF_NAME = "ithc"
       env.IDAM_API_URL_BASE = "https://idam-api.ithc.platform.hmcts.net"
       env.S2S_URL_BASE = "http://rpe-service-auth-provider-ithc.service.core-compute-ithc.internal"

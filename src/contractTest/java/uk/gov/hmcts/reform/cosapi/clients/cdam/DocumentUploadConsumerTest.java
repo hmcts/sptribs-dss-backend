@@ -28,7 +28,7 @@ import uk.gov.hmcts.reform.cosapi.clients.CommonConstants;
 @SpringBootTest({  "document_upload_api:http://localhost:5006"})
 public class DocumentUploadConsumerTest {
 
-    @Pact(provider = "document_upload_api", consumer = "fis_cos")
+    @Pact(provider = "document_upload_api", consumer = "sptribs_cos")
     RequestResponsePact uploadDocument(PactDslWithProvider builder) throws JSONException, IOException {
         // @formatter:off
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 print_help() {
-  echo "Script to run docker containers for Fis COS API
+  echo "Script to run docker containers for sptribs dss backend API
 
   Usage:
 
