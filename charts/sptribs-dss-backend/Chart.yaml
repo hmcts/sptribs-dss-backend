@@ -3,19 +3,19 @@ appVersion: "1.0"
 description: A Helm chart for sptribs-dss-backend App
 name: sptribs-dss-backend
 home: https://github.com/hmcts/sptribs-dss-backend
-version: 0.0.9
+version: 0.0.66
 maintainers:
   - name: HMCTS sptribs team
 dependencies:
   - name: java
-    version: 3.7.8
+    version: 4.0.1
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
   - name: ccd
-    version: v8.0.5
+    version: 8.0.19
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     tags:
       - ccd-idam-pr
   - name: xui-webapp
-    version: ~0.2.1
+    version: ~1.0.0
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: xui-webapp.enabled
