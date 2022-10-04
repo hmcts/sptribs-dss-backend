@@ -360,7 +360,12 @@ dependencies {
   implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
   implementation group: 'com.github.hmcts', name: 'send-letter-client', version: '3.0.10'
   implementation group: 'org.elasticsearch', name: 'elasticsearch', version: '7.17.3'
-  implementation group: 'com.github.hmcts', name: 'befta-fw', version: '8.7.2-Categories'
+  implementation (group: 'com.github.hmcts', name: 'befta-fw', version: '8.7.2-Categories') {
+    exclude group: 'org.apache.commons', module: 'commons-compress'
+    exclude group: 'com.google.guava', module: 'guava'
+    exclude group: 'org.apache.poi', module: 'poi-ooxml'
+    exclude group: 'org.apache.poi', module: 'poi'
+  }
   implementation group: 'org.springframework.retry', name: 'spring-retry', version: '1.3.2'
   implementation group: 'org.springframework', name: 'spring-aspects', version: '5.3.19'
   implementation group: 'io.cucumber', name: 'cucumber-java', version: '7.3.3'
