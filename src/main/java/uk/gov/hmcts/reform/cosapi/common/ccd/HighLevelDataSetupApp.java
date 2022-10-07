@@ -63,4 +63,10 @@ public class HighLevelDataSetupApp extends DataLoaderToDefinitionStore {
             "build/ccd-config/ccd-" + "PRLAPPS" + "-" + environmentName + ".xlsx"
         );
     }
+
+    @Override
+    public void createRoleAssignments() {
+        // Do not create role assignments.
+        BeftaUtils.defaultLog("Will NOT create role assignments!");
+    }
 }
