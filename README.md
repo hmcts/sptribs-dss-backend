@@ -1,4 +1,4 @@
-## sptribs-dss-backend
+## sptribs-dss-backend api
 
 [![Build Status](https://travis-ci.org/hmcts/sptribs-dss-backend.svg?branch=master)](https://travis-ci.org/hmcts/sptribs-dss-backend)
 
