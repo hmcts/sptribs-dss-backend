@@ -18,9 +18,9 @@ java:
           alias: S2S_SECRET
         - name: idam-secret
           alias: IDAM_CLIENT_SECRET
-        - name: idam-system-user-name
+        - name: idam-systemupdate-username
           alias: IDAM_SYSTEM_UPDATE_USERNAME
-        - name: idam-system-user-password
+        - name: idam-systemupdate-password
           alias: IDAM_SYSTEM_UPDATE_PASSWORD
 
 ccd:

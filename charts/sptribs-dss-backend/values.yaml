@@ -29,9 +29,9 @@ java:
   keyVaults:
     sptribs:
       secrets:
-        - name: idam-system-user-name
+        - name: idam-systemupdate-username
           alias: IDAM_SYSTEM_UPDATE_USERNAME
-        - name: idam-system-user-password
+        - name: idam-systemupdate-password
           alias: IDAM_SYSTEM_UPDATE_PASSWORD
         - name: s2s-secret-sptribs-dss-backend
           alias: S2S_SECRET
