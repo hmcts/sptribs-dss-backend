@@ -507,7 +507,7 @@ bootRun {
       systemProperty 'IDAM_SOLICITOR_USERNAME', getVaultSecret('idam-solicitor-username')
       systemProperty 'IDAM_SOLICITOR_PASSWORD', getVaultSecret('idam-solicitor-password')
       systemProperty 'IDAM_CLIENT_SECRET', getVaultSecret('idam-ui-secret')
-      systemProperty 'APP_INSIGHTS_KEY', getVaultSecret('AppInsightsInstrumentationKey')
+      systemProperty 'APP_INSIGHTS_KEY', getVaultSecret('app-insights-instrumentation-key')
 
       if (System.getenv("BOOT_RUN_DOCKER")) {
         systemProperty 'IDAM_API_BASEURL', 'http://localhost:5000'
