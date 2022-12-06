@@ -542,7 +542,7 @@ functional {
       systemProperty 'IDAM_SOLICITOR_USERNAME', getVaultSecret('idam-solicitor-username')
       systemProperty 'IDAM_SOLICITOR_PASSWORD', getVaultSecret('idam-solicitor-password')
       systemProperty 'OAUTH2_CLIENT_SECRET', getVaultSecret('idam-ui-secret')
-      systemProperty 'APP_INSIGHTS_KEY', getVaultSecret('AppInsightsInstrumentationKey')
+      systemProperty 'APP_INSIGHTS_KEY', getVaultSecret('app-insights-instrumentation-key')
     }
   }
 }
