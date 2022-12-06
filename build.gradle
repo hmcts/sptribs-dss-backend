@@ -440,7 +440,7 @@ dependencies {
   smokeTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
   smokeTestRuntime "org.junit.platform:junit-platform-commons:1.8.1"
 
-  smokeTestCompile(group: 'org.yaml', name: 'snakeyaml', version: '1.30') {
+  smokeTestCompile(group: 'org.yaml', name: 'snakeyaml', version: '1.32') {
     force = true
   }
 
@@ -507,7 +507,7 @@ bootRun {
       systemProperty 'IDAM_SOLICITOR_USERNAME', getVaultSecret('idam-solicitor-username')
       systemProperty 'IDAM_SOLICITOR_PASSWORD', getVaultSecret('idam-solicitor-password')
       systemProperty 'IDAM_CLIENT_SECRET', getVaultSecret('idam-ui-secret')
-      systemProperty 'APP_INSIGHTS_KEY', getVaultSecret('AppInsightsInstrumentationKey')
+      systemProperty 'APP_INSIGHTS_KEY', getVaultSecret('app-insights-instrumentation-key')
 
       if (System.getenv("BOOT_RUN_DOCKER")) {
         systemProperty 'IDAM_API_BASEURL', 'http://localhost:5000'
@@ -542,7 +542,7 @@ functional {
       systemProperty 'IDAM_SOLICITOR_USERNAME', getVaultSecret('idam-solicitor-username')
       systemProperty 'IDAM_SOLICITOR_PASSWORD', getVaultSecret('idam-solicitor-password')
       systemProperty 'OAUTH2_CLIENT_SECRET', getVaultSecret('idam-ui-secret')
-      systemProperty 'APP_INSIGHTS_KEY', getVaultSecret('AppInsightsInstrumentationKey')
+      systemProperty 'APP_INSIGHTS_KEY', getVaultSecret('app-insights-instrumentation-key')
     }
   }
 }

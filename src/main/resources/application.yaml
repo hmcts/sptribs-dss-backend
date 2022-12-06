@@ -95,7 +95,7 @@ core_case_data:
     url: ${CASE_DATA_STORE_BASEURL:http://ccd-data-store-api-aat.service.core-compute-aat.internal}
 
 case_document_am:
-  url: ${CCD_CASE_DOCS_AM_API:http://ccd-case-document-am-api-aat.service.core-compute-aat.internal}
+  url: ${:http://ccd-case-document-am-api-aat.service.core-compute-aat.internal}
 
 caseinfo:
   apps:
@@ -116,3 +116,11 @@ caseinfo:
         submitEvent: citizen-adop-submit-dss-application
       caseTypeOfApplication:
         - RELADOP
+    - caseType: CriminalInjuriesCompensation
+      jurisdiction: ST_CIC
+      eventIds:
+        createEvent: citizen-cic-create-dss-application
+        updateEvent: citizen-cic-update-dss-application
+        submitEvent: citizen-cic-submit-dss-application
+      caseTypeOfApplication:
+        - CIC
