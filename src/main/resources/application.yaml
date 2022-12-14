@@ -27,8 +27,8 @@ spring:
       matching-strategy: ANT_PATH_MATCHER
   servlet:
     multipart:
-      max-file-size: 30MB
-      max-request-size: 30MB
+      max-file-size: 32MB
+      max-request-size: 32MB
 #  datasource:
 #    driver-class-name: org.postgresql.Driver
 #    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}${DB_OPTIONS:}
