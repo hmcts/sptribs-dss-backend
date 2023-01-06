@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi.edgecase.event.privatelaw;
+package uk.gov.hmcts.reform.cosapi.edgecase.event.cic;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class CreateCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
         var updatedRoles = addSystemUpdateRole.addIfConfiguredForEnvironment(defaultRoles);
 
         configBuilder
-            .event(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.PRL_CASE_TYPE).getEventIds()
+            .event(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.ST_CIC_CASE_TYPE).getEventIds()
                        .getCreateEvent())
             .initialState(DRAFT)
             .name("Create edge case draft case")

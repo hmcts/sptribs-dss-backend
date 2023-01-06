@@ -2,8 +2,8 @@ package uk.gov.hmcts.reform.cosapi.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,21 +28,21 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_FGM;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_FETCH_FAILURE_MSG;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_CASE_ID;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_USER;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_TEST_AUTHORIZATION;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.RESPONSE_STATUS_SUCCESS;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_CREATE_FAILURE_MSG;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_CIC_ID;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_CIC;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_FETCH_FAILURE_MSG;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_TEST_AUTHORIZATION;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_UPDATE_FAILURE_MSG;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.RESPONSE_STATUS_SUCCESS;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_CASE_ID;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_UPDATE_CASE_EMAIL_ADDRESS;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_USER;
 import static uk.gov.hmcts.reform.cosapi.util.TestFileUtil.loadJson;
 
 @ExtendWith(SpringExtension.class)
@@ -72,18 +72,18 @@ class CaseManagementServiceTest {
         MockitoAnnotations.openMocks(this);
 
         fgmAppDetail = new AppsConfig.AppsDetails();
-        fgmAppDetail.setCaseType(CommonConstants.PRL_CASE_TYPE);
-        fgmAppDetail.setJurisdiction(CommonConstants.PRL_JURISDICTION);
-        fgmAppDetail.setCaseTypeOfApplication(List.of(CASE_DATA_FGM_ID));
+        fgmAppDetail.setCaseType(CommonConstants.ST_CIC_CASE_TYPE);
+        fgmAppDetail.setJurisdiction(CommonConstants.ST_CIC_JURISDICTION);
+        fgmAppDetail.setCaseTypeOfApplication(List.of(CASE_DATA_CIC_ID));
     }
 
     @Test
     void testFgmCreateCaseData() throws Exception {
-        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
+        String caseDataJson = loadJson(CASE_DATA_FILE_CIC);
         CaseData caseData = mapper.readValue(caseDataJson, CaseData.class);
 
         Map<String, Object> caseDataMap = new ConcurrentHashMap<>();
-        caseDataMap.put(CASE_DATA_FGM_ID, caseData);
+        caseDataMap.put(CASE_DATA_CIC_ID, caseData);
 
         AppsConfig.EventsConfig eventsConfig = new AppsConfig.EventsConfig();
         eventsConfig.setCreateEvent("citizen-prl-create-dss-application");
@@ -95,9 +95,9 @@ class CaseManagementServiceTest {
 
         when(authTokenGenerator.generate()).thenReturn(TEST_USER);
 
-        CaseDetails caseDetail = CaseDetails.builder().caseTypeId(CASE_DATA_FGM_ID)
+        CaseDetails caseDetail = CaseDetails.builder().caseTypeId(CASE_DATA_CIC_ID)
             .id(TEST_CASE_ID)
-            .jurisdiction(CommonConstants.PRL_JURISDICTION)
+            .jurisdiction(CommonConstants.ST_CIC_JURISDICTION)
             .data(caseDataMap)
             .build();
 
@@ -108,13 +108,13 @@ class CaseManagementServiceTest {
         CaseResponse createCaseResponse = caseManagementService.createCase(CASE_TEST_AUTHORIZATION, caseData);
         assertEquals(createCaseResponse.getCaseData(), caseResponse.getCaseData());
         assertEquals(createCaseResponse.getId(), caseDetail.getId());
-        assertTrue(createCaseResponse.getCaseData().containsKey(CASE_DATA_FGM_ID));
+        assertTrue(createCaseResponse.getCaseData().containsKey(CASE_DATA_CIC_ID));
 
-        CaseData caseResponseData = (CaseData) createCaseResponse.getCaseData().get(CASE_DATA_FGM_ID);
+        CaseData caseResponseData = (CaseData) createCaseResponse.getCaseData().get(CASE_DATA_CIC_ID);
         assertNotNull(createCaseResponse);
         assertEquals(
-            createCaseResponse.getCaseData().get(CASE_DATA_FGM_ID),
-            caseDetail.getData().get(CASE_DATA_FGM_ID)
+            createCaseResponse.getCaseData().get(CASE_DATA_CIC_ID),
+            caseDetail.getData().get(CASE_DATA_CIC_ID)
         );
         assertEquals(caseResponseData.getNamedApplicant(), caseData.getNamedApplicant());
         assertEquals(caseResponseData.getCaseTypeOfApplication(), caseData.getCaseTypeOfApplication());
@@ -134,7 +134,7 @@ class CaseManagementServiceTest {
 
         when(authTokenGenerator.generate()).thenReturn(TEST_USER);
 
-        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
+        String caseDataJson = loadJson(CASE_DATA_FILE_CIC);
 
         CaseData caseData = mapper.readValue(caseDataJson, CaseData.class);
 
@@ -153,7 +153,7 @@ class CaseManagementServiceTest {
 
     @Test
     void testFgmUpdateCaseData() throws Exception {
-        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
+        String caseDataJson = loadJson(CASE_DATA_FILE_CIC);
         CaseData caseData = mapper.readValue(caseDataJson, CaseData.class);
 
         AppsConfig.EventsConfig eventsConfig = new AppsConfig.EventsConfig();
@@ -172,9 +172,9 @@ class CaseManagementServiceTest {
         when(authTokenGenerator.generate()).thenReturn(TEST_USER);
 
         Map<String, Object> caseDataMap = new ConcurrentHashMap<>();
-        caseDataMap.put(CASE_DATA_FGM_ID, caseData);
+        caseDataMap.put(CASE_DATA_CIC_ID, caseData);
 
-        CaseDetails caseDetail = CaseDetails.builder().caseTypeId(CASE_DATA_FGM_ID)
+        CaseDetails caseDetail = CaseDetails.builder().caseTypeId(CASE_DATA_CIC_ID)
             .id(TEST_CASE_ID)
             .data(caseDataMap)
             .build();
@@ -194,18 +194,18 @@ class CaseManagementServiceTest {
             TEST_CASE_ID
         );
         assertEquals(updateCaseResponse.getId(), caseDetail.getId());
-        assertTrue(updateCaseResponse.getCaseData().containsKey(CASE_DATA_FGM_ID));
+        assertTrue(updateCaseResponse.getCaseData().containsKey(CASE_DATA_CIC_ID));
 
 
-        CaseData caseResponseData = (CaseData) updateCaseResponse.getCaseData().get(CASE_DATA_FGM_ID);
+        CaseData caseResponseData = (CaseData) updateCaseResponse.getCaseData().get(CASE_DATA_CIC_ID);
 
         assertNotEquals(caseResponseData.getApplicant().getEmailAddress(), origEmailAddress);
 
         assertNotNull(updateCaseResponse);
 
         assertEquals(
-            updateCaseResponse.getCaseData().get(CASE_DATA_FGM_ID),
-            caseDetail.getData().get(CASE_DATA_FGM_ID)
+            updateCaseResponse.getCaseData().get(CASE_DATA_CIC_ID),
+            caseDetail.getData().get(CASE_DATA_CIC_ID)
         );
         assertEquals(caseResponseData.getNamedApplicant(), caseData.getNamedApplicant());
         assertEquals(caseResponseData.getCaseTypeOfApplication(), caseData.getCaseTypeOfApplication());
@@ -223,7 +223,7 @@ class CaseManagementServiceTest {
 
         assertNotNull(fgmAppDetail);
 
-        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
+        String caseDataJson = loadJson(CASE_DATA_FILE_CIC);
 
         CaseData caseData = mapper.readValue(caseDataJson, CaseData.class);
 
@@ -249,7 +249,7 @@ class CaseManagementServiceTest {
 
     @Test
     void testFetchCaseDetail() throws Exception {
-        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
+        String caseDataJson = loadJson(CASE_DATA_FILE_CIC);
         CaseData caseData = mapper.readValue(caseDataJson, CaseData.class);
 
         String origEmailAddress = caseData.getApplicant().getEmailAddress();
@@ -259,7 +259,7 @@ class CaseManagementServiceTest {
         when(authTokenGenerator.generate()).thenReturn(TEST_USER);
 
         Map<String, Object> caseDataMap = new ConcurrentHashMap<>();
-        caseDataMap.put(CASE_DATA_FGM_ID, caseData);
+        caseDataMap.put(CASE_DATA_CIC_ID, caseData);
 
         CaseDetails caseDetail = CaseDetails.builder()
             .id(TEST_CASE_ID)

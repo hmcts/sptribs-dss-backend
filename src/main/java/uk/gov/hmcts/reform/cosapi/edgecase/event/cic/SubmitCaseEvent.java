@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi.edgecase.event.privatelaw;
+package uk.gov.hmcts.reform.cosapi.edgecase.event.cic;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class SubmitCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
     public void configure(final ConfigBuilder<CaseData, State, UserRole> configBuilder) {
 
         configBuilder
-            .event(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.PRL_CASE_TYPE).getEventIds()
+            .event(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.ST_CIC_CASE_TYPE).getEventIds()
                        .getSubmitEvent())
             .forStates(State.DRAFT)
             .name("Applicant Submitting the case")

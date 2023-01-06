@@ -15,11 +15,11 @@ public class HighLevelDataSetupApp extends DataLoaderToDefinitionStore {
     private static final Logger LOGGER = LoggerFactory.getLogger(HighLevelDataSetupApp.class);
 
     public static final String PUBLIC = "PUBLIC";
-    private static final CcdRoleConfig[] CCD_ROLES_NEEDED_FOR_ADOPTION = {
+    private static final CcdRoleConfig[] CCD_ROLES_NEEDED_FOR_ST_CIC = {
         new CcdRoleConfig("citizen", PUBLIC),
-        new CcdRoleConfig("caseworker-privatelaw", PUBLIC),
-        new CcdRoleConfig("caseworker-privatelaw-courtadmin", PUBLIC),
-        new CcdRoleConfig("caseworker-privatelaw-solicitor", PUBLIC)
+        new CcdRoleConfig("caseworker-st-cic", PUBLIC),
+        new CcdRoleConfig("caseworker-st-cic-courtadmin", PUBLIC),
+        new CcdRoleConfig("caseworker-st-cic-solicitor", PUBLIC)
     };
 
     private final CcdEnvironment environment;
@@ -43,7 +43,7 @@ public class HighLevelDataSetupApp extends DataLoaderToDefinitionStore {
 
     @Override
     public void addCcdRoles() {
-        for (CcdRoleConfig roleConfig : CCD_ROLES_NEEDED_FOR_ADOPTION) {
+        for (CcdRoleConfig roleConfig : CCD_ROLES_NEEDED_FOR_ST_CIC) {
             try {
                 LOGGER.info("\n\nAdding CCD Role {}.", roleConfig);
                 addCcdRole(roleConfig);
@@ -61,7 +61,7 @@ public class HighLevelDataSetupApp extends DataLoaderToDefinitionStore {
     protected List<String> getAllDefinitionFilesToLoadAt(String definitionsPath) {
         String environmentName = environment.name().toLowerCase(Locale.UK);
         return List.of(
-            "build/ccd-config/ccd-" + "PRLAPPS" + "-" + environmentName + ".xlsx"
+            "build/ccd-config/ccd-" + "CriminalInjuriesCompensation" + "-" + environmentName + ".xlsx"
         );
     }
 

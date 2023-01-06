@@ -99,23 +99,6 @@ case_document_am:
 
 caseinfo:
   apps:
-    - caseType: PRLAPPS
-      jurisdiction: PRIVATELAW
-      eventIds:
-        createEvent: citizen-prl-create-dss-application
-        updateEvent: citizen-prl-update-dss-application
-        submitEvent: citizen-prl-submit-dss-application
-      caseTypeOfApplication:
-        - FMPO
-        - FGM
-    - caseType: ADOPTION
-      jurisdiction: ADOPTION
-      eventIds:
-        createEvent: citizen-adop-create-dss-application
-        updateEvent: citizen-adop-update-dss-application
-        submitEvent: citizen-adop-submit-dss-application
-      caseTypeOfApplication:
-        - RELADOP
     - caseType: CriminalInjuriesCompensation
       jurisdiction: ST_CIC
       eventIds:

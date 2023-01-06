@@ -8,17 +8,18 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import au.com.dius.pact.core.model.annotations.PactFolder;
-import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.fluent.Request;
 import org.json.JSONException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.apache.http.client.fluent.Request;
 import uk.gov.hmcts.reform.cosapi.clients.CommonConstants;
+
+import java.io.IOException;
 
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -33,8 +34,8 @@ public class DocumentUploadConsumerTest {
         // @formatter:off
 
         PactDslJsonBody body = new PactDslJsonBody()
-            .stringMatcher("caseTypeId", "PRLAPPS")
-            .stringMatcher("jurisdictionId", "PRIVATELAW")
+            .stringMatcher("caseTypeId", "CriminalInjuriesCompensation")
+            .stringMatcher("jurisdictionId", "ST_CIC")
             .asBody();
 
         return builder

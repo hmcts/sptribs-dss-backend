@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 import uk.gov.hmcts.ccd.sdk.api.CCD;
 import uk.gov.hmcts.ccd.sdk.type.ListValue;
 import uk.gov.hmcts.ccd.sdk.type.YesOrNo;
+import uk.gov.hmcts.reform.cosapi.document.DocumentType;
+import uk.gov.hmcts.reform.cosapi.document.model.EdgeCaseDocument;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.access.CaseworkerAccess;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.access.CollectionAccess;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.access.DefaultAccess;
-import uk.gov.hmcts.reform.cosapi.document.DocumentType;
-import uk.gov.hmcts.reform.cosapi.document.model.EdgeCaseDocument;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ import static uk.gov.hmcts.ccd.sdk.type.FieldType.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class PrivateLawCaseData {
+public class CicCaseData {
 
     @JsonUnwrapped(prefix = "applicant")
     @Builder.Default

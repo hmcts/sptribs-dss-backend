@@ -13,16 +13,18 @@ import uk.gov.hmcts.reform.cosapi.edgecase.model.access.Permissions;
 
 
 @Component
-public class PrivateLawEdgeCase implements CCDConfig<CaseData, State, UserRole> {
+public class CicEdgeCase implements CCDConfig<CaseData, State, UserRole> {
 
     @Autowired
     AppsConfig appsConfig;
 
     @Override
     public void configure(final ConfigBuilder<CaseData, State, UserRole> configBuilder) {
-        configBuilder.setCallbackHost(System.getenv().getOrDefault("CASE_API_URL", "http://localhost:4550"));
-        configBuilder.caseType(CommonConstants.PRL_CASE_TYPE, "New edge case", "Handling of edge cases");
-        configBuilder.jurisdiction(CommonConstants.PRL_JURISDICTION, "Prl jurisdiction adoption", "edge-cases");
+        configBuilder.setCallbackHost(System.getenv().getOrDefault("CASE_API_URL",
+                                                                   "http://localhost:4550"));
+        configBuilder.caseType(CommonConstants.ST_CIC_CASE_TYPE, "New edge case", "Handling of edge cases");
+        configBuilder.jurisdiction(CommonConstants.ST_CIC_JURISDICTION,
+                                   "ST jurisdiction criminal injuries compensation", "edge-cases");
         configBuilder.grant(State.DRAFT, Permissions.CREATE_READ_UPDATE, UserRole.CITIZEN);
     }
 }

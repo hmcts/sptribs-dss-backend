@@ -16,12 +16,12 @@ import uk.gov.hmcts.reform.cosapi.services.DocumentManagementService;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_FGM;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_CIC_ID;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_CIC;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_TEST_AUTHORIZATION;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_URL;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.DOCUMENT_DELETE_FAILURE_MSG;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.DOCUMENT_UPLOAD_FAILURE_MSG;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_URL;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -45,9 +45,9 @@ class DocumentUploadOrDeleteExceptionTest {
     @Test
     void testDeleteDocumentUploadOrDeleteException() throws Exception {
         documentInfo = DocumentInfo.builder()
-            .documentId(CASE_DATA_FGM_ID)
+            .documentId(CASE_DATA_CIC_ID)
             .url(TEST_URL)
-            .fileName(CASE_DATA_FILE_FGM).build();
+            .fileName(CASE_DATA_FILE_CIC).build();
 
         when(documentManagementService.deleteDocument(CASE_TEST_AUTHORIZATION, documentInfo.getDocumentId())).thenThrow(
             new DocumentUploadOrDeleteException(
@@ -65,9 +65,9 @@ class DocumentUploadOrDeleteExceptionTest {
     @Test
     void testUpdateDocumentUploadOrDeleteException() throws Exception {
         documentInfo = DocumentInfo.builder()
-            .documentId(CASE_DATA_FGM_ID)
+            .documentId(CASE_DATA_CIC_ID)
             .url(TEST_URL)
-            .fileName(CASE_DATA_FILE_FGM).build();
+            .fileName(CASE_DATA_FILE_CIC).build();
 
         when(documentManagementService.deleteDocument(
             CASE_TEST_AUTHORIZATION,

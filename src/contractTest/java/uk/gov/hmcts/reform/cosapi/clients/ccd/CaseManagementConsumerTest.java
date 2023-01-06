@@ -8,17 +8,18 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import au.com.dius.pact.core.model.annotations.PactFolder;
-import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.fluent.Request;
 import org.json.JSONException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.apache.http.client.fluent.Request;
 import uk.gov.hmcts.reform.cosapi.clients.CommonConstants;
+
+import java.io.IOException;
 
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -69,7 +70,7 @@ public class CaseManagementConsumerTest {
     private PactDslJsonBody createCaseResponse() {
 
         return new PactDslJsonBody()
-            .stringType("case_type", "PRLAPPS")
+            .stringType("case_type", "CriminalInjuriesCompensation")
             .stringType("callbackResponseStatus", "Success")
             .stringType("state", "State")
             .integerType("securityLevel",23)

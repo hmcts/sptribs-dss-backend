@@ -10,9 +10,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
 
-import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.PRL_CASE_TYPE;
-import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.PRL_JURISDICTION;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
+import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.ST_CIC_CASE_TYPE;
+import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.ST_CIC_JURISDICTION;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_CIC_ID;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -25,7 +25,7 @@ public class AppsUtilTest {
 
     @Test
     void isValidCaseTypeOfApplicationTest() {
-        CaseData a100CaseData = CaseData.builder().caseTypeOfApplication(CASE_DATA_FGM_ID).build();
+        CaseData a100CaseData = CaseData.builder().caseTypeOfApplication(CASE_DATA_CIC_ID).build();
         Assert.assertTrue(AppsUtil.isValidCaseTypeOfApplication(appsConfig, a100CaseData));
     }
 
@@ -37,9 +37,9 @@ public class AppsUtilTest {
 
     @Test
     void validateExactAppDetailsTest() {
-        CaseData fgmCaseData = CaseData.builder().caseTypeOfApplication(CASE_DATA_FGM_ID).build();
-        AppsConfig.AppsDetails appDetails = AppsUtil.getExactAppsDetails(appsConfig, fgmCaseData);
-        Assert.assertEquals(PRL_CASE_TYPE, appDetails.getCaseType());
-        Assert.assertEquals(PRL_JURISDICTION, appDetails.getJurisdiction());
+        CaseData cicCaseData = CaseData.builder().caseTypeOfApplication(CASE_DATA_CIC_ID).build();
+        AppsConfig.AppsDetails appDetails = AppsUtil.getExactAppsDetails(appsConfig, cicCaseData);
+        Assert.assertEquals(ST_CIC_CASE_TYPE, appDetails.getCaseType());
+        Assert.assertEquals(ST_CIC_JURISDICTION, appDetails.getJurisdiction());
     }
 }
