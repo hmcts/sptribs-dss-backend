@@ -3,8 +3,6 @@ package uk.gov.hmcts.reform.cosapi.edgecase.model;
 public final class UserRoleConstant {
 
     public static final String ST_CIC_GENERIC = "caseworker-st-cic";
-    public static final String COURT_ADMIN = "caseworker-st-cic-courtadmin";
-    public static final String SOLICITOR = "caseworker-st-cic-solicitor";
     public static final String CITIZEN = "citizen";
     public static final String CREATOR = "[CREATOR]";
     public static final String CASE_TYPE_PERMISSIONS_CRU = "CRU";
