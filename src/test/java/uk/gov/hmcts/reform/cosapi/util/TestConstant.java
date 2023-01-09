@@ -8,8 +8,8 @@ public final class TestConstant {
     public static final LocalDateTime LOCAL_DATE_TIME =
         LocalDateTime.of(2022, 2, 22, 16, 21);
     public static final Long TEST_CASE_ID = 123L;
-    public static final String CASE_DATA_FGM_ID = "FGM";
-    public static final String CASE_DATA_FILE_FGM = "FGMCaseData.json";
+    public static final String CASE_DATA_CIC_ID = "CIC";
+    public static final String CASE_DATA_FILE_CIC = "CICCaseData.json";
     public static final String CASE_TEST_AUTHORIZATION = "testAuth";
     public static final String CASE_CREATE_FAILURE_MSG = "Failing while creating the case ";
     public static final String CASE_UPDATE_FAILURE_MSG = "Failing while updating the case ";

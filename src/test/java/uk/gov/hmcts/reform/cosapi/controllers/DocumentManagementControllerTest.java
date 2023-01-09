@@ -18,19 +18,19 @@ import uk.gov.hmcts.reform.cosapi.model.DocumentResponse;
 import uk.gov.hmcts.reform.cosapi.services.DocumentManagementService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_FGM;
+import static org.mockito.Mockito.when;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_CIC_ID;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_CIC;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_TEST_AUTHORIZATION;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_URL;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.RESPONSE_STATUS_SUCCESS;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.DOCUMENT_DELETE_FAILURE_MSG;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.JSON_CONTENT_TYPE;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.JSON_FILE_TYPE;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.DOCUMENT_DELETE_FAILURE_MSG;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.RESPONSE_STATUS_SUCCESS;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_URL;
 import static uk.gov.hmcts.reform.cosapi.util.TestFileUtil.loadJson;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -50,13 +50,13 @@ class DocumentManagementControllerTest {
     }
 
     @Test
-    void testFgmDocumentControllerFileUpload() throws Exception {
-        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
+    void testCicDocumentControllerFileUpload() throws Exception {
+        String caseDataJson = loadJson(CASE_DATA_FILE_CIC);
 
         DocumentInfo document = DocumentInfo.builder()
-            .documentId(CASE_DATA_FGM_ID)
+            .documentId(CASE_DATA_CIC_ID)
             .url(TEST_URL)
-            .fileName(CASE_DATA_FILE_FGM).build();
+            .fileName(CASE_DATA_FILE_CIC).build();
 
         DocumentResponse documentResponse = DocumentResponse.builder()
             .status(RESPONSE_STATUS_SUCCESS)
@@ -64,21 +64,21 @@ class DocumentManagementControllerTest {
 
         MockMultipartFile multipartFile = new MockMultipartFile(
             JSON_FILE_TYPE,
-            CASE_DATA_FILE_FGM,
+                CASE_DATA_FILE_CIC,
             JSON_CONTENT_TYPE,
             caseDataJson.getBytes()
         );
 
         when(documentManagementService.uploadDocument(
             CASE_TEST_AUTHORIZATION,
-            CASE_DATA_FGM_ID,
+                CASE_DATA_CIC_ID,
             multipartFile
         )).thenReturn(
             documentResponse);
 
         ResponseEntity<?> uploadDocumentResponse = documentManagementController.uploadDocument(
             CASE_TEST_AUTHORIZATION,
-            CASE_DATA_FGM_ID,
+                CASE_DATA_CIC_ID,
             multipartFile
         );
 
@@ -92,11 +92,11 @@ class DocumentManagementControllerTest {
     }
 
     @Test
-    void testDeleteFgmDocumentControllerFailedWithException() throws Exception {
+    void testDeleteCicDocumentControllerFailedWithException() throws Exception {
         DocumentInfo documentInfo = DocumentInfo.builder()
-            .documentId(CASE_DATA_FGM_ID)
+            .documentId(CASE_DATA_CIC_ID)
             .url(TEST_URL)
-            .fileName(CASE_DATA_FILE_FGM).build();
+            .fileName(CASE_DATA_FILE_CIC).build();
 
         when(documentManagementService.deleteDocument(
             CASE_TEST_AUTHORIZATION,

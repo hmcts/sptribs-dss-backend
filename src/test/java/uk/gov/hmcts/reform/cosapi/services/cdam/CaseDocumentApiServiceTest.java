@@ -24,21 +24,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
-import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.PRL_CASE_TYPE;
-import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.PRL_JURISDICTION;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_FGM;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.JSON_FILE_TYPE;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.JSON_CONTENT_TYPE;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_URL;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_AUTHORIZATION_TOKEN;
+import static org.mockito.Mockito.when;
+import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.ST_CIC_CASE_TYPE;
+import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.ST_CIC_JURISDICTION;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_CIC_ID;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_CIC;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_TEST_AUTHORIZATION;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.JSON_CONTENT_TYPE;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.JSON_FILE_TYPE;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_AUTHORIZATION_TOKEN;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_CASE_DATA_FILE_UUID;
-
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_URL;
 import static uk.gov.hmcts.reform.cosapi.util.TestFileUtil.loadJson;
 
 @ExtendWith(SpringExtension.class)
@@ -62,11 +60,11 @@ class CaseDocumentApiServiceTest {
 
     @Test
     void testFgmUpdateCaseDocumentService() throws Exception {
-        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
+        String caseDataJson = loadJson(CASE_DATA_FILE_CIC);
 
         MockMultipartFile multipartFile = new MockMultipartFile(
             JSON_FILE_TYPE,
-            CASE_DATA_FILE_FGM,
+                CASE_DATA_FILE_CIC,
             JSON_CONTENT_TYPE,
             caseDataJson.getBytes()
         );
@@ -85,7 +83,7 @@ class CaseDocumentApiServiceTest {
 
         Document document = Document.builder()
             .classification(Classification.RESTRICTED)
-            .originalDocumentName(CASE_DATA_FILE_FGM)
+            .originalDocumentName(CASE_DATA_FILE_CIC)
             .hashToken("SomeToken")
             .size(caseDataJson.getBytes().length)
             .mimeType(JSON_CONTENT_TYPE)
@@ -98,10 +96,10 @@ class CaseDocumentApiServiceTest {
 
         AppsConfig.AppsDetails appsDetails = new AppsConfig.AppsDetails();
 
-        appsDetails.setJurisdiction(PRL_JURISDICTION);
-        appsDetails.setCaseType(PRL_CASE_TYPE);
-        appsDetails.setJurisdiction(PRL_JURISDICTION);
-        appsDetails.setCaseTypeOfApplication(List.of(CASE_DATA_FGM_ID));
+        appsDetails.setJurisdiction(ST_CIC_JURISDICTION);
+        appsDetails.setCaseType(ST_CIC_CASE_TYPE);
+        appsDetails.setJurisdiction(ST_CIC_JURISDICTION);
+        appsDetails.setCaseTypeOfApplication(List.of(CASE_DATA_CIC_ID));
         AppsConfig.EventsConfig eventsConfig = new AppsConfig.EventsConfig();
         eventsConfig.setUpdateEvent("citizen-prl-update-dss-application");
         appsDetails.setEventIds(eventsConfig);
@@ -111,8 +109,8 @@ class CaseDocumentApiServiceTest {
         when(caseDocumentClient.uploadDocuments(
             CASE_TEST_AUTHORIZATION,
             TEST_AUTHORIZATION_TOKEN,
-            PRL_CASE_TYPE,
-            PRL_JURISDICTION,
+            ST_CIC_CASE_TYPE,
+            ST_CIC_JURISDICTION,
             multipartFileLst
         )).thenReturn(uploadResponse);
 
@@ -123,9 +121,9 @@ class CaseDocumentApiServiceTest {
         );
 
         DocumentInfo documentInfo = DocumentInfo.builder()
-            .documentId(CASE_DATA_FGM_ID)
+            .documentId(CASE_DATA_CIC_ID)
             .url(TEST_URL)
-            .fileName(CASE_DATA_FILE_FGM).build();
+            .fileName(CASE_DATA_FILE_CIC).build();
 
         Assertions.assertEquals(documentInfo.getFileName(), testUploadResponse.getFileName());
         Assertions.assertEquals(document.links.self.href, testUploadResponse.getUrl());

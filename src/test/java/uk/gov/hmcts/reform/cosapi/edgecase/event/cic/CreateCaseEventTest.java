@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi.edgecase.event.privatelaw;
+package uk.gov.hmcts.reform.cosapi.edgecase.event.cic;
 
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.SetMultimap;
@@ -32,11 +32,11 @@ import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.ccd.sdk.api.Permission.C;
 import static uk.gov.hmcts.ccd.sdk.api.Permission.R;
 import static uk.gov.hmcts.ccd.sdk.api.Permission.U;
-import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.PRL_CASE_TYPE;
+import static uk.gov.hmcts.reform.cosapi.constants.CommonConstants.ST_CIC_CASE_TYPE;
 import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.CITIZEN;
 import static uk.gov.hmcts.reform.cosapi.util.ConfigTestUtil.createCaseDataConfigBuilder;
 import static uk.gov.hmcts.reform.cosapi.util.ConfigTestUtil.getEventsFrom;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_CIC_ID;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -54,20 +54,20 @@ class CreateCaseEventTest {
     private AppsConfig appsConfig;
 
     @Mock
-    private AppsConfig.AppsDetails fgmAppDetail;
+    private AppsConfig.AppsDetails cicAppDetail;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        fgmAppDetail = new AppsConfig.AppsDetails();
-        fgmAppDetail.setCaseType(PRL_CASE_TYPE);
-        fgmAppDetail.setJurisdiction(CommonConstants.PRL_JURISDICTION);
-        fgmAppDetail.setCaseTypeOfApplication(List.of(CASE_DATA_FGM_ID));
+        cicAppDetail = new AppsConfig.AppsDetails();
+        cicAppDetail.setCaseType(ST_CIC_CASE_TYPE);
+        cicAppDetail.setJurisdiction(CommonConstants.ST_CIC_JURISDICTION);
+        cicAppDetail.setCaseTypeOfApplication(List.of(CASE_DATA_CIC_ID));
 
         AppsConfig.EventsConfig eventsConfig = new AppsConfig.EventsConfig();
         eventsConfig.setCreateEvent("citizen-prl-create-dss-application");
 
-        fgmAppDetail.setEventIds(eventsConfig);
+        cicAppDetail.setEventIds(eventsConfig);
 
     }
 
@@ -78,13 +78,13 @@ class CreateCaseEventTest {
         when(addSystemUpdateRole.addIfConfiguredForEnvironment(anyList()))
             .thenReturn(List.of(CITIZEN));
 
-        when(appsConfig.getApps()).thenReturn(Arrays.asList(fgmAppDetail));
+        when(appsConfig.getApps()).thenReturn(Arrays.asList(cicAppDetail));
 
         createCaseEvent.configure(configBuilder);
 
         assertThat(getEventsFrom(configBuilder).values())
             .extracting(Event::getId)
-            .contains(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, PRL_CASE_TYPE).getEventIds()
+            .contains(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, ST_CIC_CASE_TYPE).getEventIds()
                           .getCreateEvent());
 
         SetMultimap<UserRole, Permission> expectedRolesAndPermissions =
@@ -106,7 +106,7 @@ class CreateCaseEventTest {
         when(addSystemUpdateRole.addIfConfiguredForEnvironment(anyList()))
             .thenReturn(List.of(CITIZEN));
 
-        when(appsConfig.getApps()).thenReturn(Arrays.asList(fgmAppDetail));
+        when(appsConfig.getApps()).thenReturn(Arrays.asList(cicAppDetail));
 
         createCaseEvent.configure(configBuilder);
 

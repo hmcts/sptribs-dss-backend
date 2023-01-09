@@ -42,5 +42,15 @@
     <suppress>
       <notes>snakeyaml</notes>
       <cve>CVE-2022-41854</cve>
+      <cve>CVE-2022-3064</cve>
+      <cve>CVE-2021-4235</cve>
+    </suppress>
+    <suppress>
+      <notes>https://github.com/jeremylong/DependencyCheck/issues/5121</notes>
+      <cve>CVE-2021-37533</cve>
+    </suppress>
+    <suppress>
+      <notes>False positive - matches all *utils* dependencies</notes>
+      <cve>CVE-2021-4277</cve>
     </suppress>
 </suppressions>

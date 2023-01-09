@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi.edgecase.event.privatelaw;
+package uk.gov.hmcts.reform.cosapi.edgecase.event.cic;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -35,10 +35,10 @@ import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.CITIZEN;
 import static uk.gov.hmcts.reform.cosapi.util.ConfigTestUtil.createCaseDataConfigBuilder;
 import static uk.gov.hmcts.reform.cosapi.util.ConfigTestUtil.getEventsFrom;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_FGM;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_CASE_ID;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_CIC_ID;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FILE_CIC;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.LOCAL_DATE_TIME;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_CASE_ID;
 import static uk.gov.hmcts.reform.cosapi.util.TestConstant.TEST_UPDATE_CASE_EMAIL_ADDRESS;
 import static uk.gov.hmcts.reform.cosapi.util.TestFileUtil.loadJson;
 
@@ -66,9 +66,9 @@ class SubmitCaseEventTest {
         MockitoAnnotations.openMocks(this);
 
         fgmAppDetail = new AppsConfig.AppsDetails();
-        fgmAppDetail.setCaseType(CommonConstants.PRL_CASE_TYPE);
-        fgmAppDetail.setJurisdiction(CommonConstants.PRL_JURISDICTION);
-        fgmAppDetail.setCaseTypeOfApplication(List.of(CASE_DATA_FGM_ID));
+        fgmAppDetail.setCaseType(CommonConstants.ST_CIC_CASE_TYPE);
+        fgmAppDetail.setJurisdiction(CommonConstants.ST_CIC_JURISDICTION);
+        fgmAppDetail.setCaseTypeOfApplication(List.of(CASE_DATA_CIC_ID));
         AppsConfig.EventsConfig eventsConfig = new AppsConfig.EventsConfig();
         eventsConfig.setSubmitEvent("citizen-prl-submit-dss-application");
 
@@ -88,14 +88,14 @@ class SubmitCaseEventTest {
 
         assertThat(getEventsFrom(configBuilder).values())
             .extracting(Event::getId)
-            .contains(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.PRL_CASE_TYPE).getEventIds()
+            .contains(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.ST_CIC_CASE_TYPE).getEventIds()
                           .getSubmitEvent());
     }
 
     @Test
     void shouldSubmitEventThroughAboutToSubmit() throws IOException {
         final ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
-        String caseDataJson = loadJson(CASE_DATA_FILE_FGM);
+        String caseDataJson = loadJson(CASE_DATA_FILE_CIC);
         final CaseData caseBeforeData = mapper.readValue(caseDataJson, CaseData.class);
 
         final CaseDetails<CaseData, State> beforeCaseDetails = new CaseDetails<>();

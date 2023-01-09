@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi.edgecase.event.privatelaw;
+package uk.gov.hmcts.reform.cosapi.edgecase.event.cic;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.reform.cosapi.util.ConfigTestUtil.createCaseDataConfigBuilder;
 import static uk.gov.hmcts.reform.cosapi.util.ConfigTestUtil.getEventsFrom;
-import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_FGM_ID;
+import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_CIC_ID;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -39,20 +39,20 @@ class UpdateCaseEventTest {
     private AppsConfig appsConfig;
 
     @Mock
-    private AppsConfig.AppsDetails fgmAppDetail;
+    private AppsConfig.AppsDetails cicAppDetail;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        fgmAppDetail = new AppsConfig.AppsDetails();
-        fgmAppDetail.setCaseType(CommonConstants.PRL_CASE_TYPE);
-        fgmAppDetail.setJurisdiction(CommonConstants.PRL_JURISDICTION);
-        fgmAppDetail.setCaseTypeOfApplication(List.of(CASE_DATA_FGM_ID));
+        cicAppDetail = new AppsConfig.AppsDetails();
+        cicAppDetail.setCaseType(CommonConstants.ST_CIC_CASE_TYPE);
+        cicAppDetail.setJurisdiction(CommonConstants.ST_CIC_JURISDICTION);
+        cicAppDetail.setCaseTypeOfApplication(List.of(CASE_DATA_CIC_ID));
 
         AppsConfig.EventsConfig eventsConfig = new AppsConfig.EventsConfig();
         eventsConfig.setUpdateEvent("citizen-prl-update-dss-application");
 
-        fgmAppDetail.setEventIds(eventsConfig);
+        cicAppDetail.setEventIds(eventsConfig);
 
     }
 
@@ -61,7 +61,7 @@ class UpdateCaseEventTest {
         final ConfigBuilderImpl<CaseData, State, UserRole> configBuilder = createCaseDataConfigBuilder();
 
 
-        when(appsConfig.getApps()).thenReturn(Arrays.asList(fgmAppDetail));
+        when(appsConfig.getApps()).thenReturn(Arrays.asList(cicAppDetail));
 
         updateCaseEvent.configure(configBuilder);
 
