@@ -35,4 +35,4 @@ java:
           alias: IDAM_SYSTEM_UPDATE_PASSWORD
         - name: s2s-secret-sptribs-dss-backend
           alias: S2S_SECRET
-        - name: AppInsightsInstrumentationKey
+        - name: app-insights-instrumentation-key
