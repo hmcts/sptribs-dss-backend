@@ -39,7 +39,7 @@ spring:
 
 azure:
   application-insights:
-    instrumentation-key: ${AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
+    instrumentation-key: ${app-insights-instrumentation-key:00000000-0000-0000-0000-000000000000}
 
 idam:
   s2s-auth:
