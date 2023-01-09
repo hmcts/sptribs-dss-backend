@@ -24,7 +24,7 @@ public class CicEdgeCase implements CCDConfig<CaseData, State, UserRole> {
                                                                    "http://localhost:4550"));
         configBuilder.caseType(CommonConstants.ST_CIC_CASE_TYPE, "New edge case", "Handling of edge cases");
         configBuilder.jurisdiction(CommonConstants.ST_CIC_JURISDICTION,
-                                   "ST jurisdiction criminal injuries compensation", "edge-cases");
+                                   "ST jurisdiction CIC", "edge-cases");
         configBuilder.grant(State.DRAFT, Permissions.CREATE_READ_UPDATE, UserRole.CITIZEN);
     }
 }
