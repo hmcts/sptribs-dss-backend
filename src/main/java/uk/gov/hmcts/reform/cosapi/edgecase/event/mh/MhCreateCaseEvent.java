@@ -40,7 +40,7 @@ public class MhCreateCaseEvent implements CCDConfig<CaseData, State, UserRole>  
             .event(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.ST_MH_CASE_TYPE).getEventIds()
                        .getCreateEvent())
             .initialState(DRAFT)
-            .name("Create edge case draft case (mh)")
+            .name("Create draft case (mh)")
             .description("Apply for edge case (mh)")
             .grant(CREATE_READ_UPDATE, updatedRoles.toArray(UserRole[]::new))
             .retries(120, 120);

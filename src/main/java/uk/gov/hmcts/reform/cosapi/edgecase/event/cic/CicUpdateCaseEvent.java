@@ -30,7 +30,7 @@ public class CicUpdateCaseEvent implements CCDConfig<CaseData, State, UserRole> 
                        .getUpdateEvent())
             .forStates(State.DRAFT, State.SUBMITTED)
             .name("Edge case (cic)")
-            .description("Edge case application update (cic)")
+            .description("Application update (cic)")
             .retries(120, 120)
             .grant(CREATE_READ_UPDATE, CITIZEN)
             .grant(CREATE_READ_UPDATE, CREATOR);

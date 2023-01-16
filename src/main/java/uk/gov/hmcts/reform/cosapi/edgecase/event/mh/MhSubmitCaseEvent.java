@@ -31,8 +31,8 @@ public class MhSubmitCaseEvent implements CCDConfig<CaseData, State, UserRole>  
             .event(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.ST_MH_CASE_TYPE).getEventIds()
                        .getSubmitEvent())
             .forStates(State.DRAFT)
-            .name("Applicant Submitting the case (mh)")
-            .description("The applicant confirms SOT (mh)")
+            .name("Submit case (mh)")
+            .description("Applicant confirms SOT (mh)")
             .retries(120, 120)
             .grant(CREATE_READ_UPDATE, CITIZEN)
             .aboutToSubmitCallback(this::aboutToSubmit);

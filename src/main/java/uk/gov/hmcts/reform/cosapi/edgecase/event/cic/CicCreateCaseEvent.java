@@ -40,7 +40,7 @@ public class CicCreateCaseEvent implements CCDConfig<CaseData, State, UserRole> 
             .event(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.ST_CIC_CASE_TYPE).getEventIds()
                        .getCreateEvent())
             .initialState(DRAFT)
-            .name("Create edge case draft case (cic)")
+            .name("Create draft case (cic)")
             .description("Apply for edge case (cic)")
             .grant(CREATE_READ_UPDATE, updatedRoles.toArray(UserRole[]::new))
             .retries(120, 120);

@@ -31,8 +31,8 @@ public class CicSubmitCaseEvent implements CCDConfig<CaseData, State, UserRole> 
             .event(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.ST_CIC_CASE_TYPE).getEventIds()
                        .getSubmitEvent())
             .forStates(State.DRAFT)
-            .name("Applicant Submitting the case (cic)")
-            .description("The applicant confirms SOT (cic)")
+            .name("Submit case (cic)")
+            .description("Applicant confirms SOT (cic)")
             .retries(120, 120)
             .grant(CREATE_READ_UPDATE, CITIZEN)
             .aboutToSubmitCallback(this::aboutToSubmit);

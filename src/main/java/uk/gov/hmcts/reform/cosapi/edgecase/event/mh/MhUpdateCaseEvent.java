@@ -30,7 +30,7 @@ public class MhUpdateCaseEvent implements CCDConfig<CaseData, State, UserRole>  
                        .getUpdateEvent())
             .forStates(State.DRAFT, State.SUBMITTED)
             .name("Edge case (mh)")
-            .description("Edge case application update (mh)")
+            .description("Application update (mh)")
             .retries(120, 120)
             .grant(CREATE_READ_UPDATE, CITIZEN)
             .grant(CREATE_READ_UPDATE, CREATOR);
