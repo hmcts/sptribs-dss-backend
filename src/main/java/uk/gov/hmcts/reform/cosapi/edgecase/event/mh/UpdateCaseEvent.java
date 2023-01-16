@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi.edgecase.event.cic;
+package uk.gov.hmcts.reform.cosapi.edgecase.event.mh;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +26,11 @@ public class UpdateCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
     @Override
     public void configure(final ConfigBuilder<CaseData, State, UserRole> configBuilder) {
         configBuilder
-            .event(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.ST_CIC_CASE_TYPE).getEventIds()
+            .event(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.ST_MH_CASE_TYPE).getEventIds()
                        .getUpdateEvent())
             .forStates(State.DRAFT, State.SUBMITTED)
-            .name("Edge case (cic)")
-            .description("Edge case application update (cic)")
+            .name("Edge case (mh)")
+            .description("Edge case application update (mh)")
             .retries(120, 120)
             .grant(CREATE_READ_UPDATE, CITIZEN)
             .grant(CREATE_READ_UPDATE, CREATOR);
