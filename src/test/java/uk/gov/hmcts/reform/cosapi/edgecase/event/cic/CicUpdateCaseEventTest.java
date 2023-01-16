@@ -70,7 +70,7 @@ class CicUpdateCaseEventTest {
             .contains("citizen-prl-update-dss-application");
         assertThat(getEventsFrom(configBuilder).values())
             .extracting(Event::getDescription)
-            .contains("Edge case application update (cic)");
+            .contains("Application update (cic)");
         assertThat(getEventsFrom(configBuilder).values())
             .extracting(Event::getName)
             .contains("Edge case (cic)");
