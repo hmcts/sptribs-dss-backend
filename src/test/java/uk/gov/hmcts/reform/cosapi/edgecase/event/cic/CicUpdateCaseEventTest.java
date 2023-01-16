@@ -31,9 +31,9 @@ import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_CIC_ID;
 @SpringBootTest
 @TestPropertySource("classpath:application.yaml")
 @ActiveProfiles("test")
-class UpdateCaseEventTest {
+class CicUpdateCaseEventTest {
     @InjectMocks
-    private UpdateCaseEvent updateCaseEvent;
+    private CicUpdateCaseEvent cicUpdateCaseEvent;
 
     @Mock
     private AppsConfig appsConfig;
@@ -63,16 +63,16 @@ class UpdateCaseEventTest {
 
         when(appsConfig.getApps()).thenReturn(Arrays.asList(cicAppDetail));
 
-        updateCaseEvent.configure(configBuilder);
+        cicUpdateCaseEvent.configure(configBuilder);
 
         assertThat(getEventsFrom(configBuilder).values())
             .extracting(Event::getId)
             .contains("citizen-prl-update-dss-application");
         assertThat(getEventsFrom(configBuilder).values())
             .extracting(Event::getDescription)
-            .contains("Edge case application update");
+            .contains("Edge case application update (cic)");
         assertThat(getEventsFrom(configBuilder).values())
             .extracting(Event::getName)
-            .contains("Edge case");
+            .contains("Edge case (cic)");
     }
 }

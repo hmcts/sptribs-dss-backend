@@ -4,8 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.ccd.sdk.api.CCDConfig;
+import uk.gov.hmcts.ccd.sdk.api.CaseDetails;
 import uk.gov.hmcts.ccd.sdk.api.ConfigBuilder;
-import uk.gov.hmcts.reform.cosapi.common.AddSystemUpdateRole;
+import uk.gov.hmcts.ccd.sdk.api.callback.AboutToStartOrSubmitResponse;
 import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
 import uk.gov.hmcts.reform.cosapi.constants.CommonConstants;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.CaseData;
@@ -13,37 +14,38 @@ import uk.gov.hmcts.reform.cosapi.edgecase.model.State;
 import uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole;
 import uk.gov.hmcts.reform.cosapi.util.AppsUtil;
 
-import java.util.ArrayList;
-
-import static uk.gov.hmcts.reform.cosapi.edgecase.model.State.DRAFT;
 import static uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole.CITIZEN;
 import static uk.gov.hmcts.reform.cosapi.edgecase.model.access.Permissions.CREATE_READ_UPDATE;
 
 @Component
 @Slf4j
-public class CreateCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
-
-    @Autowired
-    private AddSystemUpdateRole addSystemUpdateRole;
+public class CicSubmitCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
 
     @Autowired
     AppsConfig appsConfig;
 
     @Override
     public void configure(final ConfigBuilder<CaseData, State, UserRole> configBuilder) {
-        var defaultRoles = new ArrayList<UserRole>();
-        defaultRoles.add(CITIZEN);
-
-        var updatedRoles = addSystemUpdateRole.addIfConfiguredForEnvironment(defaultRoles);
 
         configBuilder
             .event(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.ST_CIC_CASE_TYPE).getEventIds()
-                       .getCreateEvent())
-            .initialState(DRAFT)
-            .name("Create edge case draft case (cic)")
-            .description("Apply for edge case (cic)")
-            .grant(CREATE_READ_UPDATE, updatedRoles.toArray(UserRole[]::new))
-            .retries(120, 120);
+                       .getSubmitEvent())
+            .forStates(State.DRAFT)
+            .name("Applicant Submitting the case (cic)")
+            .description("The applicant confirms SOT (cic)")
+            .retries(120, 120)
+            .grant(CREATE_READ_UPDATE, CITIZEN)
+            .aboutToSubmitCallback(this::aboutToSubmit);
+    }
+
+    public AboutToStartOrSubmitResponse<CaseData, State> aboutToSubmit(CaseDetails<CaseData, State> details,
+                                                                       CaseDetails<CaseData, State> beforeDetails) {
+
+        //TODO logic needs to be updated separately as per edge-case application requirement
+        return AboutToStartOrSubmitResponse.<CaseData, State>builder()
+            .data(details.getData())
+            .state(details.getState())
+            .build();
     }
 
 }

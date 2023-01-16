@@ -18,7 +18,7 @@ import static uk.gov.hmcts.reform.cosapi.edgecase.model.access.Permissions.CREAT
 
 @Component
 @Slf4j
-public class UpdateCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
+public class MhUpdateCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
 
     @Autowired
     AppsConfig appsConfig;

@@ -42,10 +42,10 @@ import static uk.gov.hmcts.reform.cosapi.util.TestConstant.CASE_DATA_CIC_ID;
 @SpringBootTest
 @TestPropertySource("classpath:application.yaml")
 @ActiveProfiles("test")
-class CreateCaseEventTest {
+class CicCreateCaseEventTest {
 
     @InjectMocks
-    private CreateCaseEvent createCaseEvent;
+    private CicCreateCaseEvent cicCreateCaseEvent;
 
     @Mock
     private AddSystemUpdateRole addSystemUpdateRole;
@@ -80,7 +80,7 @@ class CreateCaseEventTest {
 
         when(appsConfig.getApps()).thenReturn(Arrays.asList(cicAppDetail));
 
-        createCaseEvent.configure(configBuilder);
+        cicCreateCaseEvent.configure(configBuilder);
 
         assertThat(getEventsFrom(configBuilder).values())
             .extracting(Event::getId)
@@ -108,7 +108,7 @@ class CreateCaseEventTest {
 
         when(appsConfig.getApps()).thenReturn(Arrays.asList(cicAppDetail));
 
-        createCaseEvent.configure(configBuilder);
+        cicCreateCaseEvent.configure(configBuilder);
 
         assertThat(getEventsFrom(configBuilder).values())
             .extracting(Event::getId)
@@ -116,7 +116,7 @@ class CreateCaseEventTest {
 
         assertThat(getEventsFrom(configBuilder).values())
             .extracting(Event::getDescription)
-            .contains("Apply for edge case");
+            .contains("Apply for edge case (cic)");
 
         SetMultimap<UserRole, Permission> expectedRolesAndPermissions =
             ImmutableSetMultimap.<UserRole, Permission>builder()

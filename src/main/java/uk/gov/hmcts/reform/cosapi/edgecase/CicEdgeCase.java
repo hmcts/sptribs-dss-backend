@@ -1,9 +1,8 @@
 package uk.gov.hmcts.reform.cosapi.edgecase;
 
 //@Component
-public class CicEdgeCase
-    //implements CCDConfig<CaseData, State, UserRole>
-    {
+public class CicEdgeCase {
+    //implements CCDConfig<CaseData, State, UserRole> {
 
         // Temporarily disabling this configuration as it conflicts with
         // what we have configured for sptribs-case-api.
