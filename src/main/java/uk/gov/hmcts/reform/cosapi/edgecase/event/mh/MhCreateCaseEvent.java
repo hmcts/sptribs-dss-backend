@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi.edgecase.event.cic;
+package uk.gov.hmcts.reform.cosapi.edgecase.event.mh;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import static uk.gov.hmcts.reform.cosapi.edgecase.model.access.Permissions.CREAT
 
 @Component
 @Slf4j
-public class CreateCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
+public class MhCreateCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
 
     @Autowired
     private AddSystemUpdateRole addSystemUpdateRole;
@@ -37,11 +37,11 @@ public class CreateCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
         var updatedRoles = addSystemUpdateRole.addIfConfiguredForEnvironment(defaultRoles);
 
         configBuilder
-            .event(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.ST_CIC_CASE_TYPE).getEventIds()
+            .event(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.ST_MH_CASE_TYPE).getEventIds()
                        .getCreateEvent())
             .initialState(DRAFT)
-            .name("Create edge case draft case")
-            .description("Apply for edge case")
+            .name("Create draft case (mh)")
+            .description("Apply for edge case (mh)")
             .grant(CREATE_READ_UPDATE, updatedRoles.toArray(UserRole[]::new))
             .retries(120, 120);
     }

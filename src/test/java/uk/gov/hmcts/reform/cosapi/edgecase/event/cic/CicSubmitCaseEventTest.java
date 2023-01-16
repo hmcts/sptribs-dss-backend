@@ -46,11 +46,11 @@ import static uk.gov.hmcts.reform.cosapi.util.TestFileUtil.loadJson;
 @SpringBootTest
 @TestPropertySource("classpath:application.yaml")
 @ActiveProfiles("test")
-class SubmitCaseEventTest {
+class CicSubmitCaseEventTest {
     final ConfigBuilderImpl<CaseData, State, UserRole> configBuilder = createCaseDataConfigBuilder();
 
     @InjectMocks
-    private SubmitCaseEvent submitCaseEvent;
+    private CicSubmitCaseEvent cicSubmitCaseEvent;
 
     @Mock
     private AddSystemUpdateRole addSystemUpdateRole;
@@ -84,7 +84,7 @@ class SubmitCaseEventTest {
 
         when(appsConfig.getApps()).thenReturn(Arrays.asList(fgmAppDetail));
 
-        submitCaseEvent.configure(configBuilder);
+        cicSubmitCaseEvent.configure(configBuilder);
 
         assertThat(getEventsFrom(configBuilder).values())
             .extracting(Event::getId)
@@ -115,13 +115,13 @@ class SubmitCaseEventTest {
 
         when(appsConfig.getApps()).thenReturn(Arrays.asList(fgmAppDetail));
 
-        submitCaseEvent.configure(configBuilder);
+        cicSubmitCaseEvent.configure(configBuilder);
 
         AboutToStartOrSubmitResponse<Object, Object> submitResponseBuilder
             = AboutToStartOrSubmitResponse.builder().data(caseData).state(State.SUBMITTED).build();
 
 
-        AboutToStartOrSubmitResponse<CaseData, State> aboutToSubmitResponse = submitCaseEvent.aboutToSubmit(
+        AboutToStartOrSubmitResponse<CaseData, State> aboutToSubmitResponse = cicSubmitCaseEvent.aboutToSubmit(
             caseDetails,
             beforeCaseDetails
         );

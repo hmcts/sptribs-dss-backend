@@ -58,4 +58,10 @@ public class CaseData implements MappableObject {
     )
     private List<ListValue<EdgeCaseDocument>> applicantAdditionalDocuments;
 
+    @CCD(
+        label = "Subject Full Name",
+        access = {DefaultAccess.class}
+    )
+    private String subjectFullName;
+
 }

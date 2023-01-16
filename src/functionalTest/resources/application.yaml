@@ -76,3 +76,11 @@ caseinfo:
         submitEvent: citizen-cic-submit-dss-application
       caseTypeOfApplication:
         - CIC
+    - caseType: MentalHealth
+      jurisdiction: ST_MH
+      eventIds:
+        createEvent: citizen-mh-create-dss-application
+        updateEvent: citizen-mh-update-dss-application
+        submitEvent: citizen-mh-submit-dss-application
+      caseTypeOfApplication:
+        - MH

@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cosapi.edgecase.event.cic;
+package uk.gov.hmcts.reform.cosapi.edgecase.event.mh;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import static uk.gov.hmcts.reform.cosapi.edgecase.model.access.Permissions.CREAT
 
 @Component
 @Slf4j
-public class SubmitCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
+public class MhSubmitCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
 
     @Autowired
     AppsConfig appsConfig;
@@ -28,11 +28,11 @@ public class SubmitCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
     public void configure(final ConfigBuilder<CaseData, State, UserRole> configBuilder) {
 
         configBuilder
-            .event(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.ST_CIC_CASE_TYPE).getEventIds()
+            .event(AppsUtil.getExactAppsDetailsByCaseType(appsConfig, CommonConstants.ST_MH_CASE_TYPE).getEventIds()
                        .getSubmitEvent())
             .forStates(State.DRAFT)
-            .name("Applicant Submitting the case")
-            .description("The applicant confirms SOT")
+            .name("Submit case (mh)")
+            .description("Applicant confirms SOT (mh)")
             .retries(120, 120)
             .grant(CREATE_READ_UPDATE, CITIZEN)
             .aboutToSubmitCallback(this::aboutToSubmit);
@@ -41,7 +41,6 @@ public class SubmitCaseEvent implements CCDConfig<CaseData, State, UserRole>  {
     public AboutToStartOrSubmitResponse<CaseData, State> aboutToSubmit(CaseDetails<CaseData, State> details,
                                                                        CaseDetails<CaseData, State> beforeDetails) {
 
-        //TODO logic needs to be updated separately as per edge-case application requirement
         return AboutToStartOrSubmitResponse.<CaseData, State>builder()
             .data(details.getData())
             .state(details.getState())
