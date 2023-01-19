@@ -2,18 +2,17 @@
   "id" : 1,
   "status" : "Success",
   "caseData" : {
-    "applicantAddressPostCode": "TW3 1NN",
-    "applicantLastName": "test Last Name",
-    "applicantAddress1": "test address 1",
-    "applicantEmailAddress": "test@test.com",
-    "applicantHomeNumber": "012345678890",
-    "applicantAddressTown": "London",
     "caseTypeOfApplication": "CIC",
-    "applicantFirstName": "Test First Name",
-    "applicantDateOfBirth": "2020-11-09",
-    "applicantAddressCountry": "United Kingdom",
-    "namedApplicant": "Test",
-    "applicantAddress2": "Test Address2",
-    "applicantPhoneNumber": "01234567890"
+    "subjectFullName": "test Full Name",
+    "subjectDateOfBirth": "2023-01-01",
+    "subjectEmailAddress": "test1@test.com",
+    "subjectContactNumber": "012345678890",
+    "subjectAgreeContact": "Yes",
+    "representation": "Yes",
+    "representationQualified": "Yes",
+    "representativeFullName": "test Representative",
+    "representativeOrganisationName": "test Organisation",
+    "representativeContactNumber": "098876543210",
+    "representativeEmailAddress": "test2@test.com"
   }
 }

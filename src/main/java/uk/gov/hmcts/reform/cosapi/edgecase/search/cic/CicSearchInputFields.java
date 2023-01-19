@@ -11,8 +11,8 @@ import uk.gov.hmcts.reform.cosapi.edgecase.model.UserRole;
 import java.util.List;
 
 import static java.util.List.of;
-import static uk.gov.hmcts.reform.cosapi.edgecase.search.CaseFieldsConstants.APPLICANT_FIRST_NAME;
-import static uk.gov.hmcts.reform.cosapi.edgecase.search.CaseFieldsConstants.FIRST_NAME;
+import static uk.gov.hmcts.reform.cosapi.edgecase.search.CaseFieldsConstants.FULL_NAME;
+import static uk.gov.hmcts.reform.cosapi.edgecase.search.CaseFieldsConstants.SUBJECT_FULL_NAME;
 
 @Component
 public class CicSearchInputFields implements CCDConfig<CaseData, State, UserRole> {
@@ -21,8 +21,8 @@ public class CicSearchInputFields implements CCDConfig<CaseData, State, UserRole
     public void configure(final ConfigBuilder<CaseData, State, UserRole> configBuilder) {
 
         final List<SearchField> searchFieldList = of(
-            SearchField.builder().label(FIRST_NAME).id(
-                APPLICANT_FIRST_NAME).build()
+            SearchField.builder().label(FULL_NAME).id(
+                SUBJECT_FULL_NAME).build()
         );
 
         configBuilder.searchInputFields().caseReferenceField();
