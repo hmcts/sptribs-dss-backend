@@ -22,7 +22,7 @@ public final class TestConstant {
     public static final String JSON_FILE_TYPE = "json";
     public static final String RESPONSE_STATUS_SUCCESS = "Success";
     public static final String TEST_AUTHORIZATION_TOKEN = "TestToken";
-    public static final String TEST_CASE_EMAIL_ADDRESS = "test@test.com";
+    public static final String TEST_CASE_EMAIL_ADDRESS = "test1@test.com";
     public static final String TEST_RESOURCE_NOT_FOUND = "Could not find resource in path";
     public static final String TEST_UPDATE_CASE_EMAIL_ADDRESS = "testUpdate@test.com";
     public static final String TEST_URL = "TestUrl";

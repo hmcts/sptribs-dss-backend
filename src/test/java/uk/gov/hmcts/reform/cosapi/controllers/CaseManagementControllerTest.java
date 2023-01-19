@@ -92,10 +92,10 @@ class CaseManagementControllerTest {
         );
 
         CaseResponse testPreUpdResponse = (CaseResponse) preUpdateCaseResponse.getBody();
-        assertEquals(TEST_CASE_EMAIL_ADDRESS, caseData.getApplicant().getEmailAddress());
+        assertEquals(TEST_CASE_EMAIL_ADDRESS, caseData.getSubjectEmailAddress());
 
         CaseData caseDataUpdate = (CaseData) testPreUpdResponse.getCaseData().get(CASE_DATA_CIC_ID);
-        caseDataUpdate.getApplicant().setEmailAddress(TEST_UPDATE_CASE_EMAIL_ADDRESS);
+        caseDataUpdate.setSubjectEmailAddress(TEST_UPDATE_CASE_EMAIL_ADDRESS);
 
         ResponseEntity<?> postUpdateCaseResponse = caseManagementController.updateCase(
             TEST_CASE_ID,
@@ -109,10 +109,10 @@ class CaseManagementControllerTest {
         CaseData caseDataUpdatedFromResponse = (CaseData) (caseDataUpdateResponse.getCaseData().get(CASE_DATA_CIC_ID));
 
         assertEquals(
-            caseDataUpdatedFromResponse.getApplicant().getEmailAddress(),
-            caseDataUpdate.getApplicant().getEmailAddress()
+            caseDataUpdatedFromResponse.getSubjectEmailAddress(),
+            caseDataUpdate.getSubjectEmailAddress()
         );
-        assertEquals(TEST_UPDATE_CASE_EMAIL_ADDRESS, caseDataUpdate.getApplicant().getEmailAddress());
+        assertEquals(TEST_UPDATE_CASE_EMAIL_ADDRESS, caseDataUpdate.getSubjectEmailAddress());
 
         assertNotNull(testPreUpdResponse);
         assertEquals(HttpStatus.OK, postUpdateCaseResponse.getStatusCode());
