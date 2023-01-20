@@ -16,7 +16,6 @@ public class CicWorkBasketInputFields implements CCDConfig<CaseData, State, User
         configBuilder
             .workBasketInputFields()
             .caseReferenceField()
-            //.field("applicantHomeAddress", "Postcode", "PostCode")
             .field("subjectFullName", "Subject's Full Name");
     }
 }
