@@ -59,20 +59,20 @@ class CicSubmitCaseEventTest {
     private AppsConfig appsConfig;
 
     @Mock
-    private AppsConfig.AppsDetails fgmAppDetail;
+    private AppsConfig.AppsDetails cicAppDetail;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        fgmAppDetail = new AppsConfig.AppsDetails();
-        fgmAppDetail.setCaseType(CommonConstants.ST_CIC_CASE_TYPE);
-        fgmAppDetail.setJurisdiction(CommonConstants.ST_CIC_JURISDICTION);
-        fgmAppDetail.setCaseTypeOfApplication(List.of(CASE_DATA_CIC_ID));
+        cicAppDetail = new AppsConfig.AppsDetails();
+        cicAppDetail.setCaseType(CommonConstants.ST_CIC_CASE_TYPE);
+        cicAppDetail.setJurisdiction(CommonConstants.ST_CIC_JURISDICTION);
+        cicAppDetail.setCaseTypeOfApplication(List.of(CASE_DATA_CIC_ID));
         AppsConfig.EventsConfig eventsConfig = new AppsConfig.EventsConfig();
         eventsConfig.setSubmitEvent("citizen-prl-submit-dss-application");
 
-        fgmAppDetail.setEventIds(eventsConfig);
+        cicAppDetail.setEventIds(eventsConfig);
 
     }
 
@@ -82,7 +82,7 @@ class CicSubmitCaseEventTest {
         when(addSystemUpdateRole.addIfConfiguredForEnvironment(anyList()))
             .thenReturn(List.of(CITIZEN));
 
-        when(appsConfig.getApps()).thenReturn(Arrays.asList(fgmAppDetail));
+        when(appsConfig.getApps()).thenReturn(Arrays.asList(cicAppDetail));
 
         cicSubmitCaseEvent.configure(configBuilder);
 
@@ -111,9 +111,9 @@ class CicSubmitCaseEventTest {
         caseDetails.setId(TEST_CASE_ID);
         caseDetails.setCreatedDate(LOCAL_DATE_TIME);
 
-        caseDetails.getData().getApplicant().setEmailAddress(TEST_UPDATE_CASE_EMAIL_ADDRESS);
+        caseDetails.getData().setSubjectEmailAddress(TEST_UPDATE_CASE_EMAIL_ADDRESS);
 
-        when(appsConfig.getApps()).thenReturn(Arrays.asList(fgmAppDetail));
+        when(appsConfig.getApps()).thenReturn(Arrays.asList(cicAppDetail));
 
         cicSubmitCaseEvent.configure(configBuilder);
 

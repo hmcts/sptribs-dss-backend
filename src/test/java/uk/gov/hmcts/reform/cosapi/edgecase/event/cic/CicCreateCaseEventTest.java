@@ -13,8 +13,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.ccd.sdk.ConfigBuilderImpl;
+import uk.gov.hmcts.ccd.sdk.api.CaseDetails;
 import uk.gov.hmcts.ccd.sdk.api.Event;
 import uk.gov.hmcts.ccd.sdk.api.Permission;
+import uk.gov.hmcts.ccd.sdk.api.callback.AboutToStartOrSubmitResponse;
 import uk.gov.hmcts.reform.cosapi.common.AddSystemUpdateRole;
 import uk.gov.hmcts.reform.cosapi.common.config.AppsConfig;
 import uk.gov.hmcts.reform.cosapi.constants.CommonConstants;
@@ -128,5 +130,21 @@ class CicCreateCaseEventTest {
         assertThat(getEventsFrom(configBuilder).values())
             .extracting(Event::getGrants)
             .containsExactlyInAnyOrder(expectedRolesAndPermissions);
+    }
+
+    @Test
+    void shouldChangeCaseStateWhenAboutToSubmit() {
+        // Given
+        CaseDetails<CaseData, State> details = new CaseDetails<>();
+        CaseDetails<CaseData, State> beforeDetails = new CaseDetails<>();
+
+        // When
+        AboutToStartOrSubmitResponse<CaseData, State> response = cicCreateCaseEvent.aboutToSubmit(
+            details,
+            beforeDetails
+        );
+
+        // Then
+        assertThat(response.getState()).isEqualTo(State.SUBMITTED);
     }
 }

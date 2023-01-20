@@ -17,7 +17,7 @@ public class CicSearchCasesResultFields implements CCDConfig<CaseData, State, Us
             .searchCasesFields()
             .field("[CASE_REFERENCE]", "Case Number", null, null, "1:ASC")
             .createdDateField()
-            .field("applicantFirstName", "Applicant First Name")
+            .field("subjectFullName", "Subject Full Name")
             .lastModifiedDate()
             .stateField();
     }

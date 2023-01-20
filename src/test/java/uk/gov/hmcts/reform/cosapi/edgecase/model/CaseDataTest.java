@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Set;
 
 class CaseDataTest {
-    @Mock
-    Applicant applicant;
 
     @Mock
     Application application;
@@ -39,7 +37,6 @@ class CaseDataTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        caseData.setApplicant(applicant);
     }
 
 }

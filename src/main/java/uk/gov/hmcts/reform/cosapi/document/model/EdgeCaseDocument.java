@@ -11,8 +11,8 @@ import uk.gov.hmcts.ccd.sdk.api.CCD;
 public class EdgeCaseDocument {
 
     @CCD(
-        label = "Select your document",
-        regex = ".pdf,.tif,.tiff,.jpg,.jpeg,.png"
+        label = "Document",
+        regex = ".doc,.docx,.pdf,.png,.xls,.xlsx,.jpg,.txt,.rtf,.rtf2,.gif,.mp3,.mp4"
     )
     private uk.gov.hmcts.ccd.sdk.type.Document documentLink;
 }

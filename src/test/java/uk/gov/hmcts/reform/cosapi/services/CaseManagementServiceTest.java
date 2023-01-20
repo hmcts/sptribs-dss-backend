@@ -62,7 +62,7 @@ class CaseManagementServiceTest {
     private AuthTokenGenerator authTokenGenerator;
 
     @Mock
-    private AppsConfig.AppsDetails fgmAppDetail;
+    private AppsConfig.AppsDetails cicAppDetail;
 
     @Mock
     CaseApiService caseApiService;
@@ -71,14 +71,14 @@ class CaseManagementServiceTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        fgmAppDetail = new AppsConfig.AppsDetails();
-        fgmAppDetail.setCaseType(CommonConstants.ST_CIC_CASE_TYPE);
-        fgmAppDetail.setJurisdiction(CommonConstants.ST_CIC_JURISDICTION);
-        fgmAppDetail.setCaseTypeOfApplication(List.of(CASE_DATA_CIC_ID));
+        cicAppDetail = new AppsConfig.AppsDetails();
+        cicAppDetail.setCaseType(CommonConstants.ST_CIC_CASE_TYPE);
+        cicAppDetail.setJurisdiction(CommonConstants.ST_CIC_JURISDICTION);
+        cicAppDetail.setCaseTypeOfApplication(List.of(CASE_DATA_CIC_ID));
     }
 
     @Test
-    void testFgmCreateCaseData() throws Exception {
+    void testCicCreateCaseData() throws Exception {
         String caseDataJson = loadJson(CASE_DATA_FILE_CIC);
         CaseData caseData = mapper.readValue(caseDataJson, CaseData.class);
 
@@ -86,12 +86,12 @@ class CaseManagementServiceTest {
         caseDataMap.put(CASE_DATA_CIC_ID, caseData);
 
         AppsConfig.EventsConfig eventsConfig = new AppsConfig.EventsConfig();
-        eventsConfig.setCreateEvent("citizen-prl-create-dss-application");
+        eventsConfig.setCreateEvent("citizen-cic-create-dss-application");
 
-        fgmAppDetail.setEventIds(eventsConfig);
-        when(appsConfig.getApps()).thenReturn(Arrays.asList(fgmAppDetail));
+        cicAppDetail.setEventIds(eventsConfig);
+        when(appsConfig.getApps()).thenReturn(Arrays.asList(cicAppDetail));
 
-        assertNotNull(fgmAppDetail);
+        assertNotNull(cicAppDetail);
 
         when(authTokenGenerator.generate()).thenReturn(TEST_USER);
 
@@ -101,7 +101,7 @@ class CaseManagementServiceTest {
             .data(caseDataMap)
             .build();
 
-        when(caseApiService.createCase(CASE_TEST_AUTHORIZATION, caseData, fgmAppDetail)).thenReturn(caseDetail);
+        when(caseApiService.createCase(CASE_TEST_AUTHORIZATION, caseData, cicAppDetail)).thenReturn(caseDetail);
 
         CaseResponse caseResponse = CaseResponse.builder().caseData(caseDataMap).build();
 
@@ -116,21 +116,20 @@ class CaseManagementServiceTest {
             createCaseResponse.getCaseData().get(CASE_DATA_CIC_ID),
             caseDetail.getData().get(CASE_DATA_CIC_ID)
         );
-        assertEquals(caseResponseData.getNamedApplicant(), caseData.getNamedApplicant());
+        assertEquals(caseResponseData.getSubjectFullName(), caseData.getSubjectFullName());
         assertEquals(caseResponseData.getCaseTypeOfApplication(), caseData.getCaseTypeOfApplication());
-        assertEquals(caseResponseData.getApplicant(), caseData.getApplicant());
         assertEquals(RESPONSE_STATUS_SUCCESS, createCaseResponse.getStatus());
     }
 
     @Test
-    void testCreateCaseFgmFailedWithCaseCreateUpdateException() throws Exception {
+    void testCreateCaseCicFailedWithCaseCreateUpdateException() throws Exception {
         AppsConfig.EventsConfig eventsConfig = new AppsConfig.EventsConfig();
-        eventsConfig.setCreateEvent("citizen-prl-create-dss-application");
+        eventsConfig.setCreateEvent("citizen-cic-create-dss-application");
 
-        fgmAppDetail.setEventIds(eventsConfig);
-        when(appsConfig.getApps()).thenReturn(Arrays.asList(fgmAppDetail));
+        cicAppDetail.setEventIds(eventsConfig);
+        when(appsConfig.getApps()).thenReturn(Arrays.asList(cicAppDetail));
 
-        assertNotNull(fgmAppDetail);
+        assertNotNull(cicAppDetail);
 
         when(authTokenGenerator.generate()).thenReturn(TEST_USER);
 
@@ -138,7 +137,7 @@ class CaseManagementServiceTest {
 
         CaseData caseData = mapper.readValue(caseDataJson, CaseData.class);
 
-        when(caseApiService.createCase(CASE_TEST_AUTHORIZATION, caseData, fgmAppDetail)).thenThrow(
+        when(caseApiService.createCase(CASE_TEST_AUTHORIZATION, caseData, cicAppDetail)).thenThrow(
             new CaseCreateOrUpdateException(
                 CASE_CREATE_FAILURE_MSG,
                 new RuntimeException()
@@ -152,22 +151,22 @@ class CaseManagementServiceTest {
     }
 
     @Test
-    void testFgmUpdateCaseData() throws Exception {
+    void testCicUpdateCaseData() throws Exception {
         String caseDataJson = loadJson(CASE_DATA_FILE_CIC);
         CaseData caseData = mapper.readValue(caseDataJson, CaseData.class);
 
         AppsConfig.EventsConfig eventsConfig = new AppsConfig.EventsConfig();
-        eventsConfig.setUpdateEvent("citizen-prl-update-dss-application");
+        eventsConfig.setUpdateEvent("citizen-cic-update-dss-application");
 
-        fgmAppDetail.setEventIds(eventsConfig);
+        cicAppDetail.setEventIds(eventsConfig);
 
-        String origEmailAddress = caseData.getApplicant().getEmailAddress();
-        caseData.getApplicant().setEmailAddress(TEST_UPDATE_CASE_EMAIL_ADDRESS);
-        assertNotEquals(caseData.getApplicant().getEmailAddress(), origEmailAddress);
+        String origEmailAddress = caseData.getSubjectEmailAddress();
+        caseData.setSubjectEmailAddress(TEST_UPDATE_CASE_EMAIL_ADDRESS);
+        assertNotEquals(caseData.getSubjectEmailAddress(), origEmailAddress);
 
-        when(appsConfig.getApps()).thenReturn(Arrays.asList(fgmAppDetail));
+        when(appsConfig.getApps()).thenReturn(Arrays.asList(cicAppDetail));
 
-        assertNotNull(fgmAppDetail);
+        assertNotNull(cicAppDetail);
 
         when(authTokenGenerator.generate()).thenReturn(TEST_USER);
 
@@ -184,7 +183,7 @@ class CaseManagementServiceTest {
             EventEnum.UPDATE,
             TEST_CASE_ID,
             caseData,
-            fgmAppDetail
+            cicAppDetail
         )).thenReturn(caseDetail);
 
         CaseResponse updateCaseResponse = caseManagementService.updateCase(
@@ -199,7 +198,7 @@ class CaseManagementServiceTest {
 
         CaseData caseResponseData = (CaseData) updateCaseResponse.getCaseData().get(CASE_DATA_CIC_ID);
 
-        assertNotEquals(caseResponseData.getApplicant().getEmailAddress(), origEmailAddress);
+        assertNotEquals(caseResponseData.getSubjectEmailAddress(), origEmailAddress);
 
         assertNotNull(updateCaseResponse);
 
@@ -207,21 +206,20 @@ class CaseManagementServiceTest {
             updateCaseResponse.getCaseData().get(CASE_DATA_CIC_ID),
             caseDetail.getData().get(CASE_DATA_CIC_ID)
         );
-        assertEquals(caseResponseData.getNamedApplicant(), caseData.getNamedApplicant());
+        assertEquals(caseResponseData.getSubjectFullName(), caseData.getSubjectFullName());
         assertEquals(caseResponseData.getCaseTypeOfApplication(), caseData.getCaseTypeOfApplication());
-        assertEquals(caseResponseData.getApplicant().getEmailAddress(), caseData.getApplicant().getEmailAddress());
         assertEquals(RESPONSE_STATUS_SUCCESS, updateCaseResponse.getStatus());
     }
 
     @Test
-    void testUpdateCaseFgmFailedWithCaseCreateUpdateException() throws Exception {
+    void testUpdateCaseCicFailedWithCaseCreateUpdateException() throws Exception {
         AppsConfig.EventsConfig eventsConfig = new AppsConfig.EventsConfig();
-        eventsConfig.setUpdateEvent("citizen-prl-update-dss-application");
+        eventsConfig.setUpdateEvent("citizen-cic-update-dss-application");
 
-        fgmAppDetail.setEventIds(eventsConfig);
-        when(appsConfig.getApps()).thenReturn(Arrays.asList(fgmAppDetail));
+        cicAppDetail.setEventIds(eventsConfig);
+        when(appsConfig.getApps()).thenReturn(Arrays.asList(cicAppDetail));
 
-        assertNotNull(fgmAppDetail);
+        assertNotNull(cicAppDetail);
 
         String caseDataJson = loadJson(CASE_DATA_FILE_CIC);
 
@@ -233,7 +231,7 @@ class CaseManagementServiceTest {
             EventEnum.UPDATE,
             TEST_CASE_ID,
             caseData,
-            fgmAppDetail
+            cicAppDetail
         )).thenThrow(
             new CaseCreateOrUpdateException(
                 CASE_UPDATE_FAILURE_MSG,
@@ -252,9 +250,9 @@ class CaseManagementServiceTest {
         String caseDataJson = loadJson(CASE_DATA_FILE_CIC);
         CaseData caseData = mapper.readValue(caseDataJson, CaseData.class);
 
-        String origEmailAddress = caseData.getApplicant().getEmailAddress();
-        caseData.getApplicant().setEmailAddress(TEST_UPDATE_CASE_EMAIL_ADDRESS);
-        assertNotEquals(caseData.getApplicant().getEmailAddress(), origEmailAddress);
+        String origEmailAddress = caseData.getSubjectEmailAddress();
+        caseData.setSubjectEmailAddress(TEST_UPDATE_CASE_EMAIL_ADDRESS);
+        assertNotEquals(caseData.getSubjectEmailAddress(), origEmailAddress);
 
         when(authTokenGenerator.generate()).thenReturn(TEST_USER);
 
