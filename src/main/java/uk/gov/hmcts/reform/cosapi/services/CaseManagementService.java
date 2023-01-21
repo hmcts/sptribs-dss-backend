@@ -65,7 +65,6 @@ public class CaseManagementService {
     }
 
     public CaseResponse fetchCaseDetails(String authorization,Long caseId) {
-
         try {
             CaseDetails caseDetails = caseApiService.getCaseDetails(authorization,
                                                                     caseId);
