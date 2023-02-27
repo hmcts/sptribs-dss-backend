@@ -442,7 +442,7 @@ dependencies {
   smokeTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
   smokeTestRuntime "org.junit.platform:junit-platform-commons:1.8.1"
 
-  smokeTestCompile(group: 'org.yaml', name: 'snakeyaml', version: '1.33') {
+  smokeTestCompile(group: 'org.yaml', name: 'snakeyaml', version: '2.0') {
     force = true
   }
 
