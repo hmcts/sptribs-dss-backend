@@ -66,8 +66,8 @@
       <cve>CVE-2023-20861</cve>
     </suppress>
     <suppress>
-      <notes>CVE-2023-20708</notes>
-      <cve>CVE-2023-20708</cve>
+      <notes>CVE-2023-28708</notes>
+      <cve>CVE-2023-28708</cve>
     </suppress>
     <suppress>
       <notes>CVE-2023-24998</notes>
