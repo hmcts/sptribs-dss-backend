@@ -33,6 +33,6 @@ java:
           alias: IDAM_SYSTEM_UPDATE_USERNAME
         - name: idam-systemupdate-password
           alias: IDAM_SYSTEM_UPDATE_PASSWORD
-        - name: s2s-secret-sptribs-dss-backend
+        - name: s2s-secret-sptribs-dss-backend2
           alias: S2S_SECRET
         - name: app-insights-instrumentation-key
