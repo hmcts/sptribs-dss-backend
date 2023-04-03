@@ -3,7 +3,7 @@ appVersion: "1.0"
 description: A Helm chart for sptribs-dss-backend App
 name: sptribs-dss-backend
 home: https://github.com/hmcts/sptribs-dss-backend
-version: 0.0.68
+version: 0.0.69
 maintainers:
   - name: HMCTS sptribs team
 dependencies:
@@ -11,7 +11,7 @@ dependencies:
     version: 4.0.13
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
   - name: ccd
-    version: 8.0.19
+    version: 8.0.27
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     tags:
       - ccd-idam-pr
