@@ -53,4 +53,24 @@
       <notes>False positive - matches all *utils* dependencies</notes>
       <cve>CVE-2021-4277</cve>
     </suppress>
+    <suppress>
+      <notes>CVE-2022-45688</notes>
+      <cve>CVE-2022-45688</cve>
+    </suppress>
+    <suppress>
+      <notes>CVE-2022-1471</notes>
+      <cve>CVE-2022-1471</cve>
+    </suppress>
+    <suppress>
+      <notes>CVE-2023-20861</notes>
+      <cve>CVE-2023-20861</cve>
+    </suppress>
+    <suppress>
+      <notes>CVE-2023-20708</notes>
+      <cve>CVE-2023-20708</cve>
+    </suppress>
+    <suppress>
+      <notes>CVE-2023-24998</notes>
+      <cve>CVE-2023-24998</cve>
+    </suppress>
 </suppressions>
